@@ -8,7 +8,10 @@
 import Foundation
 import SwiftUI
 
-let gridItems:[GridItem] = [
-   .init(.flexible(),spacing: 1),
-   .init(.flexible(),spacing: 1),
-   .init(.flexible(),spacing: 1),]
+let gridItems: [GridItem] = [
+    .init(.flexible()),
+    .init(.flexible()),
+    .init(.flexible()),
+]
+
+

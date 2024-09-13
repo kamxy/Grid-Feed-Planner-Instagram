@@ -15,7 +15,6 @@ struct GalleryView: View {
             VStack(alignment: .leading) {
                 Button(action: {
                     isPresented.toggle()
-
                 }, label: {
                     Text("Dismiss")
                 }).padding()
@@ -34,14 +33,13 @@ struct GalleryView: View {
             }
             VStack {
                 Spacer()
-                Button(action: {
-                    viewModel.insertNewItemsAsFirst()
-                    isPresented.toggle()
-                }, label: {
-                    if !viewModel.selectedImages.isEmpty {
-                        Image(systemName: "checkmark").foregroundColor(.black).frame(minHeight: 60).padding(20).background(.white).clipShape(Circle()).shadow(radius: 6).padding(.trailing, 16)
-                    }
-                })
+                FloatingButton(action: {
+                    
+                        viewModel.insertNewItemsAsFirst()
+                        isPresented.toggle()
+                    
+                }, image: "checkmark", color: .black)
+                
             }
         }.sheet(isPresented: $viewModel.isImagePickerPresented, onDismiss: {}) {
             ImagePicker(selectedImages: $viewModel.imagesFromGallery).onDisappear {
@@ -66,17 +64,15 @@ struct GalleryView: View {
                         image.isSelected.toggle()
                         if image.isSelected {
                             viewModel.selectedImages.append(image)
-                            print("append")
                         } else {
                             viewModel.selectedImages.removeAll { $0.id == image.id }
-                            print("remove")
                         }
                     }
                 if image.isSelected {
                     Image(systemName: "checkmark.circle.fill").foregroundColor(.white)
                         .background(.blue)
                         .clipShape(Circle())
-                        .padding(8)
+                        .paddingAll()
                 }
                 if image.isSelected {
                     Rectangle().foregroundColor(.white).opacity(0.3)

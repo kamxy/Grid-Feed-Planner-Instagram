@@ -92,7 +92,7 @@ struct PersistenceController {
 
         do {
             try context.execute(deleteRequest)
-            try context.save() // Save the context after executing the batch delete
+            try context.save()
         } catch _ as NSError {}
     }
 }

@@ -26,6 +26,7 @@
 		BBC03E1C2C8FAD8C004688A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1B2C8FAD8C004688A4 /* HomeView.swift */; };
 		BBC03E1E2C8FADBE004688A4 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1D2C8FADBE004688A4 /* HomeViewModel.swift */; };
 		BBC03E202C8FADE2004688A4 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1F2C8FADE2004688A4 /* PersistenceController.swift */; };
+		BBFF11992C948C5C002A7BFB /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFF11982C948C5C002A7BFB /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		BBC03E1B2C8FAD8C004688A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BBC03E1D2C8FADBE004688A4 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		BBC03E1F2C8FADE2004688A4 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		BBFF11982C948C5C002A7BFB /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 		BBC03DE32C8FAC2E004688A4 /* InstagramGridPreview */ = {
 			isa = PBXGroup;
 			children = (
+				BBFF11972C948BC8002A7BFB /* extensions */,
 				BB34E96E2C90480E0028F674 /* Gallery */,
 				BBC03E172C8FAD5E004688A4 /* ImagePıcker */,
 				BBC03E142C8FACEE004688A4 /* Home */,
@@ -241,6 +244,14 @@
 				BBC03E192C8FAD7D004688A4 /* ImagePickerView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BBFF11972C948BC8002A7BFB /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BBFF11982C948C5C002A7BFB /* Extension.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -373,6 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBFF11992C948C5C002A7BFB /* Extension.swift in Sources */,
 				BBC03DF12C8FAC2E004688A4 /* ImageModel.xcdatamodeld in Sources */,
 				BB34E97B2C904F910028F674 /* SelectableImage.swift in Sources */,
 				BB34E9762C9048FE0028F674 /* GalleryViewModel.swift in Sources */,

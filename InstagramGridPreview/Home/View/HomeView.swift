@@ -12,14 +12,8 @@ struct HomeView: View {
     @State private var selectedImages: [UIImage] = []
     @State private var selectedTab = 0
 
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
-
     var itemWidth: CGFloat {
-        (UIScreen.main.bounds.width) / 3 // Adjust for padding and spacing
+        (UIScreen.main.bounds.width) / 3
     }
 
     var body: some View {
@@ -27,42 +21,9 @@ struct HomeView: View {
             ZStack(alignment: .bottom) {
                 VStack {
                     TabBar(selectedTab: $selectedTab)
-
-                    TabView(selection: $selectedTab) {
-                        PhotosView(viewModel: viewModel)
-                            .tag(0)
-
-                        ReelsView().tag(1)
-                    }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    BodyView(selectedTab: $selectedTab, viewModel: viewModel)
                 }
-
-                HStack {
-                    if !viewModel.selectedImages.isEmpty {
-                        Button {
-                            viewModel.deleteImages()
-                        } label: {
-                            Image(systemName: "trash").font(.title2).bold().foregroundColor(.red)
-                        }.frame(width: 60, height: 60).background(.white).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/).shadow(radius: 5)
-                            // 2
-                            .padding(.leading, 30).padding(.bottom, 10).sheet(isPresented: $viewModel.isGallerySheetPresented, onDismiss: {
-                                viewModel.fetchImages()
-                            }) {
-                                GalleryView(isPresented: $viewModel.isGallerySheetPresented)
-                            }
-                    }
-                    Spacer()
-                    Button {
-                        viewModel.isGallerySheetPresented.toggle()
-                    } label: {
-                        Image(systemName: "photo.badge.plus.fill").font(.title2).bold().foregroundColor(.black)
-                    }.frame(width: 60, height: 60).background(.white).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/).shadow(radius: 5)
-                        // 2
-                        .padding(.trailing, 30).padding(.bottom, 10).sheet(isPresented: $viewModel.isGallerySheetPresented, onDismiss: {
-                            viewModel.fetchImages()
-                        }) {
-                            GalleryView(isPresented: $viewModel.isGallerySheetPresented)
-                        }
-                }
+                BottomView(viewModel: viewModel)
 
             }.navigationTitle("Instagram Grid Preview")
         }
@@ -97,5 +58,54 @@ struct TabButton: View {
         }, label: {
             Image(systemName: image).frame(maxWidth: .infinity, maxHeight: 60).foregroundColor(selectedTab == tag ? .blue : .gray)
         })
+    }
+}
+
+struct BottomView: View {
+    @StateObject var viewModel: HomeViewModel
+    var body: some View {
+        HStack {
+            if !viewModel.selectedImages.isEmpty {
+                FloatingButton(action: {
+                    viewModel.deleteImages()
+                }, image: "trash", color: .red)
+            }
+            Spacer()
+            FloatingButton(action: {
+                viewModel.isGallerySheetPresented.toggle()
+            }, image: "photo.badge.plus.fill", color: .black).sheet(isPresented: $viewModel.isGallerySheetPresented, onDismiss: {
+                viewModel.fetchImages()
+            }) {
+                GalleryView(isPresented: $viewModel.isGallerySheetPresented)
+            }
+        }
+    }
+}
+
+struct BodyView: View {
+    @Binding var selectedTab: Int
+    @StateObject var viewModel: HomeViewModel
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            PhotosView(viewModel: viewModel)
+                .tag(0)
+
+            ReelsView().tag(1)
+        }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+    }
+}
+
+struct FloatingButton: View {
+    var action: () -> Void
+    var image: String
+    var color: Color
+    var body: some View {
+        Button {
+            action()
+        } label: {
+            Image(systemName: image).font(.title2).bold().foregroundColor(color)
+        }.frame(width: 60, height: 60).background(.white).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/).shadow()
+            // 2
+            .paddingAll()
     }
 }
