@@ -15,7 +15,7 @@ struct OnboardingView: View {
     var body: some View {
         VStack(alignment: .center) {
             Image("onboardingBg").resizable().frame(maxHeight:  .infinity).scaledToFit()
-            Text("welcomeTı ").bold().font(.largeTitle).padding(.top,20).foregroundColor(.black)
+            Text("welcomeTo").bold().font(.largeTitle).padding(.top,20).foregroundColor(.black)
             Text("Grid: Feed Planner Instagram").bold().font(.title).foregroundStyle(LinearGradient(
                 colors: [.purple, .pink, .orange, .blue],
                 startPoint: .leading,

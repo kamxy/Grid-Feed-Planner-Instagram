@@ -47,6 +47,12 @@
     "Hello, World!" : {
 
     },
+    "It looks like you haven't added any photos yet. You can add and edit photos here" : {
+
+    },
+    "Oops! This place is empty." : {
+
+    },
     "planAndDesign" : {
       "extractionState" : "manual",
       "localizations" : {
