@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB020DE92CA87EEE009AAA42 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB020DE82CA87EEE009AAA42 /* OnboardingView.swift */; };
+		BB020DEB2CA89BA1009AAA42 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB020DEA2CA89BA1009AAA42 /* OnboardingViewModel.swift */; };
 		BB34E96B2C90368B0028F674 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34E96A2C90368B0028F674 /* PhotosView.swift */; };
 		BB34E96D2C9036B20028F674 /* ReelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34E96C2C9036B20028F674 /* ReelsView.swift */; };
 		BB34E9702C90481D0028F674 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34E96F2C90481D0028F674 /* GalleryView.swift */; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BB020DE82CA87EEE009AAA42 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		BB020DEA2CA89BA1009AAA42 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		BB34E96A2C90368B0028F674 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		BB34E96C2C9036B20028F674 /* ReelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelsView.swift; sourceTree = "<group>"; };
 		BB34E96F2C90481D0028F674 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
@@ -103,6 +107,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BB020DE32CA87E92009AAA42 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				BB020DE72CA87EDE009AAA42 /* View */,
+				BB020DE52CA87EC0009AAA42 /* ViewModel */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		BB020DE52CA87EC0009AAA42 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BB020DEA2CA89BA1009AAA42 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		BB020DE72CA87EDE009AAA42 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BB020DE82CA87EEE009AAA42 /* OnboardingView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BB34E96E2C90480E0028F674 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +189,7 @@
 		BBC03DE32C8FAC2E004688A4 /* InstagramGridPreview */ = {
 			isa = PBXGroup;
 			children = (
+				BB020DE32CA87E92009AAA42 /* Onboarding */,
 				BBEC5FBD2C95299E00BB0F03 /* Helpers */,
 				BBFF11972C948BC8002A7BFB /* extensions */,
 				BB34E96E2C90480E0028F674 /* Gallery */,
@@ -406,6 +436,7 @@
 				BBFF11992C948C5C002A7BFB /* Extension.swift in Sources */,
 				BBEC5FC32C95BEC000BB0F03 /* ReordableDragRelocate.swift in Sources */,
 				BBC03DF12C8FAC2E004688A4 /* ImageModel.xcdatamodeld in Sources */,
+				BB020DE92CA87EEE009AAA42 /* OnboardingView.swift in Sources */,
 				BB34E97B2C904F910028F674 /* SelectableImage.swift in Sources */,
 				BB34E9762C9048FE0028F674 /* GalleryViewModel.swift in Sources */,
 				BBC03E1E2C8FADBE004688A4 /* HomeViewModel.swift in Sources */,
@@ -414,6 +445,7 @@
 				BBC03E1C2C8FAD8C004688A4 /* HomeView.swift in Sources */,
 				BB34E9742C9048910028F674 /* ItemsGridView.swift in Sources */,
 				BB34E9782C904B9E0028F674 /* Constants.swift in Sources */,
+				BB020DEB2CA89BA1009AAA42 /* OnboardingViewModel.swift in Sources */,
 				BBC03DE52C8FAC2E004688A4 /* InstagramGridPreviewApp.swift in Sources */,
 				BBC03E1A2C8FAD7D004688A4 /* ImagePickerView.swift in Sources */,
 				BB34E96D2C9036B20028F674 /* ReelsView.swift in Sources */,
