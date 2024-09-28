@@ -1,12 +1,17 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = HomeViewModel()
-    @State private var isImagePickerPresented = false
-    @State private var selectedImage: UIImage?
+    @StateObject var viewModel = OnboardingViewModel()
 
     var body: some View {
-        HomeView()        }
+        if viewModel.isOnboardingDone {
+            HomeView()
+        } else {
+            OnboardingView(viewModel: viewModel)
+        }
     }
+}
 
-
+#Preview {
+    ContentView()
+}
