@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BB020DE92CA87EEE009AAA42 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB020DE82CA87EEE009AAA42 /* OnboardingView.swift */; };
 		BB020DEB2CA89BA1009AAA42 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB020DEA2CA89BA1009AAA42 /* OnboardingViewModel.swift */; };
+		BB020DED2CA8B2DC009AAA42 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB020DEC2CA8B2DC009AAA42 /* Localizable.xcstrings */; };
 		BB34E96B2C90368B0028F674 /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34E96A2C90368B0028F674 /* PhotosView.swift */; };
 		BB34E96D2C9036B20028F674 /* ReelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34E96C2C9036B20028F674 /* ReelsView.swift */; };
 		BB34E9702C90481D0028F674 /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB34E96F2C90481D0028F674 /* GalleryView.swift */; };
@@ -31,7 +32,6 @@
 		BBEC5FC12C95BE5000BB0F03 /* ReordableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEC5FC02C95BE5000BB0F03 /* ReordableForEach.swift */; };
 		BBEC5FC32C95BEC000BB0F03 /* ReordableDragRelocate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEC5FC22C95BEC000BB0F03 /* ReordableDragRelocate.swift */; };
 		BBFF11992C948C5C002A7BFB /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFF11982C948C5C002A7BFB /* Extension.swift */; };
-		BBFF11A82C94A5FD002A7BFB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BBFF11A72C94A5FD002A7BFB /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +54,7 @@
 /* Begin PBXFileReference section */
 		BB020DE82CA87EEE009AAA42 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		BB020DEA2CA89BA1009AAA42 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		BB020DEC2CA8B2DC009AAA42 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		BB34E96A2C90368B0028F674 /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		BB34E96C2C9036B20028F674 /* ReelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelsView.swift; sourceTree = "<group>"; };
 		BB34E96F2C90481D0028F674 /* GalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		BBEC5FC02C95BE5000BB0F03 /* ReordableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReordableForEach.swift; sourceTree = "<group>"; };
 		BBEC5FC22C95BEC000BB0F03 /* ReordableDragRelocate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReordableDragRelocate.swift; sourceTree = "<group>"; };
 		BBFF11982C948C5C002A7BFB /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		BBFF11A72C94A5FD002A7BFB /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,7 +202,7 @@
 				BBC03DEF2C8FAC2E004688A4 /* ImageModel.xcdatamodeld */,
 				BBC03DEA2C8FAC2E004688A4 /* Preview Content */,
 				BB34E9772C904B9E0028F674 /* Constants.swift */,
-				BBFF11A72C94A5FD002A7BFB /* Localizable.xcstrings */,
+				BB020DEC2CA8B2DC009AAA42 /* Localizable.xcstrings */,
 			);
 			path = InstagramGridPreview;
 			sourceTree = "<group>";
@@ -407,8 +407,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBC03DEC2C8FAC2E004688A4 /* Preview Assets.xcassets in Resources */,
-				BBFF11A82C94A5FD002A7BFB /* Localizable.xcstrings in Resources */,
 				BBC03DE92C8FAC2E004688A4 /* Assets.xcassets in Resources */,
+				BB020DED2CA8B2DC009AAA42 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

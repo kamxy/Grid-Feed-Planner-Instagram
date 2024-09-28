@@ -23,7 +23,7 @@ struct HomeView: View {
                     HStack {
                         Image("appIcon").resizable()
                             .scaledToFill().frame(width: 50, height: 50).paddingAll()
-                        Text("Grid: ").font(.title).bold() + Text("Preview Your Profile").bold().font(.title3)
+                        Text("Grid: ").font(.title).bold() + Text("previewProfile").bold().font(.title3)
                     }
 //                    TabBar(selectedTab: $selectedTab)
                     BodyView(selectedTab: $selectedTab, viewModel: viewModel)
@@ -83,7 +83,7 @@ struct BottomView: View {
                     viewModel.reoder()
                     viewModel.setOnChange(false)
                 }, label: {
-                    Text("Save Order").font(.title3).foregroundStyle(.black).paddingAll()
+                    Text("saveOrder").font(.title3).foregroundStyle(.black).paddingAll()
                 }).background(.white)
                     .cornerRadius(20).shadow().paddingAll()
             } else {
