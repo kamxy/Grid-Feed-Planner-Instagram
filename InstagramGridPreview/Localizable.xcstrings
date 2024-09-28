@@ -1,0 +1,66 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "aa" : {
+
+    },
+    "Dismiss" : {
+
+    },
+    "Enter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter"
+          }
+        }
+      }
+    },
+    "Grid: Preview" : {
+
+    },
+    "Hello" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merhaba"
+          }
+        }
+      }
+    },
+    "Hello, World!" : {
+
+    },
+    "Select images for your Grid" : {
+
+    },
+    "Welcome" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoşgeldiniz"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
