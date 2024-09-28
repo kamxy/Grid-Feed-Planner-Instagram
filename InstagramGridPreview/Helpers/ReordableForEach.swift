@@ -51,24 +51,18 @@ public struct ReorderableForEach<Item: Reorderable, Content: View, Preview: View
         ForEach(Array(items.enumerated()), id: \.offset) { _, item in
             if let preview {
                 contentView(for: item).gesture(DragGesture().onEnded { _ in
-                    print("here")
                 })
                 .onDrag {
                     dragData(for: item)
                 } preview: {
                     preview(item)
-                }.onTapGesture {
-                    print("ontap")
-                }
+                }.onTapGesture {}
             } else {
                 contentView(for: item).gesture(DragGesture().onEnded { _ in
-                    print("hero")
                 })
                 .onDrag {
                     dragData(for: item)
-                }.onTapGesture {
-                    print("ontapp")
-                }
+                }.onTapGesture {}
             }
         }
     }

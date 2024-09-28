@@ -43,7 +43,6 @@ class HomeViewModel: ObservableObject {
                 self.gridImages = temp
             }
         } catch {
-            print("Error fetching images: \(error.localizedDescription)")
         }
     }
 

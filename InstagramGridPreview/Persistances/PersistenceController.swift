@@ -47,11 +47,9 @@ struct PersistenceController {
             let results = try container.viewContext.fetch(getRequest)
 
             for entity in results {
-                print("entityorder \(entity.order)")
                 entity.order += Int32(selectedImages.count)
             }
-            print(results.count)
-            print(selectedImages.count)
+
             for (index, image) in selectedImages.enumerated() {
                 let newImageEntity = OrderedImageEntity(context: context)
                 newImageEntity.imageData = image.image.pngData()
