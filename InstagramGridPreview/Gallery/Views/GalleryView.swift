@@ -33,11 +33,19 @@ struct GalleryView: View {
             }
             VStack {
                 Spacer()
-                FloatingButton(action: {
-                    viewModel.insertNewItemsAsFirst()
-                    isPresented.toggle()
+                if viewModel.selectedImages.isEmpty {
+                    FloatingButton(action: {
+                        viewModel.openImagePicker()
 
-                }, image: "checkmark", color: .black)
+                    }, image: "photo.badge.plus.fill", color: .black)
+
+                } else {
+                    FloatingButton(action: {
+                        viewModel.insertNewItemsAsFirst()
+                        isPresented.toggle()
+
+                    }, image: "checkmark", color: .black)
+                }
             }
         }.sheet(isPresented: $viewModel.isImagePickerPresented, onDismiss: {}) {
             ImagePicker(selectedImages: $viewModel.imagesFromGallery).onDisappear {

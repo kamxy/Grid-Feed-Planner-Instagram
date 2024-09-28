@@ -12,16 +12,26 @@ struct PhotosView: View {
     @State private var draggedItem: OrderedImageEntity?
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: gridItems, spacing: 1) {
-                ReorderableForEach(viewModel.gridImages, active: $viewModel.currentlyDragging) { item in
-                    SelectableImageItem(image: item, viewModel: viewModel)
-                } moveAction: {
-                    from, to in
-                    viewModel.gridImages.move(fromOffsets: from, toOffset: to)
-                    viewModel.setOnChange(true)
-                } onEnd: {}
+        if(viewModel.gridImages.isEmpty){
+            
+            VStack{
+                Text("Oops! This place is empty.").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).bold().padding(5).padding(.top,40)
+                Text("It looks like you haven't added any photos yet. You can add and edit photos here").multilineTextAlignment(.center).font(.title3)
+                Image("placeholder").padding(.top,20)
             }
+            
+        }else{
+            ScrollView {
+               LazyVGrid(columns: gridItems, spacing: 1) {
+                   ReorderableForEach(viewModel.gridImages, active: $viewModel.currentlyDragging) { item in
+                       SelectableImageItem(image: item, viewModel: viewModel)
+                   } moveAction: {
+                       from, to in
+                       viewModel.gridImages.move(fromOffsets: from, toOffset: to)
+                       viewModel.setOnChange(true)
+                   } onEnd: {}
+               }
+           }
         }
     }
 

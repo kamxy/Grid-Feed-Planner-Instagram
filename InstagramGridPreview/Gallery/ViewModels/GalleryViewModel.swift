@@ -47,6 +47,10 @@ class GalleryViewModel: ObservableObject {
         isImagePickerPresented = galleryImages.isEmpty
     }
 
+    func openImagePicker() {
+        isImagePickerPresented = true
+    }
+
     func insertNewItemsAsFirst() {
         let fetchRequest = NSFetchRequest<OrderedImageEntity>(entityName: "OrderedImageEntity")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "order", ascending: true)]
