@@ -34,12 +34,10 @@ struct GalleryView: View {
             VStack {
                 Spacer()
                 FloatingButton(action: {
-                    
-                        viewModel.insertNewItemsAsFirst()
-                        isPresented.toggle()
-                    
+                    viewModel.insertNewItemsAsFirst()
+                    isPresented.toggle()
+
                 }, image: "checkmark", color: .black)
-                
             }
         }.sheet(isPresented: $viewModel.isImagePickerPresented, onDismiss: {}) {
             ImagePicker(selectedImages: $viewModel.imagesFromGallery).onDisappear {

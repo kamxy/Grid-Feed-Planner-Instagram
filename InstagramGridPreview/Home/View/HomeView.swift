@@ -19,13 +19,17 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
-                VStack {
-                    TabBar(selectedTab: $selectedTab)
+                VStack(alignment: .leading) {
+                    HStack {
+                        Image("appIcon").resizable()
+                            .scaledToFill().frame(width: 50, height: 50).paddingAll()
+                        Text("Grid: ").font(.title).bold() + Text("Preview Your Profile").bold().font(.title3)
+                    }
+//                    TabBar(selectedTab: $selectedTab)
                     BodyView(selectedTab: $selectedTab, viewModel: viewModel)
                 }
                 BottomView(viewModel: viewModel)
-
-            }.navigationTitle("Instagram Grid Preview")
+            }
         }
     }
 }
@@ -35,7 +39,7 @@ struct HomeView: View {
 }
 
 struct TabBar: View {
-    private let tabs: [String] = ["photo", "video"]
+    private let tabs: [String] = ["photo" /* , "video" */ ]
     @Binding var selectedTab: Int
 
     var body: some View {
@@ -56,7 +60,7 @@ struct TabButton: View {
         Button(action: {
             selectedTab = tag
         }, label: {
-            Image(systemName: image).frame(maxWidth: .infinity, maxHeight: 60).foregroundColor(selectedTab == tag ? .blue : .gray)
+            Image(systemName: image).frame(maxWidth: .infinity, maxHeight: 60).foregroundColor(selectedTab == tag ? .black : .gray)
         })
     }
 }
@@ -70,13 +74,26 @@ struct BottomView: View {
                     viewModel.deleteImages()
                 }, image: "trash", color: .red)
             }
+
             Spacer()
-            FloatingButton(action: {
-                viewModel.isGallerySheetPresented.toggle()
-            }, image: "photo.badge.plus.fill", color: .black).sheet(isPresented: $viewModel.isGallerySheetPresented, onDismiss: {
-                viewModel.fetchImages()
-            }) {
-                GalleryView(isPresented: $viewModel.isGallerySheetPresented)
+
+            Spacer()
+            if viewModel.onChanged {
+                Button(action: {
+                    viewModel.reoder()
+                    viewModel.setOnChange(false)
+                }, label: {
+                    Text("Save Order").font(.title3).foregroundStyle(.black).paddingAll()
+                }).background(.white)
+                    .cornerRadius(20).shadow().paddingAll()
+            } else {
+                FloatingButton(action: {
+                    viewModel.isGallerySheetPresented.toggle()
+                }, image: "photo.badge.plus.fill", color: .black).sheet(isPresented: $viewModel.isGallerySheetPresented, onDismiss: {
+                    viewModel.fetchImages()
+                }) {
+                    GalleryView(isPresented: $viewModel.isGallerySheetPresented)
+                }
             }
         }
     }
@@ -90,20 +107,25 @@ struct BodyView: View {
             PhotosView(viewModel: viewModel)
                 .tag(0)
 
-            ReelsView().tag(1)
+//            ReelsView().tag(1)
         }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
 }
 
 struct FloatingButton: View {
     var action: () -> Void
-    var image: String
+    var image: String?
+    var text: String?
     var color: Color
     var body: some View {
         Button {
             action()
         } label: {
-            Image(systemName: image).font(.title2).bold().foregroundColor(color)
+            if let text {
+                Text(text)
+            } else {}
+            Image(systemName: image!).font(.title2).bold().foregroundColor(color)
+
         }.frame(width: 60, height: 60).background(.white).clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/).shadow()
             // 2
             .paddingAll()

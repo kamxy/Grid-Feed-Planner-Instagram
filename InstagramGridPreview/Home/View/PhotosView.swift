@@ -14,15 +14,19 @@ struct PhotosView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItems, spacing: 1) {
-                ForEach($viewModel.gridImages) { image in
-                    SelectableImageItem(image: image, viewModel: viewModel)
-                }
+                ReorderableForEach(viewModel.gridImages, active: $viewModel.currentlyDragging) { item in
+                    SelectableImageItem(image: item, viewModel: viewModel)
+                } moveAction: {
+                    from, to in
+                    viewModel.gridImages.move(fromOffsets: from, toOffset: to)
+                    viewModel.setOnChange(true)
+                } onEnd: {}
             }
         }
     }
 
     struct SelectableImageItem: View {
-        @Binding var image: SelectableImage
+        let image: SelectableImage
         @StateObject var viewModel: HomeViewModel
         var itemWidth: CGFloat {
             (UIScreen.main.bounds.width) / 3
@@ -32,22 +36,21 @@ struct PhotosView: View {
             ZStack(alignment: .topTrailing) {
                 Image(uiImage: image.image).resizable()
                     .scaledToFill()
-                    .frame(width: itemWidth, height: itemWidth)
-                    .clipped().onTapGesture {
-                        image.isSelected.toggle()
-                        if image.isSelected {
+                    .frame(width: itemWidth, height: itemWidth).clipped().overlay(.white.opacity(viewModel.selectedImages.contains(image) ? 0.3 : 0)).onTapGesture {
+                        if !viewModel.selectedImages.contains(image) {
                             viewModel.selectedImages.append(image)
                         } else {
                             viewModel.selectedImages.removeAll { $0.id == image.id }
                         }
                     }
-                if image.isSelected {
+
+                if viewModel.selectedImages.contains(image) {
                     Image(systemName: "checkmark.circle.fill").foregroundColor(.white)
                         .background(.blue)
                         .clipShape(Circle())
                         .padding(8)
                 }
-                if image.isSelected {
+                if viewModel.selectedImages.contains(image) {
                     Rectangle().foregroundColor(.white).opacity(0.3)
                 }
             }

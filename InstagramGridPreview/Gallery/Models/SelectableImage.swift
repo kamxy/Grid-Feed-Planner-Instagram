@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct SelectableImage: Identifiable {
+struct SelectableImage: Identifiable, Equatable {
     let id: UUID
     let image: UIImage
     var isSelected: Bool = false

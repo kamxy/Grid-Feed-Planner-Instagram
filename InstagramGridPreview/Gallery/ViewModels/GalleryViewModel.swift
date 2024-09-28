@@ -57,7 +57,6 @@ class GalleryViewModel: ObservableObject {
             for entity in results {
                 entity.order += Int32(selectedImages.count)
             }
-
             for (index, image) in selectedImages.enumerated() {
                 let newImageEntity = OrderedImageEntity(context: context)
                 newImageEntity.imageData = image.image.pngData()
