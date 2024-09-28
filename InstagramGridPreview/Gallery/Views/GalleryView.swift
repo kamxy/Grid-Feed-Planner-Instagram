@@ -16,9 +16,9 @@ struct GalleryView: View {
                 Button(action: {
                     isPresented.toggle()
                 }, label: {
-                    Text("Dismiss")
+                    Text("dismiss")
                 }).padding()
-                Text("Select images for your Grid").padding().bold()
+                Text("selectImages").padding().bold()
                 ScrollView {
                     if viewModel.galleryImages.isEmpty {
                         ProgressView().controlSize(.large)

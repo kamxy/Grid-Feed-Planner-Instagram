@@ -4,59 +4,133 @@
     "aa" : {
 
     },
-    "Dismiss" : {
-
-    },
-    "Enter" : {
+    "continue" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter"
-          }
-        }
-      }
-    },
-    "Grid: Preview" : {
-
-    },
-    "Hello" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hello"
+            "value" : "Continue"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Merhaba"
+            "value" : "İlerle"
           }
         }
       }
+    },
+    "dismiss" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vazgeç"
+          }
+        }
+      }
+    },
+    "Grid: " : {
+
+    },
+    "Grid: Feed Planner Instagram" : {
+
     },
     "Hello, World!" : {
 
     },
-    "Select images for your Grid" : {
-
-    },
-    "Welcome" : {
+    "planAndDesign" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome"
+            "value" : "Plan and design your feed before you post it on Instagram. Drag and drop your photos until your feed looks perfect."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hoşgeldiniz"
+            "value" : "Akışınızı Instagram'da yayınlamadan önce planlayın ve tasarlayın. Akışınız mükemmel görünene kadar fotoğraflarınızı sürükleyip bırakın."
+          }
+        }
+      }
+    },
+    "previewProfile" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview Your Profile"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profilini Önizle"
+          }
+        }
+      }
+    },
+    "saveOrder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Order"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sırayı Kaydet"
+          }
+        }
+      }
+    },
+    "selectImages" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select images for your Grid"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profilin için fotoğraflar seç"
+          }
+        }
+      }
+    },
+    "welcomeTı " : {
+
+    },
+    "welcomeTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoşgeldin"
           }
         }
       }
