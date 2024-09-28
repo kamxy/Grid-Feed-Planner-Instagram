@@ -26,7 +26,10 @@
 		BBC03E1C2C8FAD8C004688A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1B2C8FAD8C004688A4 /* HomeView.swift */; };
 		BBC03E1E2C8FADBE004688A4 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1D2C8FADBE004688A4 /* HomeViewModel.swift */; };
 		BBC03E202C8FADE2004688A4 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1F2C8FADE2004688A4 /* PersistenceController.swift */; };
+		BBEC5FC12C95BE5000BB0F03 /* ReordableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEC5FC02C95BE5000BB0F03 /* ReordableForEach.swift */; };
+		BBEC5FC32C95BEC000BB0F03 /* ReordableDragRelocate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEC5FC22C95BEC000BB0F03 /* ReordableDragRelocate.swift */; };
 		BBFF11992C948C5C002A7BFB /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFF11982C948C5C002A7BFB /* Extension.swift */; };
+		BBFF11A82C94A5FD002A7BFB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BBFF11A72C94A5FD002A7BFB /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +72,10 @@
 		BBC03E1B2C8FAD8C004688A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BBC03E1D2C8FADBE004688A4 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		BBC03E1F2C8FADE2004688A4 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		BBEC5FC02C95BE5000BB0F03 /* ReordableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReordableForEach.swift; sourceTree = "<group>"; };
+		BBEC5FC22C95BEC000BB0F03 /* ReordableDragRelocate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReordableDragRelocate.swift; sourceTree = "<group>"; };
 		BBFF11982C948C5C002A7BFB /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		BBFF11A72C94A5FD002A7BFB /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,17 +160,19 @@
 		BBC03DE32C8FAC2E004688A4 /* InstagramGridPreview */ = {
 			isa = PBXGroup;
 			children = (
+				BBEC5FBD2C95299E00BB0F03 /* Helpers */,
 				BBFF11972C948BC8002A7BFB /* extensions */,
 				BB34E96E2C90480E0028F674 /* Gallery */,
 				BBC03E172C8FAD5E004688A4 /* ImagePıcker */,
 				BBC03E142C8FACEE004688A4 /* Home */,
-				BBC03E132C8FACDB004688A4 /* Persistance */,
+				BBC03E132C8FACDB004688A4 /* Persistances */,
 				BBC03DE42C8FAC2E004688A4 /* InstagramGridPreviewApp.swift */,
 				BBC03DE62C8FAC2E004688A4 /* ContentView.swift */,
 				BBC03DE82C8FAC2E004688A4 /* Assets.xcassets */,
 				BBC03DEF2C8FAC2E004688A4 /* ImageModel.xcdatamodeld */,
 				BBC03DEA2C8FAC2E004688A4 /* Preview Content */,
 				BB34E9772C904B9E0028F674 /* Constants.swift */,
+				BBFF11A72C94A5FD002A7BFB /* Localizable.xcstrings */,
 			);
 			path = InstagramGridPreview;
 			sourceTree = "<group>";
@@ -194,12 +202,12 @@
 			path = InstagramGridPreviewUITests;
 			sourceTree = "<group>";
 		};
-		BBC03E132C8FACDB004688A4 /* Persistance */ = {
+		BBC03E132C8FACDB004688A4 /* Persistances */ = {
 			isa = PBXGroup;
 			children = (
 				BBC03E1F2C8FADE2004688A4 /* PersistenceController.swift */,
 			);
-			path = Persistance;
+			path = Persistances;
 			sourceTree = "<group>";
 		};
 		BBC03E142C8FACEE004688A4 /* Home */ = {
@@ -244,6 +252,15 @@
 				BBC03E192C8FAD7D004688A4 /* ImagePickerView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BBEC5FBD2C95299E00BB0F03 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BBEC5FC02C95BE5000BB0F03 /* ReordableForEach.swift */,
+				BBEC5FC22C95BEC000BB0F03 /* ReordableDragRelocate.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		BBFF11972C948BC8002A7BFB /* extensions */ = {
@@ -340,6 +357,7 @@
 			knownRegions = (
 				en,
 				Base,
+				tr,
 			);
 			mainGroup = BBC03DD82C8FAC2D004688A4;
 			productRefGroup = BBC03DE22C8FAC2E004688A4 /* Products */;
@@ -359,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBC03DEC2C8FAC2E004688A4 /* Preview Assets.xcassets in Resources */,
+				BBFF11A82C94A5FD002A7BFB /* Localizable.xcstrings in Resources */,
 				BBC03DE92C8FAC2E004688A4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBFF11992C948C5C002A7BFB /* Extension.swift in Sources */,
+				BBEC5FC32C95BEC000BB0F03 /* ReordableDragRelocate.swift in Sources */,
 				BBC03DF12C8FAC2E004688A4 /* ImageModel.xcdatamodeld in Sources */,
 				BB34E97B2C904F910028F674 /* SelectableImage.swift in Sources */,
 				BB34E9762C9048FE0028F674 /* GalleryViewModel.swift in Sources */,
@@ -397,6 +417,7 @@
 				BBC03DE52C8FAC2E004688A4 /* InstagramGridPreviewApp.swift in Sources */,
 				BBC03E1A2C8FAD7D004688A4 /* ImagePickerView.swift in Sources */,
 				BB34E96D2C9036B20028F674 /* ReelsView.swift in Sources */,
+				BBEC5FC12C95BE5000BB0F03 /* ReordableForEach.swift in Sources */,
 				BBC03E202C8FADE2004688A4 /* PersistenceController.swift in Sources */,
 				BB34E9702C90481D0028F674 /* GalleryView.swift in Sources */,
 			);
