@@ -29,6 +29,8 @@
 		BBC03E1C2C8FAD8C004688A4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1B2C8FAD8C004688A4 /* HomeView.swift */; };
 		BBC03E1E2C8FADBE004688A4 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1D2C8FADBE004688A4 /* HomeViewModel.swift */; };
 		BBC03E202C8FADE2004688A4 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC03E1F2C8FADE2004688A4 /* PersistenceController.swift */; };
+		BBC2C6A52D0086B000E9BBE2 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC2C6A42D0086B000E9BBE2 /* StoreKitManager.swift */; };
+		BBDEDD7B2D00761500F28D42 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDEDD7A2D00761500F28D42 /* SubscriptionView.swift */; };
 		BBEC5FC12C95BE5000BB0F03 /* ReordableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEC5FC02C95BE5000BB0F03 /* ReordableForEach.swift */; };
 		BBEC5FC32C95BEC000BB0F03 /* ReordableDragRelocate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEC5FC22C95BEC000BB0F03 /* ReordableDragRelocate.swift */; };
 		BBFF11992C948C5C002A7BFB /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFF11982C948C5C002A7BFB /* Extension.swift */; };
@@ -77,6 +79,8 @@
 		BBC03E1B2C8FAD8C004688A4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		BBC03E1D2C8FADBE004688A4 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		BBC03E1F2C8FADE2004688A4 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		BBC2C6A42D0086B000E9BBE2 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
+		BBDEDD7A2D00761500F28D42 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubscriptionView.swift; path = InstagramGridPreview/Subscription/Views/SubscriptionView.swift; sourceTree = SOURCE_ROOT; };
 		BBEC5FC02C95BE5000BB0F03 /* ReordableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReordableForEach.swift; sourceTree = "<group>"; };
 		BBEC5FC22C95BEC000BB0F03 /* ReordableDragRelocate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReordableDragRelocate.swift; sourceTree = "<group>"; };
 		BBFF11982C948C5C002A7BFB /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 		BBC03DE32C8FAC2E004688A4 /* InstagramGridPreview */ = {
 			isa = PBXGroup;
 			children = (
+				BBDEDD772D0075D800F28D42 /* Subscription */,
 				BB020DE32CA87E92009AAA42 /* Onboarding */,
 				BBEC5FBD2C95299E00BB0F03 /* Helpers */,
 				BBFF11972C948BC8002A7BFB /* extensions */,
@@ -282,6 +287,31 @@
 				BBC03E192C8FAD7D004688A4 /* ImagePickerView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BBDEDD772D0075D800F28D42 /* Subscription */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEDD792D0075F100F28D42 /* ViewModels */,
+				BBDEDD782D0075E300F28D42 /* Views */,
+			);
+			path = Subscription;
+			sourceTree = "<group>";
+		};
+		BBDEDD782D0075E300F28D42 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BBDEDD7A2D00761500F28D42 /* SubscriptionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BBDEDD792D0075F100F28D42 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BBC2C6A42D0086B000E9BBE2 /* StoreKitManager.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		BBEC5FBD2C95299E00BB0F03 /* Helpers */ = {
@@ -446,7 +476,9 @@
 				BB34E9742C9048910028F674 /* ItemsGridView.swift in Sources */,
 				BB34E9782C904B9E0028F674 /* Constants.swift in Sources */,
 				BB020DEB2CA89BA1009AAA42 /* OnboardingViewModel.swift in Sources */,
+				BBDEDD7B2D00761500F28D42 /* SubscriptionView.swift in Sources */,
 				BBC03DE52C8FAC2E004688A4 /* InstagramGridPreviewApp.swift in Sources */,
+				BBC2C6A52D0086B000E9BBE2 /* StoreKitManager.swift in Sources */,
 				BBC03E1A2C8FAD7D004688A4 /* ImagePickerView.swift in Sources */,
 				BB34E96D2C9036B20028F674 /* ReelsView.swift in Sources */,
 				BBEC5FC12C95BE5000BB0F03 /* ReordableForEach.swift in Sources */,
@@ -614,7 +646,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"InstagramGridPreview/Preview Content\"";
 				DEVELOPMENT_TEAM = AY8MN643FP;
 				ENABLE_PREVIEWS = YES;
@@ -632,7 +664,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kamay.InstagramGridPreview;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -648,7 +680,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"InstagramGridPreview/Preview Content\"";
 				DEVELOPMENT_TEAM = AY8MN643FP;
 				ENABLE_PREVIEWS = YES;
@@ -666,7 +698,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kamay.InstagramGridPreview;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

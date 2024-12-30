@@ -10,11 +10,16 @@ import SwiftUI
 @main
 struct InstagramGridPreviewApp: App {
     let persistenceController = PersistenceController.shared
+    @StateObject var viewModel = OnboardingViewModel()
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            if viewModel.isOnboardingDone {
+                HomeView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            } else {
+                OnboardingView(viewModel: viewModel)
+            }
         }
     }
 }
