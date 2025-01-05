@@ -16,6 +16,11 @@ A powerful iOS app that helps users plan and preview their Instagram feed layout
 - **Advanced Planning Tools**: Professional tools for better feed planning
 - **Premium Filters**: Enhance your photos with exclusive filters
 
+## Screenshots
+
+![4](https://github.com/user-attachments/assets/bd6a715d-9b00-4060-aca9-a1fb56e2ac93)
+
+
 ## Technical Specifications
 
 ### 🛠 Built With
