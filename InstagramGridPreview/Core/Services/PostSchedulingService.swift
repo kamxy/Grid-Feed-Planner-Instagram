@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import UserNotifications
 
-struct ScheduledPost: Codable, Identifiable {
+struct ScheduledPost: Codable, Identifiable, Hashable {
     let id: UUID
     var imageIds: [String]
     var caption: String
@@ -18,6 +18,16 @@ struct ScheduledPost: Codable, Identifiable {
         case scheduled
         case posted
         case failed
+    }
+    
+    // MARK: - Hashable Conformance
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: ScheduledPost, rhs: ScheduledPost) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

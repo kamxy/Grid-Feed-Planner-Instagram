@@ -76,7 +76,8 @@ final class CloudKitService {
         // Save image assets
         let imageAssets = try post.imageIds.enumerated().map { index, imageId -> CKAsset in
             guard let image = loadImage(withId: imageId),
-                  let imageURL = saveImageTemporarily(image, withName: "\(post.id)-\(index).jpg")
+                  let imageURL = saveImageTemporarily(image, withName: "\(post.id)-\(index).jpg"),
+                  FileManager.default.fileExists(atPath: imageURL.path)
             else {
                 throw CloudKitError.invalidRecord
             }
