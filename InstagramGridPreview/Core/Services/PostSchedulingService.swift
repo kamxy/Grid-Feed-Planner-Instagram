@@ -36,10 +36,13 @@ final class PostSchedulingService: ObservableObject {
     
     private let notificationCenter = UNUserNotificationCenter.current()
     private let defaults = UserDefaults.standard
+    private let cloudKitService = CloudKitService.shared
+    private let imageStorage = ImageStorageService.shared
     
     private init() {
         loadPosts()
         requestNotificationPermissions()
+        setupCloudSync()
     }
     
     // MARK: - Post Management
@@ -70,12 +73,13 @@ final class PostSchedulingService: ObservableObject {
             status: .scheduled
         )
         
-        // Save post
+        // Save post locally and to iCloud
         await MainActor.run {
             scheduledPosts.append(post)
             savePosts()
         }
         
+        try await cloudKitService.save(post)
         return post
     }
     
@@ -190,14 +194,19 @@ final class PostSchedulingService: ObservableObject {
     }
     
     private func saveImages(_ images: [UIImage]) async throws -> [String] {
-        // Implementation for saving images to local storage
-        // This would be enhanced with iCloud sync later
-        return []
+        var imageIds: [String] = []
+        for image in images {
+            let imageId = UUID().uuidString
+            try imageStorage.saveImage(image, withId: imageId)
+            imageIds.append(imageId)
+        }
+        return imageIds
     }
     
     private func deleteImages(_ imageIds: [String]) async throws {
-        // Implementation for deleting images from local storage
-        // This would be enhanced with iCloud sync later
+        for imageId in imageIds {
+            try imageStorage.deleteImage(withId: imageId)
+        }
     }
     
     private func loadPosts() {
@@ -214,6 +223,37 @@ final class PostSchedulingService: ObservableObject {
         }
     }
     
+    private func setupCloudSync() {
+        Task {
+            do {
+                try await cloudKitService.checkiCloudStatus()
+                let cloudPosts = try await cloudKitService.fetchAllPosts()
+                
+                await MainActor.run {
+                    // Merge cloud posts with local posts
+                    let allPosts = Set(scheduledPosts + drafts)
+                    let cloudSet = Set(cloudPosts)
+                    
+                    // Use most recent version of each post
+                    let mergedPosts = allPosts.union(cloudSet).sorted {
+                        $0.lastModified > $1.lastModified
+                    }
+                    
+                    // Update local state
+                    scheduledPosts = mergedPosts.filter { !$0.isDraft }
+                    drafts = mergedPosts.filter { $0.isDraft }
+                    
+                    savePosts()
+                }
+                
+                // Sync back to cloud
+                try await cloudKitService.syncPosts(scheduledPosts + drafts)
+            } catch {
+                print("Cloud sync failed: \(error)")
+            }
+        }
+    }
+    
     private func savePosts() {
         if let data = try? JSONEncoder().encode(scheduledPosts) {
             defaults.set(data, forKey: "scheduledPosts")
@@ -221,6 +261,11 @@ final class PostSchedulingService: ObservableObject {
         
         if let data = try? JSONEncoder().encode(drafts) {
             defaults.set(data, forKey: "drafts")
+        }
+        
+        // Sync to iCloud
+        Task {
+            try await cloudKitService.syncPosts(scheduledPosts + drafts)
         }
     }
 }

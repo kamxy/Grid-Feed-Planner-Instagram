@@ -76,7 +76,8 @@ final class CloudKitService {
         // Save image assets
         let imageAssets = try post.imageIds.enumerated().map { index, imageId -> CKAsset in
             guard let image = loadImage(withId: imageId),
-                  let imageURL = saveImageTemporarily(image, withName: "\(post.id)-\(index).jpg") else {
+                  let imageURL = saveImageTemporarily(image, withName: "\(post.id)-\(index).jpg")
+            else {
                 throw CloudKitError.invalidRecord
             }
             return CKAsset(fileURL: imageURL)
@@ -103,14 +104,16 @@ final class CloudKitService {
               let isDraft = record["isDraft"] as? Bool,
               let lastModified = record["lastModified"] as? Date,
               let statusRaw = record["status"] as? String,
-              let status = ScheduledPost.PostStatus(rawValue: statusRaw) else {
+              let status = ScheduledPost.PostStatus(rawValue: statusRaw)
+        else {
             throw CloudKitError.invalidRecord
         }
         
         // Save images and get their IDs
         let imageIds = try assets.enumerated().map { index, asset -> String in
             guard let imageData = try? Data(contentsOf: asset.fileURL),
-                  let image = UIImage(data: imageData) else {
+                  let image = UIImage(data: imageData)
+            else {
                 throw CloudKitError.invalidRecord
             }
             
@@ -149,4 +152,4 @@ final class CloudKitService {
     private func saveImage(_ image: UIImage, withId id: String) throws {
         // Implementation will be provided by ImageStorageService
     }
-} 
+}
