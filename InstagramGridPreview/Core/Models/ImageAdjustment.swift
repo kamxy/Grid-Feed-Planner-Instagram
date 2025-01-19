@@ -1,23 +1,24 @@
-import UIKit
 import CoreImage
+import UIKit
 
-struct ImageAdjustment: Equatable {
-    var brightness: Double = 0.0
-    var contrast: Double = 1.0
-    var saturation: Double = 1.0
+struct ImageAdjustment {
+    var brightness: Double
+    var contrast: Double
     
-    func apply(to image: UIImage) -> UIImage {
-        guard let ciImage = CIImage(image: image) else { return image }
+    func apply(to image: UIImage) -> UIImage? {
+        guard let inputImage = CIImage(image: image) else { return nil }
+        let context = CIContext()
         
-        let colorControls = CIFilter.colorControls()
-        colorControls.setValue(ciImage, forKey: kCIInputImageKey)
-        colorControls.setValue(saturation, forKey: kCIInputSaturationKey)
-        colorControls.setValue(contrast, forKey: kCIInputContrastKey)
+        // Create color controls filter
+        guard let colorControls = CIFilter(name: "CIColorControls") else { return nil }
+        colorControls.setValue(inputImage, forKey: kCIInputImageKey)
         colorControls.setValue(brightness, forKey: kCIInputBrightnessKey)
+        colorControls.setValue(contrast, forKey: kCIInputContrastKey)
         
         guard let outputImage = colorControls.outputImage,
-              let cgImage = CIContext().createCGImage(outputImage, from: outputImage.extent) else {
-            return image
+              let cgImage = context.createCGImage(outputImage, from: outputImage.extent)
+        else {
+            return nil
         }
         
         return UIImage(cgImage: cgImage)
@@ -30,9 +31,9 @@ struct ImageAdjustment: Equatable {
     ]
     
     // MARK: - Equatable
+
     static func == (lhs: ImageAdjustment, rhs: ImageAdjustment) -> Bool {
         return lhs.brightness == rhs.brightness &&
-               lhs.contrast == rhs.contrast &&
-               lhs.saturation == rhs.saturation
+            lhs.contrast == rhs.contrast
     }
-} 
+}
