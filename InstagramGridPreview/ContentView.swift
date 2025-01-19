@@ -1,17 +1,21 @@
+//
+//  ContentView.swift
+//  InstagramGridPreview
+//
+//  Created by Mehmet Kamay on 19.01.2025.
+//
+
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel = OnboardingViewModel()
-
     var body: some View {
-        if viewModel.isOnboardingDone {
-            HomeView()
-        } else {
-            OnboardingView(viewModel: viewModel)
-        }
+        GridView()
     }
 }
 
-#Preview {
-    ContentView()
+// Preview
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }
