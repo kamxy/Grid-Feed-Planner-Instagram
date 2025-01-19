@@ -12,70 +12,88 @@ struct GridView: View {
     @State private var showingScheduleSheet = false
     @State private var isEditMode = false
     @State private var animateSelection = false
+    @State private var isLoading = false
+    @State private var errorMessage: String?
     
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 1), count: 3)
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 1) {
-                    ForEach(viewModel.images.indices, id: \.self) { index in
-                        if let image = viewModel.images[index] {
-                            Button(action: {
-                                handleImageTap(at: index, image: image)
-                            }) {
-                                ZStack(alignment: .topTrailing) {
-                                    GridItemView(image: image)
-                                        .opacity(draggedItem == index ? 0.5 : 1.0)
-                                        .onDrag {
-                                            if !isEditMode {
-                                                draggedItem = index
-                                                return NSItemProvider(object: "\(index)" as NSString)
-                                            }
-                                            return NSItemProvider()
-                                        }
-                                        .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
+            ZStack {
+                ScrollView {
+                    if viewModel.images.isEmpty && !isLoading {
+                        VStack(spacing: 20) {
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .font(.system(size: 60))
+                                .foregroundColor(.gray)
+                            Text("No Images")
+                                .font(.title2)
+                                .foregroundColor(.gray)
+                            Text("Tap + to add your first image")
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding(.vertical, 100)
+                    } else {
+                        LazyVGrid(columns: columns, spacing: 1) {
+                            ForEach(viewModel.images.indices, id: \.self) { index in
+                                if let image = viewModel.images[index] {
+                                    Button(action: {
+                                        handleImageTap(at: index, image: image)
+                                    }) {
+                                        ZStack(alignment: .topTrailing) {
+                                            GridItemView(image: image)
+                                                .opacity(draggedItem == index ? 0.5 : 1.0)
+                                                .onDrag {
+                                                    if !isEditMode {
+                                                        draggedItem = index
+                                                        return NSItemProvider(object: "\(index)" as NSString)
+                                                    }
+                                                    return NSItemProvider()
+                                                }
+                                                .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
                                                                                               draggedItem: $draggedItem,
                                                                                               viewModel: viewModel) : NoOpDropDelegate())
-                                        .scaleEffect(selectedIndices.contains(index) ? 0.95 : 1.0)
-                                        .animation(.spring(response: 0.3), value: selectedIndices.contains(index))
-                                    
-                                    if isEditMode {
-                                        Image(systemName: selectedIndices.contains(index) ? "checkmark.circle.fill" : "circle")
-                                            .font(.title2)
-                                            .foregroundColor(selectedIndices.contains(index) ? .blue : .white)
-                                            .background(Circle().fill(Color.white.opacity(0.8)))
-                                            .padding(4)
-                                            .zIndex(1)
-                                            .transition(.scale.combined(with: .opacity))
+                                                .scaleEffect(selectedIndices.contains(index) ? 0.95 : 1.0)
+                                                .animation(.spring(response: 0.3), value: selectedIndices.contains(index))
+                                            
+                                            if isEditMode {
+                                                Image(systemName: selectedIndices.contains(index) ? "checkmark.circle.fill" : "circle")
+                                                    .font(.title2)
+                                                    .foregroundColor(selectedIndices.contains(index) ? .blue : .white)
+                                                    .background(Circle().fill(Color.white.opacity(0.8)))
+                                                    .padding(4)
+                                                    .zIndex(1)
+                                                    .transition(.scale.combined(with: .opacity))
+                                            }
+                                        }
                                     }
-                                }
+                                    .buttonStyle(PlainButtonStyle())
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .contentShape(Rectangle())
+                                } else {
+                                  }
                             }
-                            .buttonStyle(PlainButtonStyle())
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .contentShape(Rectangle())
-                        } else {
-                          }
-                    }
-                    
-                    PhotosPicker(selection: $selectedItem,
-                               matching: .images)
-                    {
-                        AddPhotoButton()
-                    }
-                    .onChange(of: selectedItem) { newItem in
-                        Task {
-                            if let data = try? await newItem?.loadTransferable(type: Data.self),
-                               let image = UIImage(data: data)
+                            
+                            PhotosPicker(selection: $selectedItem,
+                                       matching: .images)
                             {
-                                await viewModel.addImage(image)
+                                AddPhotoButton()
                             }
                         }
+                        .padding(1)
+                        .animation(.default, value: viewModel.images)
                     }
                 }
-                .padding(1)
-                .animation(.default, value: viewModel.images)
+                
+                if isLoading {
+                    Color.black.opacity(0.3)
+                        .edgesIgnoringSafeArea(.all)
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
             }
             .navigationTitle("Grid Preview")
             .navigationBarTitleDisplayMode(.inline)
@@ -153,6 +171,35 @@ struct GridView: View {
             .sheet(isPresented: $showingScheduleSheet) {
                 CalendarView()
             }
+            .onChange(of: selectedItem) { newItem in
+                Task {
+                    isLoading = true
+                    do {
+                        if let data = try await newItem?.loadTransferable(type: Data.self),
+                           let image = UIImage(data: data) {
+                            await viewModel.addImage(image)
+                            errorMessage = nil
+                        } else {
+                            errorMessage = "Failed to load image"
+                        }
+                    } catch {
+                        errorMessage = "Error loading image: \(error.localizedDescription)"
+                    }
+                    isLoading = false
+                }
+            }
+            .alert("Error", isPresented: .init(
+                get: { errorMessage != nil },
+                set: { if !$0 { errorMessage = nil } }
+            )) {
+                Button("OK") {
+                    errorMessage = nil
+                }
+            } message: {
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                }
+            }
         }
     }
     
@@ -172,12 +219,16 @@ struct GridView: View {
     }
     
     private func deleteSelectedImages() {
-        // Sort indices in descending order to avoid index shifting issues
-        let sortedIndices = selectedIndices.sorted(by: >)
-        for index in sortedIndices {
-            viewModel.removeImage(at: index)
+        withAnimation {
+            isLoading = true
+            // Sort indices in descending order to avoid index shifting issues
+            let sortedIndices = selectedIndices.sorted(by: >)
+            for index in sortedIndices {
+                viewModel.removeImage(at: index)
+            }
+            selectedIndices.removeAll()
+            isLoading = false
         }
-        selectedIndices.removeAll()
     }
 }
 
