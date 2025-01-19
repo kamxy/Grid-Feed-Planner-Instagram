@@ -14,8 +14,14 @@ struct GridView: View {
     @State private var animateSelection = false
     @State private var isLoading = false
     @State private var errorMessage: String?
+    @State private var gridSpacing: CGFloat = 1
+    @State private var gridColumns = 3
+    @State private var showingGridSettings = false
     
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 1), count: 3)
+    private var columns: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: gridSpacing), count: gridColumns)
+    }
+    
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
     
     var body: some View {
@@ -100,6 +106,14 @@ struct GridView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
+                        if !isEditMode {
+                            Button {
+                                showingGridSettings = true
+                            } label: {
+                                Image(systemName: "square.grid.3x3")
+                            }
+                        }
+                        
                         Button {
                             withAnimation(.spring(response: 0.3)) {
                                 isEditMode.toggle()
@@ -170,6 +184,39 @@ struct GridView: View {
             }
             .sheet(isPresented: $showingScheduleSheet) {
                 CalendarView()
+            }
+            .sheet(isPresented: $showingGridSettings) {
+                NavigationStack {
+                    Form {
+                        Section("Grid Layout") {
+                            Picker("Columns", selection: $gridColumns) {
+                                Text("3 x 3").tag(3)
+                                Text("4 x 4").tag(4)
+                            }
+                            .pickerStyle(.segmented)
+                        }
+                        
+                        Section("Grid Spacing") {
+                            Slider(value: $gridSpacing, in: 0...10, step: 1) {
+                                Text("Spacing")
+                            } minimumValueLabel: {
+                                Text("0")
+                            } maximumValueLabel: {
+                                Text("10")
+                            }
+                        }
+                    }
+                    .navigationTitle("Grid Settings")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("Done") {
+                                showingGridSettings = false
+                            }
+                        }
+                    }
+                }
+                .presentationDetents([.medium])
             }
             .onChange(of: selectedItem) { newItem in
                 Task {
