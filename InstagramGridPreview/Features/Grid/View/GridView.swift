@@ -11,6 +11,7 @@ struct GridView: View {
     @State private var showingActionSheet = false
     @State private var showingScheduleSheet = false
     @State private var isEditMode = false
+    @State private var animateSelection = false
     
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 1), count: 3)
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
@@ -37,6 +38,8 @@ struct GridView: View {
                                         .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
                                                                                               draggedItem: $draggedItem,
                                                                                               viewModel: viewModel) : NoOpDropDelegate())
+                                        .scaleEffect(selectedIndices.contains(index) ? 0.95 : 1.0)
+                                        .animation(.spring(response: 0.3), value: selectedIndices.contains(index))
                                     
                                     if isEditMode {
                                         Image(systemName: selectedIndices.contains(index) ? "checkmark.circle.fill" : "circle")
@@ -45,6 +48,7 @@ struct GridView: View {
                                             .background(Circle().fill(Color.white.opacity(0.8)))
                                             .padding(4)
                                             .zIndex(1)
+                                            .transition(.scale.combined(with: .opacity))
                                     }
                                 }
                             }
@@ -79,9 +83,11 @@ struct GridView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
                         Button {
-                            isEditMode.toggle()
-                            if !isEditMode {
-                                selectedIndices.removeAll()
+                            withAnimation(.spring(response: 0.3)) {
+                                isEditMode.toggle()
+                                if !isEditMode {
+                                    selectedIndices.removeAll()
+                                }
                             }
                         } label: {
                             Text(isEditMode ? "Done" : "Edit")
@@ -92,6 +98,8 @@ struct GridView: View {
                         } label: {
                             Image(systemName: "calendar.badge.plus")
                         }
+                        .opacity(isEditMode ? 0 : 1)
+                        .animation(.easeInOut, value: isEditMode)
                     }
                 }
                 
@@ -151,10 +159,12 @@ struct GridView: View {
     private func handleImageTap(at index: Int, image: UIImage) {
         if isEditMode {
             hapticFeedback.impactOccurred()
-            if selectedIndices.contains(index) {
-                selectedIndices.remove(index)
-            } else {
-                selectedIndices.insert(index)
+            withAnimation(.spring(response: 0.3)) {
+                if selectedIndices.contains(index) {
+                    selectedIndices.remove(index)
+                } else {
+                    selectedIndices.insert(index)
+                }
             }
         } else {
             selectedImage = SelectedImage(index: index, image: image)
