@@ -1,4 +1,4 @@
-import SwiftUI
+/* import SwiftUI
 import PhotosUI
 
 struct NewPostView: View {
@@ -101,4 +101,4 @@ struct NewPostView_Previews: PreviewProvider {
     static var previews: some View {
         NewPostView(date: Date()) { _ in }
     }
-} 
+}  */

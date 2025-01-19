@@ -65,8 +65,8 @@ struct GridView: View {
                                                     return NSItemProvider()
                                                 }
                                                 .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
-                                                                                              draggedItem: $draggedItem,
-                                                                                              viewModel: viewModel) : NoOpDropDelegate())
+                                                                                                              draggedItem: $draggedItem,
+                                                                                                              viewModel: viewModel) : NoOpDropDelegate())
                                                 .scaleEffect(selectedIndices.contains(index) ? 0.95 : 1.0)
                                                 .animation(.spring(response: 0.3), value: selectedIndices.contains(index))
                                             
@@ -84,8 +84,7 @@ struct GridView: View {
                                     .buttonStyle(PlainButtonStyle())
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .contentShape(Rectangle())
-                                } else {
-                                  }
+                                } else {}
                             }
                         }
                         .padding(1)
@@ -107,7 +106,7 @@ struct GridView: View {
                     HStack {
                         Spacer()
                         PhotosPicker(selection: $selectedItem,
-                                   matching: .images)
+                                     matching: .images)
                         {
                             Image(systemName: "plus")
                                 .font(.title2.bold())
@@ -193,7 +192,8 @@ struct GridView: View {
                                 Spacer()
                                 Button {
                                     if let index = selectedIndices.first,
-                                       let image = viewModel.images[index] {
+                                       let image = viewModel.images[index]
+                                    {
                                         selectedImage = SelectedImage(index: index, image: image)
                                     }
                                 } label: {
@@ -232,7 +232,7 @@ struct GridView: View {
                 
                 Button("Cancel", role: .cancel) {}
             }
-            .sheet(item: $selectedImage, onDismiss: { 
+            .sheet(item: $selectedImage, onDismiss: {
                 selectedImage = nil
                 selectedIndices.removeAll()
                 isEditMode = false
@@ -242,7 +242,7 @@ struct GridView: View {
                 }
             }
             .sheet(isPresented: $showingScheduleSheet) {
-                CalendarView()
+                SchedulingView()
             }
             .sheet(isPresented: $showingGridSettings) {
                 GridSettingsView(
@@ -269,7 +269,8 @@ struct GridView: View {
                     isLoading = true
                     do {
                         if let data = try await newItem?.loadTransferable(type: Data.self),
-                           let image = UIImage(data: data) {
+                           let image = UIImage(data: data)
+                        {
                             await viewModel.addImage(image)
                             errorMessage = ""
                         } else {
@@ -334,14 +335,14 @@ struct DropViewDelegate: DropDelegate {
     let viewModel: GridViewModel
     
     func performDrop(info: DropInfo) -> Bool {
-        guard let draggedItem = self.draggedItem else { return false }
+        guard let draggedItem = draggedItem else { return false }
         viewModel.moveImage(from: draggedItem, to: item)
         self.draggedItem = nil
         return true
     }
     
     func dropEntered(info: DropInfo) {
-        guard let draggedItem = self.draggedItem,
+        guard let draggedItem = draggedItem,
               draggedItem != item else { return }
         viewModel.moveImage(from: draggedItem, to: item)
         self.draggedItem = item

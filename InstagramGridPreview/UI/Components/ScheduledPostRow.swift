@@ -1,4 +1,4 @@
-import SwiftUI
+/* import SwiftUI
 
 struct ScheduledPostRow: View {
     let post: ScheduledPost
@@ -72,4 +72,4 @@ struct ScheduledPostRow_Previews: PreviewProvider {
             ))
         }
     }
-} 
+}  */

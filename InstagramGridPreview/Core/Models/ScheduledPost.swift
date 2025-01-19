@@ -1,4 +1,4 @@
-import Foundation
+/* import Foundation
 
 struct ScheduledPost: Identifiable, Codable {
     let id: UUID
@@ -16,4 +16,4 @@ struct ScheduledPost: Identifiable, Codable {
         self.hashtags = hashtags
         self.isPublished = isPublished
     }
-} 
+}  */
