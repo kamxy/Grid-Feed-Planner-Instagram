@@ -87,12 +87,6 @@ struct GridView: View {
                                 } else {
                                   }
                             }
-                            
-                            PhotosPicker(selection: $selectedItem,
-                                       matching: .images)
-                            {
-                                AddPhotoButton()
-                            }
                         }
                         .padding(1)
                         .animation(.default, value: viewModel.images)
@@ -105,6 +99,31 @@ struct GridView: View {
                     ProgressView()
                         .scaleEffect(1.5)
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                }
+                
+                // Floating Action Button
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        PhotosPicker(selection: $selectedItem,
+                                   matching: .images)
+                        {
+                            Image(systemName: "plus")
+                                .font(.title2.bold())
+                                .foregroundColor(.white)
+                                .frame(width: 60, height: 60)
+                                .background(Color.pink)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                                .scaleEffect(isEditMode ? 0 : 1)
+                                .rotationEffect(isEditMode ? .degrees(-90) : .degrees(0))
+                                .opacity(isEditMode ? 0 : 1)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isEditMode)
+                        }
+                        .padding(.trailing, 20)
+                        .padding(.bottom, isEditMode ? 0 : 20)
+                    }
                 }
             }
             .navigationTitle("Grid Preview")
