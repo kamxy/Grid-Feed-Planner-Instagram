@@ -10,8 +10,10 @@ struct GridView: View {
     @State private var selectedIndices: Set<Int> = []
     @State private var showingActionSheet = false
     @State private var showingScheduleSheet = false
+    @State private var isEditMode = false
     
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 1), count: 3)
+    private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
     
     var body: some View {
         NavigationStack {
@@ -19,34 +21,38 @@ struct GridView: View {
                 LazyVGrid(columns: columns, spacing: 1) {
                     ForEach(viewModel.images.indices, id: \.self) { index in
                         if let image = viewModel.images[index] {
-                            ZStack(alignment: .topTrailing) {
-                                GridItemView(image: image)
-                                    .onTapGesture {
-                                        handleImageTap(at: index, image: image)
+                            Button(action: {
+                                handleImageTap(at: index, image: image)
+                            }) {
+                                ZStack(alignment: .topTrailing) {
+                                    GridItemView(image: image)
+                                        .opacity(draggedItem == index ? 0.5 : 1.0)
+                                        .onDrag {
+                                            if !isEditMode {
+                                                draggedItem = index
+                                                return NSItemProvider(object: "\(index)" as NSString)
+                                            }
+                                            return NSItemProvider()
+                                        }
+                                        .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
+                                                                                              draggedItem: $draggedItem,
+                                                                                              viewModel: viewModel) : NoOpDropDelegate())
+                                    
+                                    if isEditMode {
+                                        Image(systemName: selectedIndices.contains(index) ? "checkmark.circle.fill" : "circle")
+                                            .font(.title2)
+                                            .foregroundColor(selectedIndices.contains(index) ? .blue : .white)
+                                            .background(Circle().fill(Color.white.opacity(0.8)))
+                                            .padding(4)
+                                            .zIndex(1)
                                     }
-                                    .opacity(draggedItem == index ? 0.5 : 1.0)
-                                    .onDrag {
-                                        draggedItem = index
-                                        return NSItemProvider(object: "\(index)" as NSString)
-                                    }
-                                    .onDrop(of: [.text], delegate: DropViewDelegate(item: index,
-                                                                                  draggedItem: $draggedItem,
-                                                                                  viewModel: viewModel))
-                                
-                                if selectedIndices.contains(index) {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .font(.title2)
-                                        .foregroundColor(.blue)
-                                        .background(Circle().fill(Color.white))
-                                        .padding(4)
                                 }
                             }
+                            .buttonStyle(PlainButtonStyle())
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .contentShape(Rectangle())
                         } else {
-                            Color.gray.opacity(0.2)
-                                .onDrop(of: [.text], delegate: DropViewDelegate(item: index,
-                                                                              draggedItem: $draggedItem,
-                                                                              viewModel: viewModel))
-                        }
+                          }
                     }
                     
                     PhotosPicker(selection: $selectedItem,
@@ -71,14 +77,37 @@ struct GridView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showingScheduleSheet = true
-                    } label: {
-                        Image(systemName: "calendar.badge.plus")
+                    HStack {
+                        Button {
+                            isEditMode.toggle()
+                            if !isEditMode {
+                                selectedIndices.removeAll()
+                            }
+                        } label: {
+                            Text(isEditMode ? "Done" : "Edit")
+                        }
+                        
+                        Button {
+                            showingScheduleSheet = true
+                        } label: {
+                            Image(systemName: "calendar.badge.plus")
+                        }
                     }
                 }
                 
-                if !selectedIndices.isEmpty {
+                if isEditMode {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        if selectedIndices.isEmpty {
+                            Text("Select Items")
+                                .foregroundColor(.secondary)
+                        } else {
+                            Text("\(selectedIndices.count) Selected")
+                                .bold()
+                        }
+                    }
+                }
+                
+                if !selectedIndices.isEmpty && isEditMode {
                     ToolbarItem(placement: .bottomBar) {
                         HStack {
                             Button(role: .destructive) {
@@ -107,6 +136,7 @@ struct GridView: View {
             .sheet(item: $selectedImage, onDismiss: { 
                 selectedImage = nil
                 selectedIndices.removeAll()
+                isEditMode = false
             }) { selected in
                 ImageEditorView(image: selected.image) { editedImage in
                     viewModel.updateImage(editedImage, at: selected.id)
@@ -119,16 +149,15 @@ struct GridView: View {
     }
     
     private func handleImageTap(at index: Int, image: UIImage) {
-        if selectedIndices.isEmpty {
-            // First selection, show edit options
-            selectedImage = SelectedImage(index: index, image: image)
-        } else {
-            // Toggle selection in multi-select mode
+        if isEditMode {
+            hapticFeedback.impactOccurred()
             if selectedIndices.contains(index) {
                 selectedIndices.remove(index)
             } else {
                 selectedIndices.insert(index)
             }
+        } else {
+            selectedImage = SelectedImage(index: index, image: image)
         }
     }
     
@@ -160,6 +189,10 @@ struct DropViewDelegate: DropDelegate {
         viewModel.moveImage(from: draggedItem, to: item)
         self.draggedItem = item
     }
+}
+
+struct NoOpDropDelegate: DropDelegate {
+    func performDrop(info: DropInfo) -> Bool { false }
 }
 
 // MARK: - Preview
