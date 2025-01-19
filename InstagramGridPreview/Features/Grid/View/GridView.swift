@@ -11,9 +11,13 @@ struct GridView: View {
     @State private var showingActionSheet = false
     @State private var showingScheduleSheet = false
     @State private var isEditMode = false
+    @State private var showingExportOptions = false
+    @State private var showingShareSheet = false
+    @State private var exportedImage: UIImage?
+    @State private var showingError = false
+    @State private var errorMessage = ""
     @State private var animateSelection = false
     @State private var isLoading = false
-    @State private var errorMessage: String?
     @State private var gridSpacing: CGFloat = 1
     @State private var gridColumns = 3
     @State private var showingGridSettings = false
@@ -23,6 +27,7 @@ struct GridView: View {
     }
     
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
+    private let exportService = GridExportService()
     
     var body: some View {
         NavigationStack {
@@ -108,6 +113,13 @@ struct GridView: View {
                     HStack {
                         if !isEditMode {
                             Button {
+                                showingExportOptions = true
+                            } label: {
+                                Image(systemName: "square.and.arrow.up")
+                            }
+                            .disabled(viewModel.images.isEmpty)
+                            
+                            Button {
                                 showingGridSettings = true
                             } label: {
                                 Image(systemName: "square.grid.3x3")
@@ -173,6 +185,33 @@ struct GridView: View {
                     }
                 }
             }
+            .confirmationDialog("Export Grid", isPresented: $showingExportOptions) {
+                Button("Save to Photos") {
+                    exportGrid { image in
+                        exportService.saveToPhotos(image) { error in
+                            if let error = error {
+                                errorMessage = error.localizedDescription
+                                showingError = true
+                            }
+                        }
+                    }
+                }
+                
+                Button("Copy to Clipboard") {
+                    exportGrid { image in
+                        exportService.copyToClipboard(image)
+                    }
+                }
+                
+                Button("Share...") {
+                    exportGrid { image in
+                        exportedImage = image
+                        showingShareSheet = true
+                    }
+                }
+                
+                Button("Cancel", role: .cancel) {}
+            }
             .sheet(item: $selectedImage, onDismiss: { 
                 selectedImage = nil
                 selectedIndices.removeAll()
@@ -218,6 +257,16 @@ struct GridView: View {
                 }
                 .presentationDetents([.medium])
             }
+            .sheet(isPresented: $showingShareSheet) {
+                if let image = exportedImage {
+                    ShareSheet(items: [image])
+                }
+            }
+            .alert("Export Error", isPresented: $showingError) {
+                Button("OK") {}
+            } message: {
+                Text(errorMessage)
+            }
             .onChange(of: selectedItem) { newItem in
                 Task {
                     isLoading = true
@@ -225,7 +274,7 @@ struct GridView: View {
                         if let data = try await newItem?.loadTransferable(type: Data.self),
                            let image = UIImage(data: data) {
                             await viewModel.addImage(image)
-                            errorMessage = nil
+                            errorMessage = ""
                         } else {
                             errorMessage = "Failed to load image"
                         }
@@ -233,18 +282,6 @@ struct GridView: View {
                         errorMessage = "Error loading image: \(error.localizedDescription)"
                     }
                     isLoading = false
-                }
-            }
-            .alert("Error", isPresented: .init(
-                get: { errorMessage != nil },
-                set: { if !$0 { errorMessage = nil } }
-            )) {
-                Button("OK") {
-                    errorMessage = nil
-                }
-            } message: {
-                if let errorMessage = errorMessage {
-                    Text(errorMessage)
                 }
             }
         }
@@ -277,6 +314,28 @@ struct GridView: View {
             isLoading = false
         }
     }
+    
+    private func exportGrid(completion: @escaping (UIImage) -> Void) {
+        do {
+            let options = GridExportService.ExportOptions(
+                spacing: gridSpacing,
+                backgroundColor: .white,
+                borderWidth: 0,
+                padding: 0
+            )
+            
+            let exportedImage = try exportService.exportGrid(
+                images: viewModel.images.compactMap { $0 },
+                columns: gridColumns,
+                options: options
+            )
+            
+            completion(exportedImage)
+        } catch {
+            errorMessage = error.localizedDescription
+            showingError = true
+        }
+    }
 }
 
 struct DropViewDelegate: DropDelegate {
@@ -301,6 +360,16 @@ struct DropViewDelegate: DropDelegate {
 
 struct NoOpDropDelegate: DropDelegate {
     func performDrop(info: DropInfo) -> Bool { false }
+}
+
+struct ShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 // MARK: - Preview
