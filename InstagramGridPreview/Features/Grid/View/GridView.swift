@@ -21,6 +21,7 @@ struct GridView: View {
     @State private var gridSpacing: CGFloat = 1
     @State private var gridColumns = 3
     @State private var showingGridSettings = false
+    @State private var gridOptions = GridExportService.ExportOptions()
     
     private var columns: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: gridSpacing), count: gridColumns)
@@ -225,37 +226,14 @@ struct GridView: View {
                 CalendarView()
             }
             .sheet(isPresented: $showingGridSettings) {
-                NavigationStack {
-                    Form {
-                        Section("Grid Layout") {
-                            Picker("Columns", selection: $gridColumns) {
-                                Text("3 x 3").tag(3)
-                                Text("4 x 4").tag(4)
-                            }
-                            .pickerStyle(.segmented)
-                        }
-                        
-                        Section("Grid Spacing") {
-                            Slider(value: $gridSpacing, in: 0...10, step: 1) {
-                                Text("Spacing")
-                            } minimumValueLabel: {
-                                Text("0")
-                            } maximumValueLabel: {
-                                Text("10")
-                            }
-                        }
-                    }
-                    .navigationTitle("Grid Settings")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Done") {
-                                showingGridSettings = false
-                            }
-                        }
-                    }
-                }
-                .presentationDetents([.medium])
+                GridSettingsView(
+                    gridColumns: $gridColumns,
+                    gridSpacing: $gridSpacing,
+                    onApply: { options in
+                        gridOptions = options
+                    },
+                    previewImages: viewModel.images.compactMap { $0 }
+                )
             }
             .sheet(isPresented: $showingShareSheet) {
                 if let image = exportedImage {
@@ -317,17 +295,10 @@ struct GridView: View {
     
     private func exportGrid(completion: @escaping (UIImage) -> Void) {
         do {
-            let options = GridExportService.ExportOptions(
-                spacing: gridSpacing,
-                backgroundColor: .white,
-                borderWidth: 0,
-                padding: 0
-            )
-            
             let exportedImage = try exportService.exportGrid(
                 images: viewModel.images.compactMap { $0 },
                 columns: gridColumns,
-                options: options
+                options: gridOptions
             )
             
             completion(exportedImage)
