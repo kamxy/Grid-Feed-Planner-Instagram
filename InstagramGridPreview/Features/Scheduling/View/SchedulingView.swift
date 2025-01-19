@@ -3,8 +3,6 @@ import SwiftUI
 
 struct SchedulingView: View {
     @StateObject private var viewModel = SchedulingViewModel()
-    @Environment(\.dismiss) private var dismiss
-    
     @State private var selectedImages: [UIImage] = []
     @State private var showingImagePicker = false
     @State private var showingDatePicker = false
@@ -13,82 +11,72 @@ struct SchedulingView: View {
     @State private var selectedTab = 0
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                // Tab Selector
-                Picker("View", selection: $selectedTab) {
-                    Text("Schedule").tag(0)
-                    Text("Drafts (\(viewModel.drafts.count))").tag(1)
-                }
-                .pickerStyle(.segmented)
-                .padding()
-                
-                TabView(selection: $selectedTab) {
-                    // Schedule Tab
-                    ScheduleFormView(
-                        selectedImages: $selectedImages,
-                        showingImagePicker: $showingImagePicker,
-                        caption: $viewModel.caption,
-                        hashtags: $viewModel.hashtags,
-                        selectedDate: $viewModel.selectedDate,
-                        showingDatePicker: $showingDatePicker,
-                        showingHashtagInput: $showingHashtagInput,
-                        newHashtag: $newHashtag,
-                        onSchedule: {
-                            Task {
-                                await viewModel.schedulePost(images: selectedImages)
-                                dismiss()
-                            }
-                        },
-                        onSaveDraft: {
-                            Task {
-                                await viewModel.saveDraft(images: selectedImages)
-                                dismiss()
-                            }
-                        }
-                    )
-                    .tag(0)
-                    
-                    // Drafts Tab
-                    DraftsListView(
-                        drafts: viewModel.drafts,
-                        onDelete: { draft in
-                            Task {
-                                await viewModel.deletePost(draft)
-                            }
-                        },
-                        onSchedule: { draft in
-                            Task {
-                                await viewModel.convertDraftToScheduled(draft)
-                                dismiss()
-                            }
-                        }
-                    )
-                    .tag(1)
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
+        VStack(spacing: 0) {
+            // Tab Selector
+            Picker("View", selection: $selectedTab) {
+                Text("schedule.post".localized).tag(0)
+                Text("schedule.drafts".localized + " (\(viewModel.drafts.count))").tag(1)
             }
-            .navigationTitle(selectedTab == 0 ? "Schedule Post" : "Drafts")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
+            .pickerStyle(.segmented)
+            .padding()
+            
+            TabView(selection: $selectedTab) {
+                // Schedule Tab
+                ScheduleFormView(
+                    selectedImages: $selectedImages,
+                    showingImagePicker: $showingImagePicker,
+                    caption: $viewModel.caption,
+                    hashtags: $viewModel.hashtags,
+                    selectedDate: $viewModel.selectedDate,
+                    showingDatePicker: $showingDatePicker,
+                    showingHashtagInput: $showingHashtagInput,
+                    newHashtag: $newHashtag,
+                    onSchedule: {
+                        Task {
+                            await viewModel.schedulePost(images: selectedImages)
+                            selectedImages.removeAll()
+                        }
+                    },
+                    onSaveDraft: {
+                        Task {
+                            await viewModel.saveDraft(images: selectedImages)
+                            selectedImages.removeAll()
+                        }
                     }
-                }
+                )
+                .tag(0)
+                
+                // Drafts Tab
+                DraftsListView(
+                    drafts: viewModel.drafts,
+                    onDelete: { draft in
+                        Task {
+                            await viewModel.deletePost(draft)
+                        }
+                    },
+                    onSchedule: { draft in
+                        Task {
+                            await viewModel.convertDraftToScheduled(draft)
+                        }
+                    }
+                )
+                .tag(1)
             }
-            .alert("Error", isPresented: $viewModel.showError) {
-                Button("OK") {}
-            } message: {
-                Text(viewModel.errorMessage ?? "An error occurred")
-            }
-            .overlay {
-                if viewModel.isLoading {
-                    ProgressView()
-                        .scaleEffect(1.5)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.black.opacity(0.3))
-                }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+        }
+        .navigationTitle(selectedTab == 0 ? "schedule.post".localized : "schedule.drafts".localized)
+        .navigationBarTitleDisplayMode(.inline)
+        .alert("alert.error".localized, isPresented: $viewModel.showError) {
+            Button("alert.ok".localized) {}
+        } message: {
+            Text(viewModel.errorMessage ?? "alert.genericError".localized)
+        }
+        .overlay {
+            if viewModel.isLoading {
+                ProgressView()
+                    .scaleEffect(1.5)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.black.opacity(0.3))
             }
         }
     }
@@ -171,28 +159,23 @@ private struct ScheduleFormView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(hashtags, id: \.self) { hashtag in
-                                HStack {
-                                    Text("#\(hashtag)")
-                                    Button {
-                                        hashtags.removeAll { $0 == hashtag }
-                                    } label: {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .foregroundColor(.secondary)
+                                Text("#\(hashtag)")
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(Color.secondary.opacity(0.1))
+                                    .cornerRadius(12)
+                                    .onTapGesture {
+                                        if let index = hashtags.firstIndex(of: hashtag) {
+                                            hashtags.remove(at: index)
+                                        }
                                     }
-                                }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(Color.secondary.opacity(0.1))
-                                .cornerRadius(16)
                             }
                             
                             Button {
                                 showingHashtagInput = true
                             } label: {
-                                Image(systemName: "plus")
-                                    .padding(8)
-                                    .background(Color.secondary.opacity(0.1))
-                                    .clipShape(Circle())
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.pink)
                             }
                         }
                         .padding(.horizontal)

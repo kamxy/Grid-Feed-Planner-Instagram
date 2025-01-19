@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "গ্রিড";
+"calendar.title" = "ক্যালেন্ডার";
+"settings.title" = "সেটিংস";
+
+// MARK: - Grid
+"grid.addPhotos" = "ছবি যোগ করুন";
+"grid.edit" = "সম্পাদনা";
+"grid.deleteSelected" = "নির্বাচিত মুছুন";
+"grid.selectAll" = "সব নির্বাচন করুন";
+"grid.deselectAll" = "সব অনির্বাচিত করুন";
+"grid.noPhotos.message" = "কোনো ছবি নেই";
+"grid.noPhotos.description" = "গ্রিডে ছবি যোগ করতে + বোতামে ট্যাপ করুন";
+
+// MARK: - Image Editor
+"editor.title" = "ছবি সম্পাদনা";
+"editor.applyFilter" = "ফিল্টার প্রয়োগ করুন";
+"editor.adjustments" = "সমন্বয়";
+"editor.brightness" = "উজ্জ্বলতা";
+"editor.contrast" = "কনট্রাস্ট";
+"editor.saturation" = "সম্পৃক্তি";
+"editor.saveChanges" = "সংরক্ষণ";
+"editor.discardChanges" = "বাতিল";
+
+// MARK: - Scheduling
+"schedule.post" = "পোস্ট শিডিউল করুন";
+"schedule.saveDraft" = "খসড়া হিসেবে সংরক্ষণ";
+"schedule.addCaption" = "ক্যাপশন যোগ করুন...";
+"schedule.addHashtags" = "হ্যাশট্যাগ যোগ করুন";
+"schedule.selectDate" = "তারিখ নির্বাচন করুন";
+"schedule.notifications" = "বিজ্ঞপ্তি";
+"schedule.scheduledFor" = "%@ এর জন্য শিডিউল করা হয়েছে";
+"schedule.draft" = "খসড়া";
+"schedule.postDetails" = "পোস্টের বিবরণ";
+"schedule.options" = "শিডিউলিং অপশন";
+"schedule.reminder" = "রিমাইন্ডার";
+"schedule.preview" = "প্রিভিউ";
+
+// MARK: - Export
+"export.grid" = "গ্রিড এক্সপোর্ট করুন";
+"export.saveToPhotos" = "ছবিতে সংরক্ষণ করুন";
+"export.copyToClipboard" = "ক্লিপবোর্ডে কপি করুন";
+"export.shareToInstagram" = "ইনস্টাগ্রামে শেয়ার করুন";
+"export.options" = "এক্সপোর্ট অপশন";
+"export.success" = "এক্সপোর্ট সফল হয়েছে";
+"export.failed" = "এক্সপোর্ট ব্যর্থ হয়েছে";
+"export.inProgress" = "এক্সপোর্ট হচ্ছে...";
+"export.quality" = "গুণমান";
+"export.format" = "ফরম্যাট";
+
+// MARK: - Alerts
+"alert.error" = "ত্রুটি";
+"alert.success" = "সফল";
+"alert.warning" = "সতর্কতা";
+"alert.confirm" = "নিশ্চিত করুন";
+"alert.cancel" = "বাতিল";
+"alert.delete" = "মুছুন";
+"alert.save" = "সংরক্ষণ";
+"alert.deleteConfirmation" = "আপনি কি নিশ্চিত যে আপনি মুছতে চান?";
+"alert.unsavedChanges" = "অসংরক্ষিত পরিবর্তন";
+"alert.networkError" = "নেটওয়ার্ক ত্রুটি";
+"alert.tryAgain" = "আবার চেষ্টা করুন";
+
+// MARK: - Settings
+"settings.appearance" = "অ্যাপিয়ারেন্স";
+"settings.notifications" = "বিজ্ঞপ্তি";
+"settings.language" = "ভাষা";
+"settings.feedback" = "মতামত পাঠান";
+"settings.about" = "সম্পর্কে";
+"settings.version" = "সংস্করণ %@";
+"settings.darkMode" = "ডার্ক মোড";
+"settings.lightMode" = "লাইট মোড";
+"settings.systemMode" = "সিস্টেম মোড";
+"settings.privacyPolicy" = "গোপনীয়তা নীতি";
+"settings.termsOfService" = "পরিষেবার শর্তাবলী";
+"settings.rateApp" = "অ্যাপ রেট করুন";
+"settings.shareApp" = "অ্যাপ শেয়ার করুন";
+"settings.logout" = "লগ আউট"; 

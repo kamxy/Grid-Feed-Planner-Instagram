@@ -39,10 +39,10 @@ struct GridView: View {
                             Image(systemName: "photo.on.rectangle.angled")
                                 .font(.system(size: 60))
                                 .foregroundColor(.gray)
-                            Text("No Images")
+                            Text("grid.noPhotos.message".localized)
                                 .font(.title2)
                                 .foregroundColor(.gray)
-                            Text("Tap + to add your first image")
+                            Text("grid.noPhotos.description".localized)
                                 .foregroundColor(.gray)
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -125,7 +125,7 @@ struct GridView: View {
                     }
                 }
             }
-            .navigationTitle("Grid Preview")
+            .navigationTitle("grid.title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -153,7 +153,7 @@ struct GridView: View {
                                 }
                             }
                         } label: {
-                            Text(isEditMode ? "Done" : "Edit")
+                            Text(isEditMode ? "alert.cancel".localized : "grid.edit".localized)
                         }
                         
                         Button {
@@ -169,10 +169,10 @@ struct GridView: View {
                 if isEditMode {
                     ToolbarItem(placement: .navigationBarLeading) {
                         if selectedIndices.isEmpty {
-                            Text("Select Items")
+                            Text("grid.selectAll".localized)
                                 .foregroundColor(.secondary)
                         } else {
-                            Text("\(selectedIndices.count) Selected")
+                            Text("\(selectedIndices.count) \("grid.selected".localized)")
                                 .bold()
                         }
                     }
@@ -184,7 +184,7 @@ struct GridView: View {
                             Button(role: .destructive) {
                                 deleteSelectedImages()
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label("alert.delete".localized, systemImage: "trash")
                                     .foregroundColor(.red)
                             }
                             
@@ -197,7 +197,7 @@ struct GridView: View {
                                         selectedImage = SelectedImage(index: index, image: image)
                                     }
                                 } label: {
-                                    Label("Edit", systemImage: "slider.horizontal.3")
+                                    Label("grid.edit".localized, systemImage: "slider.horizontal.3")
                                 }
                             }
                         }
@@ -205,8 +205,8 @@ struct GridView: View {
                     }
                 }
             }
-            .confirmationDialog("Export Grid", isPresented: $showingExportOptions) {
-                Button("Save to Photos") {
+            .confirmationDialog("export.grid".localized, isPresented: $showingExportOptions) {
+                Button("export.saveToPhotos".localized) {
                     exportGrid { image in
                         exportService.saveToPhotos(image) { error in
                             if let error = error {
@@ -217,20 +217,20 @@ struct GridView: View {
                     }
                 }
                 
-                Button("Copy to Clipboard") {
+                Button("export.copyToClipboard".localized) {
                     exportGrid { image in
                         exportService.copyToClipboard(image)
                     }
                 }
                 
-                Button("Share...") {
+                Button("export.shareToInstagram".localized) {
                     exportGrid { image in
                         exportedImage = image
                         showingShareSheet = true
                     }
                 }
                 
-                Button("Cancel", role: .cancel) {}
+                Button("alert.cancel".localized, role: .cancel) {}
             }
             .sheet(item: $selectedImage, onDismiss: {
                 selectedImage = nil
@@ -259,8 +259,8 @@ struct GridView: View {
                     ShareSheet(items: [image])
                 }
             }
-            .alert("Export Error", isPresented: $showingError) {
-                Button("OK") {}
+            .alert("export.failed".localized, isPresented: $showingError) {
+                Button("alert.ok".localized) {}
             } message: {
                 Text(errorMessage)
             }
@@ -274,10 +274,10 @@ struct GridView: View {
                             await viewModel.addImage(image)
                             errorMessage = ""
                         } else {
-                            errorMessage = "Failed to load image"
+                            errorMessage = "export.failed".localized
                         }
                     } catch {
-                        errorMessage = "Error loading image: \(error.localizedDescription)"
+                        errorMessage = "export.failed".localized
                     }
                     isLoading = false
                 }
@@ -323,7 +323,7 @@ struct GridView: View {
             
             completion(exportedImage)
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = "export.failed".localized
             showingError = true
         }
     }

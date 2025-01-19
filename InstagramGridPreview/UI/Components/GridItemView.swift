@@ -18,14 +18,14 @@ struct GridItemView: View {
                 .contextMenu {
                     if let onDelete = onDelete {
                         Button(role: .destructive, action: onDelete) {
-                            Label("Delete", systemImage: "trash")
+                            Label("alert.delete".localized, systemImage: "trash")
                         }
                     }
                 }
         }
         .aspectRatio(1, contentMode: .fit)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Grid Image")
+        .accessibilityLabel("grid.image".localized)
         .accessibilityAddTraits(.isImage)
     }
 }

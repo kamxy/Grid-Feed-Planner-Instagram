@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "ग्रिड";
+"calendar.title" = "कैलेंडर";
+"settings.title" = "सेटिंग्स";
+
+// MARK: - Grid
+"grid.addPhotos" = "फ़ोटो जोड़ें";
+"grid.edit" = "संपादित करें";
+"grid.deleteSelected" = "चयनित हटाएं";
+"grid.selectAll" = "सभी चुनें";
+"grid.deselectAll" = "सभी अचयनित करें";
+"grid.noPhotos.message" = "कोई फ़ोटो नहीं";
+"grid.noPhotos.description" = "ग्रिड में फ़ोटो जोड़ने के लिए + बटन पर टैप करें";
+
+// MARK: - Image Editor
+"editor.title" = "फ़ोटो संपादित करें";
+"editor.applyFilter" = "फ़िल्टर लागू करें";
+"editor.adjustments" = "समायोजन";
+"editor.brightness" = "चमक";
+"editor.contrast" = "कंट्रास्ट";
+"editor.saturation" = "संतृप्ति";
+"editor.saveChanges" = "सहेजें";
+"editor.discardChanges" = "रद्द करें";
+
+// MARK: - Scheduling
+"schedule.post" = "पोस्ट शेड्यूल करें";
+"schedule.saveDraft" = "ड्राफ्ट के रूप में सहेजें";
+"schedule.addCaption" = "कैप्शन जोड़ें...";
+"schedule.addHashtags" = "हैशटैग जोड़ें";
+"schedule.selectDate" = "तिथि चुनें";
+"schedule.notifications" = "सूचनाएं";
+"schedule.scheduledFor" = "%@ के लिए शेड्यूल किया गया";
+"schedule.draft" = "ड्राफ्ट";
+"schedule.postDetails" = "पोस्ट विवरण";
+"schedule.options" = "शेड्यूलिंग विकल्प";
+"schedule.reminder" = "रिमाइंडर";
+"schedule.preview" = "पूर्वावलोकन";
+
+// MARK: - Export
+"export.grid" = "ग्रिड निर्यात करें";
+"export.saveToPhotos" = "फ़ोटो में सहेजें";
+"export.copyToClipboard" = "क्लिपबोर्ड पर कॉपी करें";
+"export.shareToInstagram" = "Instagram पर शेयर करें";
+"export.options" = "निर्यात विकल्प";
+"export.success" = "निर्यात सफल";
+"export.failed" = "निर्यात विफल";
+"export.inProgress" = "निर्यात जारी...";
+"export.quality" = "गुणवत्ता";
+"export.format" = "प्रारूप";
+
+// MARK: - Alerts
+"alert.error" = "त्रुटि";
+"alert.success" = "सफल";
+"alert.warning" = "चेतावनी";
+"alert.confirm" = "पुष्टि करें";
+"alert.cancel" = "रद्द करें";
+"alert.delete" = "हटाएं";
+"alert.save" = "सहेजें";
+"alert.deleteConfirmation" = "क्या आप वाकई इसे हटाना चाहते हैं?";
+"alert.unsavedChanges" = "असहेजे परिवर्तन";
+"alert.networkError" = "नेटवर्क त्रुटि";
+"alert.tryAgain" = "पुनः प्रयास करें";
+
+// MARK: - Settings
+"settings.appearance" = "दिखावट";
+"settings.notifications" = "सूचनाएं";
+"settings.language" = "भाषा";
+"settings.feedback" = "फ़ीडबैक भेजें";
+"settings.about" = "के बारे में";
+"settings.version" = "संस्करण %@";
+"settings.darkMode" = "डार्क मोड";
+"settings.lightMode" = "लाइट मोड";
+"settings.systemMode" = "सिस्टम मोड";
+"settings.privacyPolicy" = "गोपनीयता नीति";
+"settings.termsOfService" = "सेवा की शर्तें";
+"settings.rateApp" = "ऐप को रेट करें";
+"settings.shareApp" = "ऐप शेयर करें";
+"settings.logout" = "लॉग आउट"; 

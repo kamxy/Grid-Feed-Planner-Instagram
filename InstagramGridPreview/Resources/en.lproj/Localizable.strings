@@ -1,0 +1,77 @@
+// MARK: - Navigation
+"grid.title" = "Grid";
+"calendar.title" = "Calendar";
+"settings.title" = "Settings";
+
+// MARK: - Grid
+"grid.addPhotos" = "Add Photos";
+"grid.edit" = "Edit";
+"grid.deleteSelected" = "Delete Selected";
+"grid.selectAll" = "Select All";
+"grid.deselectAll" = "Deselect All";
+"grid.noPhotos.message" = "No Photos Yet";
+"grid.noPhotos.description" = "Tap the + button to add photos to your grid";
+"grid.image" = "Grid Image";
+"grid.selected" = "Selected";
+
+// MARK: - Image Editor
+"editor.title" = "Edit Photo";
+"editor.applyFilter" = "Apply Filter";
+"editor.adjustments" = "Adjustments";
+"editor.brightness" = "Brightness";
+"editor.contrast" = "Contrast";
+"editor.saturation" = "Saturation";
+"editor.saveChanges" = "Save";
+"editor.discardChanges" = "Cancel";
+
+// MARK: - Scheduling
+"schedule.post" = "Schedule Post";
+"schedule.saveDraft" = "Save as Draft";
+"schedule.addCaption" = "Add a caption...";
+"schedule.addHashtags" = "Add hashtags";
+"schedule.selectDate" = "Select Date";
+"schedule.notifications" = "Notifications";
+"schedule.scheduledFor" = "Scheduled for %@";
+"schedule.draft" = "Draft";
+
+// MARK: - Export
+"export.grid" = "Export Grid";
+"export.saveToPhotos" = "Save to Photos";
+"export.copyToClipboard" = "Copy to Clipboard";
+"export.shareToInstagram" = "Share to Instagram";
+"export.options" = "Export Options";
+"export.success" = "Export Successful";
+"export.failed" = "Export Failed";
+
+// MARK: - Alerts
+"alert.error" = "Error";
+"alert.success" = "Success";
+"alert.warning" = "Warning";
+"alert.confirm" = "Confirm";
+"alert.cancel" = "Cancel";
+"alert.delete" = "Delete";
+"alert.save" = "Save";
+"alert.ok" = "OK";
+"alert.done" = "Done";
+
+// MARK: - Settings
+"settings.appearance" = "Appearance";
+"settings.notifications" = "Notifications";
+"settings.language" = "Language";
+"settings.languageChangeRestart" = "Please restart the app for the language change to take effect";
+"settings.feedback" = "Send Feedback";
+"settings.about" = "About";
+"settings.version" = "Version %@";
+"settings.gridLayout" = "Grid Layout";
+"settings.columns" = "Columns";
+"settings.gridSpacing" = "Grid Spacing";
+"settings.spacing" = "Spacing";
+"settings.gridStyle" = "Grid Style";
+"settings.backgroundColor" = "Background Color";
+"settings.borderWidth" = "Border Width";
+"settings.borderColor" = "Border Color";
+"settings.padding" = "Padding";
+"settings.previewGrid" = "Preview Grid";
+"settings.gridSettings" = "Grid Settings";
+"settings.apply" = "Apply";
+"settings.gridPreview" = "Grid Preview"; 

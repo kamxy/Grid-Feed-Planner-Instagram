@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "الشبكة";
+"calendar.title" = "التقويم";
+"settings.title" = "الإعدادات";
+
+// MARK: - Grid
+"grid.addPhotos" = "إضافة صور";
+"grid.edit" = "تعديل";
+"grid.deleteSelected" = "حذف المحدد";
+"grid.selectAll" = "تحديد الكل";
+"grid.deselectAll" = "إلغاء تحديد الكل";
+"grid.noPhotos.message" = "لا توجد صور";
+"grid.noPhotos.description" = "انقر على زر + لإضافة صور إلى الشبكة";
+
+// MARK: - Image Editor
+"editor.title" = "تعديل الصورة";
+"editor.applyFilter" = "تطبيق الفلتر";
+"editor.adjustments" = "التعديلات";
+"editor.brightness" = "السطوع";
+"editor.contrast" = "التباين";
+"editor.saturation" = "التشبع";
+"editor.saveChanges" = "حفظ";
+"editor.discardChanges" = "إلغاء";
+
+// MARK: - Scheduling
+"schedule.post" = "جدولة المنشور";
+"schedule.saveDraft" = "حفظ كمسودة";
+"schedule.addCaption" = "إضافة تعليق...";
+"schedule.addHashtags" = "إضافة هاشتاج";
+"schedule.selectDate" = "اختيار التاريخ";
+"schedule.notifications" = "الإشعارات";
+"schedule.scheduledFor" = "مجدول في %@";
+"schedule.draft" = "مسودة";
+"schedule.postDetails" = "تفاصيل المنشور";
+"schedule.options" = "خيارات الجدولة";
+"schedule.reminder" = "تذكير";
+"schedule.preview" = "معاينة";
+
+// MARK: - Export
+"export.grid" = "تصدير الشبكة";
+"export.saveToPhotos" = "حفظ في الصور";
+"export.copyToClipboard" = "نسخ إلى الحافظة";
+"export.shareToInstagram" = "مشاركة على انستجرام";
+"export.options" = "خيارات التصدير";
+"export.success" = "تم التصدير بنجاح";
+"export.failed" = "فشل التصدير";
+"export.inProgress" = "جاري التصدير...";
+"export.quality" = "الجودة";
+"export.format" = "الصيغة";
+
+// MARK: - Alerts
+"alert.error" = "خطأ";
+"alert.success" = "نجاح";
+"alert.warning" = "تحذير";
+"alert.confirm" = "تأكيد";
+"alert.cancel" = "إلغاء";
+"alert.delete" = "حذف";
+"alert.save" = "حفظ";
+"alert.deleteConfirmation" = "هل أنت متأكد من أنك تريد الحذف؟";
+"alert.unsavedChanges" = "تغييرات غير محفوظة";
+"alert.networkError" = "خطأ في الشبكة";
+"alert.tryAgain" = "حاول مرة أخرى";
+
+// MARK: - Settings
+"settings.appearance" = "المظهر";
+"settings.notifications" = "الإشعارات";
+"settings.language" = "اللغة";
+"settings.feedback" = "إرسال ملاحظات";
+"settings.about" = "حول";
+"settings.version" = "الإصدار %@";
+"settings.darkMode" = "الوضع الداكن";
+"settings.lightMode" = "الوضع الفاتح";
+"settings.systemMode" = "وضع النظام";
+"settings.privacyPolicy" = "سياسة الخصوصية";
+"settings.termsOfService" = "شروط الخدمة";
+"settings.rateApp" = "تقييم التطبيق";
+"settings.shareApp" = "مشاركة التطبيق";
+"settings.logout" = "تسجيل الخروج"; 

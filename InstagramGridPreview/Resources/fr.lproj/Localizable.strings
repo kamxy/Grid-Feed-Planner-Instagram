@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "Grille";
+"calendar.title" = "Calendrier";
+"settings.title" = "Paramètres";
+
+// MARK: - Grid
+"grid.addPhotos" = "Ajouter des photos";
+"grid.edit" = "Modifier";
+"grid.deleteSelected" = "Supprimer la sélection";
+"grid.selectAll" = "Tout sélectionner";
+"grid.deselectAll" = "Tout désélectionner";
+"grid.noPhotos.message" = "Aucune photo";
+"grid.noPhotos.description" = "Appuyez sur le bouton + pour ajouter des photos à la grille";
+
+// MARK: - Image Editor
+"editor.title" = "Modifier la photo";
+"editor.applyFilter" = "Appliquer un filtre";
+"editor.adjustments" = "Ajustements";
+"editor.brightness" = "Luminosité";
+"editor.contrast" = "Contraste";
+"editor.saturation" = "Saturation";
+"editor.saveChanges" = "Enregistrer";
+"editor.discardChanges" = "Annuler";
+
+// MARK: - Scheduling
+"schedule.post" = "Planifier la publication";
+"schedule.saveDraft" = "Enregistrer comme brouillon";
+"schedule.addCaption" = "Ajouter une légende...";
+"schedule.addHashtags" = "Ajouter des hashtags";
+"schedule.selectDate" = "Sélectionner la date";
+"schedule.notifications" = "Notifications";
+"schedule.scheduledFor" = "Planifié pour %@";
+"schedule.draft" = "Brouillon";
+"schedule.postDetails" = "Détails de la publication";
+"schedule.options" = "Options de planification";
+"schedule.reminder" = "Rappel";
+"schedule.preview" = "Aperçu";
+
+// MARK: - Export
+"export.grid" = "Exporter la grille";
+"export.saveToPhotos" = "Enregistrer dans Photos";
+"export.copyToClipboard" = "Copier dans le presse-papiers";
+"export.shareToInstagram" = "Partager sur Instagram";
+"export.options" = "Options d'exportation";
+"export.success" = "Exportation réussie";
+"export.failed" = "Échec de l'exportation";
+"export.inProgress" = "Exportation en cours...";
+"export.quality" = "Qualité";
+"export.format" = "Format";
+
+// MARK: - Alerts
+"alert.error" = "Erreur";
+"alert.success" = "Succès";
+"alert.warning" = "Avertissement";
+"alert.confirm" = "Confirmer";
+"alert.cancel" = "Annuler";
+"alert.delete" = "Supprimer";
+"alert.save" = "Enregistrer";
+"alert.deleteConfirmation" = "Êtes-vous sûr de vouloir supprimer ?";
+"alert.unsavedChanges" = "Modifications non enregistrées";
+"alert.networkError" = "Erreur réseau";
+"alert.tryAgain" = "Réessayer";
+
+// MARK: - Settings
+"settings.appearance" = "Apparence";
+"settings.notifications" = "Notifications";
+"settings.language" = "Langue";
+"settings.feedback" = "Envoyer un commentaire";
+"settings.about" = "À propos";
+"settings.version" = "Version %@";
+"settings.darkMode" = "Mode sombre";
+"settings.lightMode" = "Mode clair";
+"settings.systemMode" = "Mode système";
+"settings.privacyPolicy" = "Politique de confidentialité";
+"settings.termsOfService" = "Conditions d'utilisation";
+"settings.rateApp" = "Évaluer l'app";
+"settings.shareApp" = "Partager l'app";
+"settings.logout" = "Déconnexion"; 

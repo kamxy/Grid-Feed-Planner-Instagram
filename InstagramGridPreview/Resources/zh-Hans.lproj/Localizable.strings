@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "网格";
+"calendar.title" = "日历";
+"settings.title" = "设置";
+
+// MARK: - Grid
+"grid.addPhotos" = "添加照片";
+"grid.edit" = "编辑";
+"grid.deleteSelected" = "删除所选";
+"grid.selectAll" = "全选";
+"grid.deselectAll" = "取消全选";
+"grid.noPhotos.message" = "暂无照片";
+"grid.noPhotos.description" = "点击 + 按钮添加照片到网格";
+
+// MARK: - Image Editor
+"editor.title" = "编辑照片";
+"editor.applyFilter" = "应用滤镜";
+"editor.adjustments" = "调整";
+"editor.brightness" = "亮度";
+"editor.contrast" = "对比度";
+"editor.saturation" = "饱和度";
+"editor.saveChanges" = "保存";
+"editor.discardChanges" = "取消";
+
+// MARK: - Scheduling
+"schedule.post" = "定时发布";
+"schedule.saveDraft" = "保存草稿";
+"schedule.addCaption" = "添加说明...";
+"schedule.addHashtags" = "添加标签";
+"schedule.selectDate" = "选择日期";
+"schedule.notifications" = "通知";
+"schedule.scheduledFor" = "计划发布于 %@";
+"schedule.draft" = "草稿";
+"schedule.postDetails" = "帖子详情";
+"schedule.options" = "发布选项";
+"schedule.reminder" = "提醒";
+"schedule.preview" = "预览";
+
+// MARK: - Export
+"export.grid" = "导出网格";
+"export.saveToPhotos" = "保存到照片";
+"export.copyToClipboard" = "复制到剪贴板";
+"export.shareToInstagram" = "分享到 Instagram";
+"export.options" = "导出选项";
+"export.success" = "导出成功";
+"export.failed" = "导出失败";
+"export.inProgress" = "导出中...";
+"export.quality" = "质量";
+"export.format" = "格式";
+
+// MARK: - Alerts
+"alert.error" = "错误";
+"alert.success" = "成功";
+"alert.warning" = "警告";
+"alert.confirm" = "确认";
+"alert.cancel" = "取消";
+"alert.delete" = "删除";
+"alert.save" = "保存";
+"alert.deleteConfirmation" = "确定要删除吗？";
+"alert.unsavedChanges" = "有未保存的更改";
+"alert.networkError" = "网络错误";
+"alert.tryAgain" = "重试";
+
+// MARK: - Settings
+"settings.appearance" = "外观";
+"settings.notifications" = "通知";
+"settings.language" = "语言";
+"settings.feedback" = "发送反馈";
+"settings.about" = "关于";
+"settings.version" = "版本 %@";
+"settings.darkMode" = "深色模式";
+"settings.lightMode" = "浅色模式";
+"settings.systemMode" = "跟随系统";
+"settings.privacyPolicy" = "隐私政策";
+"settings.termsOfService" = "服务条款";
+"settings.rateApp" = "评价应用";
+"settings.shareApp" = "分享应用";
+"settings.logout" = "退出登录"; 

@@ -75,13 +75,18 @@ final class CloudKitService {
         
         // Save image assets
         let imageAssets = try post.imageIds.enumerated().map { index, imageId -> CKAsset in
-            guard let image = loadImage(withId: imageId),
-                  let imageURL = saveImageTemporarily(image, withName: "\(post.id)-\(index).jpg"),
-                  FileManager.default.fileExists(atPath: imageURL.path)
+            guard let image = loadImage(withId: imageId) else {
+                throw CloudKitError.invalidRecord
+            }
+            
+            let tempURL = saveImageTemporarily(image, withName: "\(post.id)-\(index).jpg")
+            guard let finalURL = tempURL,
+                  FileManager.default.fileExists(atPath: finalURL.path)
             else {
                 throw CloudKitError.invalidRecord
             }
-            return CKAsset(fileURL: imageURL)
+            
+            return CKAsset(fileURL: finalURL)
         }
         
         record["imageAssets"] = imageAssets
@@ -112,7 +117,7 @@ final class CloudKitService {
         
         // Save images and get their IDs
         let imageIds = try assets.enumerated().map { index, asset -> String in
-            guard let imageData = try? Data(contentsOf: asset.fileURL),
+            guard let imageData = try? Data(contentsOf: asset.fileURL!),
                   let image = UIImage(data: imageData)
             else {
                 throw CloudKitError.invalidRecord

@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "Сетка";
+"calendar.title" = "Календарь";
+"settings.title" = "Настройки";
+
+// MARK: - Grid
+"grid.addPhotos" = "Добавить фото";
+"grid.edit" = "Редактировать";
+"grid.deleteSelected" = "Удалить выбранное";
+"grid.selectAll" = "Выбрать все";
+"grid.deselectAll" = "Отменить выбор";
+"grid.noPhotos.message" = "Нет фотографий";
+"grid.noPhotos.description" = "Нажмите кнопку + чтобы добавить фото в сетку";
+
+// MARK: - Image Editor
+"editor.title" = "Редактировать фото";
+"editor.applyFilter" = "Применить фильтр";
+"editor.adjustments" = "Настройки";
+"editor.brightness" = "Яркость";
+"editor.contrast" = "Контраст";
+"editor.saturation" = "Насыщенность";
+"editor.saveChanges" = "Сохранить";
+"editor.discardChanges" = "Отменить";
+
+// MARK: - Scheduling
+"schedule.post" = "Запланировать публикацию";
+"schedule.saveDraft" = "Сохранить черновик";
+"schedule.addCaption" = "Добавить подпись...";
+"schedule.addHashtags" = "Добавить хэштеги";
+"schedule.selectDate" = "Выбрать дату";
+"schedule.notifications" = "Уведомления";
+"schedule.scheduledFor" = "Запланировано на %@";
+"schedule.draft" = "Черновик";
+"schedule.postDetails" = "Детали публикации";
+"schedule.options" = "Параметры планирования";
+"schedule.reminder" = "Напоминание";
+"schedule.preview" = "Предпросмотр";
+
+// MARK: - Export
+"export.grid" = "Экспорт сетки";
+"export.saveToPhotos" = "Сохранить в фото";
+"export.copyToClipboard" = "Копировать в буфер";
+"export.shareToInstagram" = "Поделиться в Instagram";
+"export.options" = "Параметры экспорта";
+"export.success" = "Экспорт выполнен";
+"export.failed" = "Ошибка экспорта";
+"export.inProgress" = "Экспорт...";
+"export.quality" = "Качество";
+"export.format" = "Формат";
+
+// MARK: - Alerts
+"alert.error" = "Ошибка";
+"alert.success" = "Успешно";
+"alert.warning" = "Предупреждение";
+"alert.confirm" = "Подтвердить";
+"alert.cancel" = "Отмена";
+"alert.delete" = "Удалить";
+"alert.save" = "Сохранить";
+"alert.deleteConfirmation" = "Вы уверены, что хотите удалить?";
+"alert.unsavedChanges" = "Несохраненные изменения";
+"alert.networkError" = "Ошибка сети";
+"alert.tryAgain" = "Повторить";
+
+// MARK: - Settings
+"settings.appearance" = "Внешний вид";
+"settings.notifications" = "Уведомления";
+"settings.language" = "Язык";
+"settings.feedback" = "Отправить отзыв";
+"settings.about" = "О приложении";
+"settings.version" = "Версия %@";
+"settings.darkMode" = "Темная тема";
+"settings.lightMode" = "Светлая тема";
+"settings.systemMode" = "Системная тема";
+"settings.privacyPolicy" = "Политика конфиденциальности";
+"settings.termsOfService" = "Условия использования";
+"settings.rateApp" = "Оценить приложение";
+"settings.shareApp" = "Поделиться приложением";
+"settings.logout" = "Выйти"; 

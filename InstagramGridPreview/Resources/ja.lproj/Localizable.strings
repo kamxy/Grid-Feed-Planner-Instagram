@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "グリッド";
+"calendar.title" = "カレンダー";
+"settings.title" = "設定";
+
+// MARK: - Grid
+"grid.addPhotos" = "写真を追加";
+"grid.edit" = "編集";
+"grid.deleteSelected" = "選択項目を削除";
+"grid.selectAll" = "すべて選択";
+"grid.deselectAll" = "選択解除";
+"grid.noPhotos.message" = "写真がありません";
+"grid.noPhotos.description" = "+ボタンをタップして写真を追加";
+
+// MARK: - Image Editor
+"editor.title" = "写真を編集";
+"editor.applyFilter" = "フィルターを適用";
+"editor.adjustments" = "調整";
+"editor.brightness" = "明るさ";
+"editor.contrast" = "コントラスト";
+"editor.saturation" = "彩度";
+"editor.saveChanges" = "保存";
+"editor.discardChanges" = "キャンセル";
+
+// MARK: - Scheduling
+"schedule.post" = "投稿を予約";
+"schedule.saveDraft" = "下書きとして保存";
+"schedule.addCaption" = "キャプションを追加...";
+"schedule.addHashtags" = "ハッシュタグを追加";
+"schedule.selectDate" = "日付を選択";
+"schedule.notifications" = "通知";
+"schedule.scheduledFor" = "%@に予約済み";
+"schedule.draft" = "下書き";
+"schedule.postDetails" = "投稿の詳細";
+"schedule.options" = "予約オプション";
+"schedule.reminder" = "リマインダー";
+"schedule.preview" = "プレビュー";
+
+// MARK: - Export
+"export.grid" = "グリッドをエクスポート";
+"export.saveToPhotos" = "写真に保存";
+"export.copyToClipboard" = "クリップボードにコピー";
+"export.shareToInstagram" = "Instagramで共有";
+"export.options" = "エクスポートオプション";
+"export.success" = "エクスポート完了";
+"export.failed" = "エクスポート失敗";
+"export.inProgress" = "エクスポート中...";
+"export.quality" = "品質";
+"export.format" = "フォーマット";
+
+// MARK: - Alerts
+"alert.error" = "エラー";
+"alert.success" = "成功";
+"alert.warning" = "警告";
+"alert.confirm" = "確認";
+"alert.cancel" = "キャンセル";
+"alert.delete" = "削除";
+"alert.save" = "保存";
+"alert.deleteConfirmation" = "本当に削除しますか？";
+"alert.unsavedChanges" = "保存されていない変更があります";
+"alert.networkError" = "ネットワークエラー";
+"alert.tryAgain" = "再試行";
+
+// MARK: - Settings
+"settings.appearance" = "外観";
+"settings.notifications" = "通知";
+"settings.language" = "言語";
+"settings.feedback" = "フィードバックを送信";
+"settings.about" = "アプリについて";
+"settings.version" = "バージョン %@";
+"settings.darkMode" = "ダークモード";
+"settings.lightMode" = "ライトモード";
+"settings.systemMode" = "システム設定に従う";
+"settings.privacyPolicy" = "プライバシーポリシー";
+"settings.termsOfService" = "利用規約";
+"settings.rateApp" = "アプリを評価";
+"settings.shareApp" = "アプリを共有";
+"settings.logout" = "ログアウト"; 

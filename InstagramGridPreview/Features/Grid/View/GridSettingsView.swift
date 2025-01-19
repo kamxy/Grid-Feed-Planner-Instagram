@@ -16,17 +16,17 @@ struct GridSettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Grid Layout") {
-                    Picker("Columns", selection: $gridColumns) {
+                Section("settings.gridLayout".localized) {
+                    Picker("settings.columns".localized, selection: $gridColumns) {
                         Text("3 x 3").tag(3)
                         Text("4 x 4").tag(4)
                     }
                     .pickerStyle(.segmented)
                 }
                 
-                Section("Grid Spacing") {
+                Section("settings.gridSpacing".localized) {
                     Slider(value: $gridSpacing, in: 0...10, step: 1) {
-                        Text("Spacing")
+                        Text("settings.spacing".localized)
                     } minimumValueLabel: {
                         Text("0")
                     } maximumValueLabel: {
@@ -34,41 +34,41 @@ struct GridSettingsView: View {
                     }
                 }
                 
-                Section("Grid Style") {
-                    ColorPicker("Background Color", selection: $backgroundColor)
+                Section("settings.gridStyle".localized) {
+                    ColorPicker("settings.backgroundColor".localized, selection: $backgroundColor)
                     
                     VStack(alignment: .leading) {
-                        Text("Border Width")
+                        Text("settings.borderWidth".localized)
                         Slider(value: $borderWidth, in: 0...5, step: 0.5)
                     }
                     
                     if borderWidth > 0 {
-                        ColorPicker("Border Color", selection: $borderColor)
+                        ColorPicker("settings.borderColor".localized, selection: $borderColor)
                     }
                     
                     VStack(alignment: .leading) {
-                        Text("Padding")
+                        Text("settings.padding".localized)
                         Slider(value: $padding, in: 0...20, step: 1)
                     }
                 }
                 
                 Section {
-                    Button("Preview Grid") {
+                    Button("settings.previewGrid".localized) {
                         showPreview = true
                     }
                 }
             }
-            .navigationTitle("Grid Settings")
+            .navigationTitle("settings.gridSettings".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button("alert.cancel".localized) {
                         dismiss()
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Apply") {
+                    Button("settings.apply".localized) {
                         let options = GridExportService.ExportOptions(
                             spacing: gridSpacing,
                             backgroundColor: UIColor(backgroundColor),
@@ -92,11 +92,11 @@ struct GridSettingsView: View {
                         borderColor: borderColor,
                         padding: padding
                     )
-                    .navigationTitle("Grid Preview")
+                    .navigationTitle("settings.gridPreview".localized)
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Done") {
+                            Button("alert.done".localized) {
                                 showPreview = false
                             }
                         }

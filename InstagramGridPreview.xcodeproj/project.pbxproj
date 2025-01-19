@@ -176,6 +176,16 @@
 				en,
 				Base,
 				tr,
+				es,
+				"zh-Hans",
+				hi,
+				ar,
+				pt,
+				ja,
+				fr,
+				de,
+				ru,
+				bn,
 			);
 			mainGroup = BBC03DD82C8FAC2D004688A4;
 			productRefGroup = BBC03DE22C8FAC2E004688A4 /* Products */;

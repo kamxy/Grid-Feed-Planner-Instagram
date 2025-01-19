@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "Raster";
+"calendar.title" = "Kalender";
+"settings.title" = "Einstellungen";
+
+// MARK: - Grid
+"grid.addPhotos" = "Fotos hinzufügen";
+"grid.edit" = "Bearbeiten";
+"grid.deleteSelected" = "Ausgewählte löschen";
+"grid.selectAll" = "Alle auswählen";
+"grid.deselectAll" = "Alle abwählen";
+"grid.noPhotos.message" = "Keine Fotos";
+"grid.noPhotos.description" = "Tippen Sie auf +, um Fotos zum Raster hinzuzufügen";
+
+// MARK: - Image Editor
+"editor.title" = "Foto bearbeiten";
+"editor.applyFilter" = "Filter anwenden";
+"editor.adjustments" = "Anpassungen";
+"editor.brightness" = "Helligkeit";
+"editor.contrast" = "Kontrast";
+"editor.saturation" = "Sättigung";
+"editor.saveChanges" = "Speichern";
+"editor.discardChanges" = "Abbrechen";
+
+// MARK: - Scheduling
+"schedule.post" = "Beitrag planen";
+"schedule.saveDraft" = "Als Entwurf speichern";
+"schedule.addCaption" = "Beschreibung hinzufügen...";
+"schedule.addHashtags" = "Hashtags hinzufügen";
+"schedule.selectDate" = "Datum auswählen";
+"schedule.notifications" = "Benachrichtigungen";
+"schedule.scheduledFor" = "Geplant für %@";
+"schedule.draft" = "Entwurf";
+"schedule.postDetails" = "Beitragsdetails";
+"schedule.options" = "Planungsoptionen";
+"schedule.reminder" = "Erinnerung";
+"schedule.preview" = "Vorschau";
+
+// MARK: - Export
+"export.grid" = "Raster exportieren";
+"export.saveToPhotos" = "In Fotos speichern";
+"export.copyToClipboard" = "In Zwischenablage kopieren";
+"export.shareToInstagram" = "Auf Instagram teilen";
+"export.options" = "Exportoptionen";
+"export.success" = "Export erfolgreich";
+"export.failed" = "Export fehlgeschlagen";
+"export.inProgress" = "Exportiere...";
+"export.quality" = "Qualität";
+"export.format" = "Format";
+
+// MARK: - Alerts
+"alert.error" = "Fehler";
+"alert.success" = "Erfolg";
+"alert.warning" = "Warnung";
+"alert.confirm" = "Bestätigen";
+"alert.cancel" = "Abbrechen";
+"alert.delete" = "Löschen";
+"alert.save" = "Speichern";
+"alert.deleteConfirmation" = "Möchten Sie das wirklich löschen?";
+"alert.unsavedChanges" = "Ungespeicherte Änderungen";
+"alert.networkError" = "Netzwerkfehler";
+"alert.tryAgain" = "Erneut versuchen";
+
+// MARK: - Settings
+"settings.appearance" = "Erscheinungsbild";
+"settings.notifications" = "Benachrichtigungen";
+"settings.language" = "Sprache";
+"settings.feedback" = "Feedback senden";
+"settings.about" = "Über";
+"settings.version" = "Version %@";
+"settings.darkMode" = "Dunkelmodus";
+"settings.lightMode" = "Hellmodus";
+"settings.systemMode" = "Systemmodus";
+"settings.privacyPolicy" = "Datenschutzerklärung";
+"settings.termsOfService" = "Nutzungsbedingungen";
+"settings.rateApp" = "App bewerten";
+"settings.shareApp" = "App teilen";
+"settings.logout" = "Abmelden"; 

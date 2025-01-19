@@ -1,0 +1,78 @@
+// MARK: - Navigation
+"grid.title" = "Grade";
+"calendar.title" = "Calendário";
+"settings.title" = "Configurações";
+
+// MARK: - Grid
+"grid.addPhotos" = "Adicionar Fotos";
+"grid.edit" = "Editar";
+"grid.deleteSelected" = "Excluir Selecionados";
+"grid.selectAll" = "Selecionar Tudo";
+"grid.deselectAll" = "Desmarcar Tudo";
+"grid.noPhotos.message" = "Sem Fotos";
+"grid.noPhotos.description" = "Toque no botão + para adicionar fotos à grade";
+
+// MARK: - Image Editor
+"editor.title" = "Editar Foto";
+"editor.applyFilter" = "Aplicar Filtro";
+"editor.adjustments" = "Ajustes";
+"editor.brightness" = "Brilho";
+"editor.contrast" = "Contraste";
+"editor.saturation" = "Saturação";
+"editor.saveChanges" = "Salvar";
+"editor.discardChanges" = "Cancelar";
+
+// MARK: - Scheduling
+"schedule.post" = "Agendar Publicação";
+"schedule.saveDraft" = "Salvar como Rascunho";
+"schedule.addCaption" = "Adicionar legenda...";
+"schedule.addHashtags" = "Adicionar hashtags";
+"schedule.selectDate" = "Selecionar Data";
+"schedule.notifications" = "Notificações";
+"schedule.scheduledFor" = "Agendado para %@";
+"schedule.draft" = "Rascunho";
+"schedule.postDetails" = "Detalhes da Publicação";
+"schedule.options" = "Opções de Agendamento";
+"schedule.reminder" = "Lembrete";
+"schedule.preview" = "Visualizar";
+
+// MARK: - Export
+"export.grid" = "Exportar Grade";
+"export.saveToPhotos" = "Salvar em Fotos";
+"export.copyToClipboard" = "Copiar para Área de Transferência";
+"export.shareToInstagram" = "Compartilhar no Instagram";
+"export.options" = "Opções de Exportação";
+"export.success" = "Exportação Concluída";
+"export.failed" = "Falha na Exportação";
+"export.inProgress" = "Exportando...";
+"export.quality" = "Qualidade";
+"export.format" = "Formato";
+
+// MARK: - Alerts
+"alert.error" = "Erro";
+"alert.success" = "Sucesso";
+"alert.warning" = "Aviso";
+"alert.confirm" = "Confirmar";
+"alert.cancel" = "Cancelar";
+"alert.delete" = "Excluir";
+"alert.save" = "Salvar";
+"alert.deleteConfirmation" = "Tem certeza que deseja excluir?";
+"alert.unsavedChanges" = "Alterações não salvas";
+"alert.networkError" = "Erro de rede";
+"alert.tryAgain" = "Tentar novamente";
+
+// MARK: - Settings
+"settings.appearance" = "Aparência";
+"settings.notifications" = "Notificações";
+"settings.language" = "Idioma";
+"settings.feedback" = "Enviar Feedback";
+"settings.about" = "Sobre";
+"settings.version" = "Versão %@";
+"settings.darkMode" = "Modo Escuro";
+"settings.lightMode" = "Modo Claro";
+"settings.systemMode" = "Modo do Sistema";
+"settings.privacyPolicy" = "Política de Privacidade";
+"settings.termsOfService" = "Termos de Serviço";
+"settings.rateApp" = "Avaliar App";
+"settings.shareApp" = "Compartilhar App";
+"settings.logout" = "Sair"; 
