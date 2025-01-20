@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UIKit
 
 enum Language: String, CaseIterable, Identifiable {
     case english = "en"
@@ -37,19 +38,25 @@ enum Language: String, CaseIterable, Identifiable {
     }
 }
 
+@MainActor
 final class LanguageManager: ObservableObject {
     static let shared = LanguageManager()
     
-    @Published private(set) var currentLanguage: Language
-    @Published private(set) var needsRestart = false
+    @Published private(set) var currentLanguage: Language {
+        didSet {
+            UserDefaults.standard.set(currentLanguage.rawValue, forKey: languageKey)
+            applyLanguage(currentLanguage)
+        }
+    }
+    
+    @Published var needsRestart = false
     
     private let defaults = UserDefaults.standard
     private let languageKey = "app_language"
     
     private init() {
         if let savedLanguage = defaults.string(forKey: languageKey),
-           let language = Language(rawValue: savedLanguage)
-        {
+           let language = Language(rawValue: savedLanguage) {
             currentLanguage = language
         } else {
             // Use device language or fallback to English
@@ -63,55 +70,60 @@ final class LanguageManager: ObservableObject {
     
     func setLanguage(_ language: Language) {
         guard language != currentLanguage else { return }
-        
         currentLanguage = language
-        defaults.set(language.rawValue, forKey: languageKey)
-        defaults.synchronize()
-        
-        applyLanguage(language)
         needsRestart = true
         
+        // Reset the bundle to force new language to take effect
+        Bundle.main.localizations
+        UserDefaults.standard.set([language.rawValue], forKey: "AppleLanguages")
+        UserDefaults.standard.synchronize()
+        
         // Post notification for views to refresh
-        NotificationCenter.default.post(name: NSNotification.Name("LanguageDidChange"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name("LanguageChanged"), object: nil)
+        
+        // Force UI to update
+        restartApp()
     }
     
     private func applyLanguage(_ language: Language) {
         // Set app-wide language
         UserDefaults.standard.set([language.rawValue], forKey: "AppleLanguages")
-        UserDefaults.standard.set(language.rawValue, forKey: "AppleLocale")
         UserDefaults.standard.synchronize()
         
         // Update semantic content attribute for RTL support
-        UIView.appearance().semanticContentAttribute = language.isRTL ? .forceRightToLeft : .forceLeftToRight
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            windowScene.windows.forEach { window in
+                window.semanticContentAttribute = language.isRTL ? .forceRightToLeft : .forceLeftToRight
+            }
+        }
+    }
+    
+    private func restartApp() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return }
         
-        // Force update the bundle
-        Bundle.main.forceLoadLocalizableBundle()
+        // Create a new instance of the root view
+        let newRootView = RootContainerView()
+            .environment(\.layoutDirection, currentLanguage.isRTL ? .rightToLeft : .leftToRight)
+        
+        // Replace the root view controller
+        window.rootViewController = UIHostingController(rootView: newRootView)
+        
+        // Animate the transition
+        UIView.transition(with: window,
+                         duration: 0.3,
+                         options: .transitionCrossDissolve,
+                         animations: nil,
+                         completion: nil)
     }
     
     // Helper method to get localized string with current language
     func localizedString(for key: String) -> String {
-        let languagePath = Bundle.main.path(forResource: currentLanguage.rawValue, ofType: "lproj")
-        if let path = languagePath,
-           let bundle = Bundle(path: path)
-        {
-            return bundle.localizedString(forKey: key, value: nil, table: nil)
-        }
-        return NSLocalizedString(key, comment: "")
-    }
-}
-
-// Helper extension to force bundle reload
-private extension Bundle {
-    func forceLoadLocalizableBundle() {
-        guard let languagePath = Bundle.main.path(forResource: LanguageManager.shared.currentLanguage.rawValue, ofType: "lproj"),
-              let bundle = Bundle(path: languagePath) else { return }
+        let bundle = Bundle.main
+        let languagePath = bundle.path(forResource: currentLanguage.rawValue, ofType: "lproj")
+        let languageBundle = languagePath.flatMap(Bundle.init)
         
-        if let stringsPath = bundle.path(forResource: "Localizable", ofType: "strings") {
-            let languageCode = URL(fileURLWithPath: stringsPath)
-                .deletingLastPathComponent()
-                .lastPathComponent
-            UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
-            UserDefaults.standard.synchronize()
-        }
+        return languageBundle?.localizedString(forKey: key, value: nil, table: nil)
+            ?? bundle.localizedString(forKey: key, value: nil, table: nil)
     }
 }

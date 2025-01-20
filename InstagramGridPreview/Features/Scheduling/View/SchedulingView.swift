@@ -14,8 +14,10 @@ struct SchedulingView: View {
         VStack(spacing: 0) {
             // Tab Selector
             Picker("View", selection: $selectedTab) {
-                Text("schedule.post".localized).tag(0)
-                Text("schedule.drafts".localized + " (\(viewModel.drafts.count))").tag(1)
+                Text("schedule.post".localized)
+                    .tag(0)
+                Text(String(format: "%@ (%d)", "schedule.drafts".localized, viewModel.drafts.count))
+                    .tag(1)
             }
             .pickerStyle(.segmented)
             .padding()
@@ -128,7 +130,7 @@ private struct ScheduleFormView: View {
                             VStack {
                                 Image(systemName: "plus")
                                     .font(.title2)
-                                Text("Add Photo")
+                                Text("grid.addPhotos".localized)
                                     .font(.caption)
                             }
                             .frame(width: 100, height: 100)
@@ -142,7 +144,7 @@ private struct ScheduleFormView: View {
                 
                 // Caption
                 VStack(alignment: .leading) {
-                    Text("Caption")
+                    Text("schedule.addCaption".localized)
                         .font(.headline)
                     TextEditor(text: $caption)
                         .frame(height: 100)
@@ -154,7 +156,7 @@ private struct ScheduleFormView: View {
                 
                 // Hashtags
                 VStack(alignment: .leading) {
-                    Text("Hashtags")
+                    Text("schedule.addHashtags".localized)
                         .font(.headline)
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
@@ -203,7 +205,7 @@ private struct ScheduleFormView: View {
                 // Action Buttons
                 VStack(spacing: 12) {
                     Button(action: onSchedule) {
-                        Text("Schedule Post")
+                        Text("schedule.post".localized)
                             .bold()
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -213,10 +215,11 @@ private struct ScheduleFormView: View {
                     }
                     
                     Button(action: onSaveDraft) {
-                        Text("Save as Draft")
+                        Text("schedule.saveDraft".localized)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.secondary.opacity(0.1))
+                            .foregroundColor(.primary)
                             .cornerRadius(8)
                     }
                 }
@@ -300,7 +303,8 @@ private struct DraftCell: View {
             }
             
             HStack {
-                Text("Last modified: \(draft.lastModified.formatted(date: .abbreviated, time: .shortened))")
+                Text(String(format: "schedule.scheduledFor".localized, 
+                     draft.lastModified.formatted(date: .abbreviated, time: .shortened)))
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -309,7 +313,7 @@ private struct DraftCell: View {
                 Button {
                     onSchedule(draft)
                 } label: {
-                    Text("Schedule")
+                    Text("schedule.post".localized)
                         .font(.caption)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
@@ -324,7 +328,7 @@ private struct DraftCell: View {
             Button(role: .destructive) {
                 onDelete(draft)
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("alert.delete".localized, systemImage: "trash")
             }
         }
     }

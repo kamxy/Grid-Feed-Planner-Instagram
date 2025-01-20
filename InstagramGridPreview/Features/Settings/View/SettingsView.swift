@@ -4,13 +4,12 @@ struct SettingsView: View {
     @StateObject private var languageManager = LanguageManager.shared
     @AppStorage("isDarkMode") private var isDarkMode = false
     @State private var showingLanguageSelection = false
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         NavigationStack {
             Form {
-                Section("settings.appearance".localized) {
+                // Appearance Section
+                Section {
                     Toggle(isOn: $isDarkMode) {
                         Label {
                             Text("settings.darkMode".localized)
@@ -18,97 +17,58 @@ struct SettingsView: View {
                             Image(systemName: isDarkMode ? "moon.fill" : "moon")
                         }
                     }
-                    .onChange(of: isDarkMode) { newValue in
-                        setAppearance(isDark: newValue)
-                        NotificationCenter.default.post(name: NSNotification.Name("AppearanceDidChange"), object: nil)
-                    }
+                } header: {
+                    Text("settings.appearance".localized)
                 }
                 
-                Section("settings.language".localized) {
+                // Language Section
+                Section {
                     Button {
                         showingLanguageSelection = true
                     } label: {
                         HStack {
                             Label {
-                                Text(languageManager.currentLanguage.displayName)
+                                Text("settings.language".localized)
                             } icon: {
                                 Image(systemName: "globe")
                             }
                             Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.gray)
+                            Text(languageManager.currentLanguage.displayName)
+                                .foregroundColor(.secondary)
                         }
                     }
+                } header: {
+                    Text("settings.language".localized)
                 }
                 
-                Section("settings.notifications".localized) {
-                    NavigationLink {
-                        Text("Notification Settings")
-                    } label: {
-                        Label {
-                            Text("settings.notifications".localized)
-                        } icon: {
-                            Image(systemName: "bell")
-                        }
-                    }
-                }
-                
+                // About Section
                 Section {
-                    Button {
-                        // Send feedback
-                    } label: {
+                    Link(destination: URL(string: "https://example.com/privacy")!) {
                         Label {
-                            Text("settings.feedback".localized)
-                        } icon: {
-                            Image(systemName: "envelope")
-                        }
-                    }
-                    
-                    Link(destination: URL(string: "https://www.example.com/privacy")!) {
-                        Label {
-                            Text("settings.privacyPolicy".localized)
+                            Text("settings.privacy".localized)
                         } icon: {
                             Image(systemName: "hand.raised")
                         }
                     }
                     
-                    Link(destination: URL(string: "https://www.example.com/terms")!) {
+                    Link(destination: URL(string: "https://example.com/terms")!) {
                         Label {
-                            Text("settings.termsOfService".localized)
+                            Text("settings.terms".localized)
                         } icon: {
                             Image(systemName: "doc.text")
                         }
                     }
+                } header: {
+                    Text("settings.about".localized)
                 }
                 
-                Section {
-                    Button {
-                        // Rate app
-                    } label: {
-                        Label {
-                            Text("settings.rateApp".localized)
-                        } icon: {
-                            Image(systemName: "star")
-                        }
-                    }
-                    
-                    Button {
-                        // Share app
-                    } label: {
-                        Label {
-                            Text("settings.shareApp".localized)
-                        } icon: {
-                            Image(systemName: "square.and.arrow.up")
-                        }
-                    }
-                }
-                
+                // Version Section
                 Section {
                     HStack {
                         Text("settings.version".localized)
                         Spacer()
-                        Text("1.0.0")
-                            .foregroundColor(.gray)
+                        Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0")
+                            .foregroundColor(.secondary)
                     }
                 }
             }
@@ -117,17 +77,60 @@ struct SettingsView: View {
                 LanguageSelectionView()
             }
         }
-        .preferredColorScheme(isDarkMode ? .dark : .light)
-        .onAppear {
-            // Ensure the UI reflects the current dark mode setting
-            setAppearance(isDark: isDarkMode)
-        }
+    }
+}
+
+struct LanguageSelectionView: View {
+    @Environment(\.dismiss) private var dismiss
+    @StateObject private var languageManager = LanguageManager.shared
+    @State private var selectedLanguage: Language
+    @State private var showingRestartAlert = false
+    
+    init() {
+        _selectedLanguage = State(initialValue: LanguageManager.shared.currentLanguage)
     }
     
-    private func setAppearance(isDark: Bool) {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            window.overrideUserInterfaceStyle = isDark ? .dark : .light
+    var body: some View {
+        NavigationStack {
+            List(Language.allCases) { language in
+                Button {
+                    selectedLanguage = language
+                    languageManager.setLanguage(language)
+                    showingRestartAlert = true
+                } label: {
+                    HStack {
+                        Text(language.displayName)
+                            .foregroundColor(.primary)
+                        
+                        Spacer()
+                        
+                        if language == selectedLanguage {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.pink)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("settings.selectLanguage".localized)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("alert.done".localized) {
+                        if languageManager.needsRestart {
+                            showingRestartAlert = true
+                        } else {
+                            dismiss()
+                        }
+                    }
+                }
+            }
+            .alert("settings.languageChanged".localized, isPresented: $showingRestartAlert) {
+                Button("alert.ok".localized, role: .cancel) {
+                    dismiss()
+                }
+            } message: {
+                Text("settings.languageChangeEffect".localized)
+            }
         }
     }
 }

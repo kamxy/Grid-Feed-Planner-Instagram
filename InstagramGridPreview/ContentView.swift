@@ -8,23 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("isDarkMode") private var isDarkMode = false
-    
     var body: some View {
         TabView {
             GridView()
                 .tabItem {
                     Label("grid.title".localized, systemImage: "square.grid.3x3")
                 }
-            
-          
-            
+
             SettingsView()
                 .tabItem {
                     Label("settings.title".localized, systemImage: "gear")
                 }
         }
-        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 

@@ -58,7 +58,6 @@
 "settings.appearance" = "Appearance";
 "settings.notifications" = "Notifications";
 "settings.language" = "Language";
-"settings.languageChangeRestart" = "Please restart the app for the language change to take effect";
 "settings.feedback" = "Send Feedback";
 "settings.about" = "About";
 "settings.version" = "Version %@";
@@ -74,4 +73,12 @@
 "settings.previewGrid" = "Preview Grid";
 "settings.gridSettings" = "Grid Settings";
 "settings.apply" = "Apply";
-"settings.gridPreview" = "Grid Preview"; 
+"settings.gridPreview" = "Grid Preview";
+"settings.darkMode" = "Dark Mode";
+"settings.selectLanguage" = "Select Language";
+"settings.privacy" = "Privacy Policy";
+"settings.terms" = "Terms of Service";
+
+// MARK: - Language
+"settings.languageChanged" = "Language Changed";
+"settings.languageChangeEffect" = "The language has been changed. The app will now restart to apply the changes."; 
