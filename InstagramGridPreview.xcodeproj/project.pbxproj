@@ -6,6 +6,13 @@
 	objectVersion = 70;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BB9B6B282D3EA8600031A7C4 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = BB9B6B272D3EA8600031A7C4 /* RevenueCatUI */; };
+		BBB08B822D3E865C006EC60E /* ReceiptParser in Frameworks */ = {isa = PBXBuildFile; productRef = BBB08B812D3E865C006EC60E /* ReceiptParser */; };
+		BBB08B842D3E865C006EC60E /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = BBB08B832D3E865C006EC60E /* RevenueCat */; };
+		BBB08B8B2D3E8775006EC60E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB08B8A2D3E8775006EC60E /* StoreKit.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		BBC03DF72C8FAC2E004688A4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BBB08B8A2D3E8775006EC60E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		BBC03DE12C8FAC2E004688A4 /* InstagramGridPreview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramGridPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBC03DF62C8FAC2E004688A4 /* InstagramGridPreviewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramGridPreviewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBC03E002C8FAC2F004688A4 /* InstagramGridPreviewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstagramGridPreviewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,6 +48,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB9B6B282D3EA8600031A7C4 /* RevenueCatUI in Frameworks */,
+				BBB08B842D3E865C006EC60E /* RevenueCat in Frameworks */,
+				BBB08B822D3E865C006EC60E /* ReceiptParser in Frameworks */,
+				BBB08B8B2D3E8775006EC60E /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +72,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BBB08B892D3E8775006EC60E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BBB08B8A2D3E8775006EC60E /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BBC03DD82C8FAC2D004688A4 = {
 			isa = PBXGroup;
 			children = (
 				BB637B8B2D3CED0300B10D10 /* InstagramGridPreview */,
 				BB637B7C2D3CEC5F00B10D10 /* InstagramGridPreviewTests */,
 				BB637B802D3CEC6600B10D10 /* InstagramGridPreviewUITests */,
+				BBB08B892D3E8775006EC60E /* Frameworks */,
 				BBC03DE22C8FAC2E004688A4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -188,6 +209,9 @@
 				bn,
 			);
 			mainGroup = BBC03DD82C8FAC2D004688A4;
+			packageReferences = (
+				BBE1B3A52D3E771F00EF2A5D /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+			);
 			productRefGroup = BBC03DE22C8FAC2E004688A4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -560,6 +584,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BBE1B3A52D3E771F00EF2A5D /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BB9B6B272D3EA8600031A7C4 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBE1B3A52D3E771F00EF2A5D /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
+		};
+		BBB08B812D3E865C006EC60E /* ReceiptParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBE1B3A52D3E771F00EF2A5D /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = ReceiptParser;
+		};
+		BBB08B832D3E865C006EC60E /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBE1B3A52D3E771F00EF2A5D /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BBC03DD92C8FAC2D004688A4 /* Project object */;
 }

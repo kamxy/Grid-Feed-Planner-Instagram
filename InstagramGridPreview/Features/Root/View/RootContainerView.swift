@@ -25,7 +25,7 @@ struct RootContainerView: View {
              ToolbarItem(placement: .navigationBarTrailing) {
                  Button(action: {
                      onboardingCoordinator.resetOnboarding()
-                 }) {   
+                 }) {
                      Image(systemName: "arrow.counterclockwise")
                  }
              }

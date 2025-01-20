@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SchedulingView: View {
     @StateObject private var viewModel = SchedulingViewModel()
+    @StateObject private var subscriptionService = SubscriptionService.shared
     @State private var selectedImages: [UIImage] = []
     @State private var showingImagePicker = false
     @State private var showingDatePicker = false
@@ -11,74 +12,87 @@ struct SchedulingView: View {
     @State private var selectedTab = 0
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Tab Selector
-            Picker("View", selection: $selectedTab) {
-                Text("schedule.post".localized)
-                    .tag(0)
-                Text(String(format: "%@ (%d)", "schedule.drafts".localized, viewModel.drafts.count))
-                    .tag(1)
-            }
-            .pickerStyle(.segmented)
-            .padding()
-            
-            TabView(selection: $selectedTab) {
-                // Schedule Tab
-                ScheduleFormView(
-                    selectedImages: $selectedImages,
-                    showingImagePicker: $showingImagePicker,
-                    caption: $viewModel.caption,
-                    hashtags: $viewModel.hashtags,
-                    selectedDate: $viewModel.selectedDate,
-                    showingDatePicker: $showingDatePicker,
-                    showingHashtagInput: $showingHashtagInput,
-                    newHashtag: $newHashtag,
-                    onSchedule: {
-                        Task {
-                            await viewModel.schedulePost(images: selectedImages)
-                            selectedImages.removeAll()
-                        }
-                    },
-                    onSaveDraft: {
-                        Task {
-                            await viewModel.saveDraft(images: selectedImages)
-                            selectedImages.removeAll()
-                        }
+        NavigationStack {
+            Group {
+                if subscriptionService.canAccessScheduling() {
+                    // Existing scheduling content
+                    TabView {
+                        // Schedule Tab
+                        ScheduleFormView(
+                            selectedImages: $selectedImages,
+                            showingImagePicker: $showingImagePicker,
+                            caption: $viewModel.caption,
+                            hashtags: $viewModel.hashtags,
+                            selectedDate: $viewModel.selectedDate,
+                            showingDatePicker: $showingDatePicker,
+                            showingHashtagInput: $showingHashtagInput,
+                            newHashtag: $newHashtag,
+                            onSchedule: {
+                                Task {
+                                    await viewModel.schedulePost(images: selectedImages)
+                                    selectedImages.removeAll()
+                                }
+                            },
+                            onSaveDraft: {
+                                Task {
+                                    await viewModel.saveDraft(images: selectedImages)
+                                    selectedImages.removeAll()
+                                }
+                            }
+                        )
+                        .tag(0)
+                        
+                        // Drafts Tab
+                        DraftsListView(
+                            drafts: viewModel.drafts,
+                            onDelete: { draft in
+                                Task {
+                                    await viewModel.deletePost(draft)
+                                }
+                            },
+                            onSchedule: { draft in
+                                Task {
+                                    await viewModel.convertDraftToScheduled(draft)
+                                }
+                            }
+                        )
+                        .tag(1)
                     }
-                )
-                .tag(0)
-                
-                // Drafts Tab
-                DraftsListView(
-                    drafts: viewModel.drafts,
-                    onDelete: { draft in
-                        Task {
-                            await viewModel.deletePost(draft)
+                    .tabViewStyle(.page)
+                } else {
+                    // Premium feature promotion
+                    VStack(spacing: 20) {
+                        Image(systemName: "calendar.badge.clock")
+                            .font(.system(size: 60))
+                            .foregroundColor(.appPink)
+                        
+                        Text("Schedule Your Posts")
+                            .font(.title2.bold())
+                        
+                        Text("Upgrade to Premium to schedule your posts and manage drafts")
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.secondary)
+                        
+                        Button {
+                            subscriptionService.showPaywallIfNeeded(for: .scheduling)
+                        } label: {
+                            Text("Upgrade to Premium")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.appPink)
+                                .cornerRadius(10)
                         }
-                    },
-                    onSchedule: { draft in
-                        Task {
-                            await viewModel.convertDraftToScheduled(draft)
-                        }
+                        .padding(.horizontal, 40)
+                        .padding(.top, 20)
                     }
-                )
-                .tag(1)
+                    .padding()
+                }
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-        }
-        .navigationTitle(selectedTab == 0 ? "schedule.post".localized : "schedule.drafts".localized)
-        .navigationBarTitleDisplayMode(.inline)
-        .alert("alert.error".localized, isPresented: $viewModel.showError) {
-            Button("alert.ok".localized) {}
-        } message: {
-            Text(viewModel.errorMessage ?? "alert.genericError".localized)
-        }
-        .overlay {
-            if viewModel.isLoading {
-                ProgressView()
-                    .scaleEffect(1.5)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(.black.opacity(0.3))
+            .navigationTitle("Schedule")
+            .sheet(isPresented: $subscriptionService.showingPaywall) {
+                PaywallView()
             }
         }
     }

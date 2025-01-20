@@ -4,6 +4,7 @@ import SwiftUI
 struct GridView: View {
     @StateObject private var viewModel = GridViewModel()
     @StateObject private var profileService = UserProfileService.shared
+    @StateObject private var subscriptionService = SubscriptionService.shared
     @State private var selectedItem: PhotosPickerItem?
     @State private var showingImagePicker = false
     @State private var draggedItem: Int?
@@ -149,7 +150,11 @@ struct GridView: View {
                                 .disabled(viewModel.images.isEmpty)
                                 
                                 Button {
-                                    showingGridSettings = true
+                                    if subscriptionService.canAccessGridCustomization() {
+                                        showingGridSettings = true
+                                    } else {
+                                        subscriptionService.showPaywallIfNeeded(for: .gridCustomization)
+                                    }
                                 } label: {
                                     Image(systemName: "square.grid.3x3")
                                         .foregroundColor(.appPink)
@@ -277,6 +282,12 @@ struct GridView: View {
                 }
                 .onChange(of: selectedItem) { newItem in
                     Task {
+                        if !subscriptionService.canAddMorePhotos(currentCount: viewModel.images.count) {
+                            subscriptionService.showPaywallIfNeeded(for: .unlimitedPhotos)
+                            selectedItem = nil
+                            return
+                        }
+                        
                         isLoading = true
                         do {
                             if let data = try await newItem?.loadTransferable(type: Data.self),
@@ -304,6 +315,9 @@ struct GridView: View {
                             profileService.updateProfileImage(image)
                         }
                     )
+                }
+                .sheet(isPresented: $subscriptionService.showingPaywall) {
+                    PaywallView()
                 }
             }
         }
