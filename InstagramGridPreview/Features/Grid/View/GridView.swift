@@ -24,262 +24,255 @@ struct GridView: View {
     @State private var gridOptions = GridExportService.ExportOptions()
     
     private var columns: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: gridSpacing), count: gridColumns)
+        Array(repeating: GridItem(.fixed(gridItemSize), spacing: gridSpacing), count: gridColumns)
+    }
+    
+    private var gridItemSize: CGFloat {
+        let screenWidth = UIScreen.main.bounds.width
+        let totalSpacing = gridSpacing * CGFloat(gridColumns - 1)
+        let availableWidth = screenWidth - totalSpacing - (gridSpacing * 2)
+        return availableWidth / CGFloat(gridColumns)
     }
     
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
     private let exportService = GridExportService()
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                ScrollView {
-                    if viewModel.images.isEmpty && !isLoading {
-                        VStack(spacing: 20) {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .font(.system(size: 60))
-                                .foregroundColor(.gray)
-                            Text("grid.noPhotos.message".localized)
-                                .font(.title2)
-                                .foregroundColor(.gray)
-                            Text("grid.noPhotos.description".localized)
-                                .foregroundColor(.gray)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .padding(.vertical, 100)
-                    } else {
-                        LazyVGrid(columns: columns, spacing: 1) {
-                            ForEach(viewModel.images.indices, id: \.self) { index in
-                                if let image = viewModel.images[index] {
-                                    Button(action: {
-                                        handleImageTap(at: index, image: image)
-                                    }) {
-                                        ZStack(alignment: .topTrailing) {
-                                            GridItemView(image: image)
-                                                .opacity(draggedItem == index ? 0.5 : 1.0)
-                                                .onDrag {
-                                                    if !isEditMode {
-                                                        draggedItem = index
-                                                        return NSItemProvider(object: "\(index)" as NSString)
-                                                    }
-                                                    return NSItemProvider()
-                                                }
-                                                .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
-                                                                                                              draggedItem: $draggedItem,
-                                                                                                              viewModel: viewModel) : NoOpDropDelegate())
-                                                .scaleEffect(selectedIndices.contains(index) ? 0.95 : 1.0)
-                                                .animation(.spring(response: 0.3), value: selectedIndices.contains(index))
-                                            
-                                            if isEditMode {
-                                                Image(systemName: selectedIndices.contains(index) ? "checkmark.circle.fill" : "circle")
-                                                    .font(.title2)
-                                                    .foregroundColor(selectedIndices.contains(index) ? .blue : .white)
-                                                    .background(Circle().fill(Color.white.opacity(0.8)))
-                                                    .padding(4)
-                                                    .zIndex(1)
-                                                    .transition(.scale.combined(with: .opacity))
+        GeometryReader { geometry in
+            NavigationStack {
+                ZStack {
+                    ScrollView {
+                        if viewModel.images.isEmpty && !isLoading {
+                            VStack(spacing: 20) {
+                                Image(systemName: "photo.on.rectangle.angled")
+                                    .font(.system(size: 60))
+                                    .foregroundColor(.gray)
+                                Text("grid.noPhotos.message".localized)
+                                    .font(.title2)
+                                    .foregroundColor(.gray)
+                                Text("grid.noPhotos.description".localized)
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(.vertical, 100)
+                        } else {
+                            LazyVGrid(columns: columns, spacing: gridSpacing) {
+                                ForEach(viewModel.images.indices, id: \.self) { index in
+                                    if let image = viewModel.images[index] {
+                                        GridItemCell(
+                                            image: image,
+                                            isSelected: selectedIndices.contains(index),
+                                            isEditMode: isEditMode,
+                                            isDragged: draggedItem == index,
+                                            size: gridItemSize,
+                                            onTap: {
+                                                handleImageTap(at: index, image: image)
                                             }
+                                        )
+                                        .onDrag {
+                                            if !isEditMode {
+                                                draggedItem = index
+                                                return NSItemProvider(object: "\(index)" as NSString)
+                                            }
+                                            return NSItemProvider()
+                                        }
+                                        .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
+                                                                                                  draggedItem: $draggedItem,
+                                                                                                  viewModel: viewModel) : NoOpDropDelegate())
+                                    }
+                                }
+                            }
+                            .padding(gridSpacing)
+                            .animation(.default, value: viewModel.images)
+                        }
+                    }
+                    
+                    if isLoading {
+                        Color.black.opacity(0.3)
+                            .edgesIgnoringSafeArea(.all)
+                        ProgressView()
+                            .scaleEffect(1.5)
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    }
+                    
+                    // Floating Action Button
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            PhotosPicker(selection: $selectedItem,
+                                       matching: .images)
+                            {
+                                Image(systemName: "plus")
+                                    .font(.title2.bold())
+                                    .foregroundColor(.white)
+                                    .frame(width: 60, height: 60)
+                                    .background(Color.pink)
+                                    .clipShape(Circle())
+                                    .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                                    .scaleEffect(isEditMode ? 0 : 1)
+                                    .rotationEffect(isEditMode ? .degrees(-90) : .degrees(0))
+                                    .opacity(isEditMode ? 0 : 1)
+                                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isEditMode)
+                            }
+                            .padding(.trailing, 20)
+                            .padding(.bottom, isEditMode ? 0 : 20)
+                        }
+                    }
+                }
+                .navigationTitle("grid.title".localized)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        HStack {
+                            if !isEditMode {
+                                Button {
+                                    showingExportOptions = true
+                                } label: {
+                                    Image(systemName: "square.and.arrow.up")
+                                }
+                                .disabled(viewModel.images.isEmpty)
+                                
+                                Button {
+                                    showingGridSettings = true
+                                } label: {
+                                    Image(systemName: "square.grid.3x3")
+                                }
+                            }
+                            
+                            Button {
+                                withAnimation(.spring(response: 0.3)) {
+                                    isEditMode.toggle()
+                                    if !isEditMode {
+                                        selectedIndices.removeAll()
+                                    }
+                                }
+                            } label: {
+                                Text(isEditMode ? "alert.cancel".localized : "grid.edit".localized)
+                            }
+                        }
+                    }
+                    
+                    if isEditMode {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button {    
+                                withAnimation(.spring(response: 0.3)) {
+                                    if selectedIndices.count == viewModel.images.count {
+                                        selectedIndices.removeAll()
+                                    } else {
+                                        selectedIndices = Set(viewModel.images.indices)
+                                    }
+                                }
+                            } label: {
+                                Text(selectedIndices.isEmpty ? "grid.selectAll".localized : "grid.deselectAll".localized)
+                                    .foregroundColor(selectedIndices.isEmpty ? .blue : .red)
+                            }
+                        }
+                        
+                        if !selectedIndices.isEmpty {
+                            ToolbarItem(placement: .bottomBar) {
+                                HStack {
+                                    Button(role: .destructive) {
+                                        deleteSelectedImages()
+                                    } label: {
+                                        Label("grid.deleteSelected".localized, systemImage: "trash")
+                                            .foregroundColor(.red)
+                                    }
+                                    
+                                    if selectedIndices.count == 1 {
+                                        Spacer()
+                                        Button {
+                                            if let index = selectedIndices.first,
+                                               let image = viewModel.images[index] {
+                                                selectedImage = SelectedImage(index: index, image: image)
+                                            }
+                                        } label: {
+                                            Label("grid.edit".localized, systemImage: "slider.horizontal.3")
                                         }
                                     }
-                                    .buttonStyle(PlainButtonStyle())
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .contentShape(Rectangle())
-                                } else {}
-                            }
-                        }
-                        .padding(1)
-                        .animation(.default, value: viewModel.images)
-                    }
-                }
-                
-                if isLoading {
-                    Color.black.opacity(0.3)
-                        .edgesIgnoringSafeArea(.all)
-                    ProgressView()
-                        .scaleEffect(1.5)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                }
-                
-                // Floating Action Button
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        PhotosPicker(selection: $selectedItem,
-                                     matching: .images)
-                        {
-                            Image(systemName: "plus")
-                                .font(.title2.bold())
-                                .foregroundColor(.white)
-                                .frame(width: 60, height: 60)
-                                .background(Color.pink)
-                                .clipShape(Circle())
-                                .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
-                                .scaleEffect(isEditMode ? 0 : 1)
-                                .rotationEffect(isEditMode ? .degrees(-90) : .degrees(0))
-                                .opacity(isEditMode ? 0 : 1)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isEditMode)
-                        }
-                        .padding(.trailing, 20)
-                        .padding(.bottom, isEditMode ? 0 : 20)
-                    }
-                }
-            }
-            .navigationTitle("grid.title".localized)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack {
-                        if !isEditMode {
-                            Button {
-                                showingExportOptions = true
-                            } label: {
-                                Image(systemName: "square.and.arrow.up")
-                            }
-                            .disabled(viewModel.images.isEmpty)
-                            
-                            Button {
-                                showingGridSettings = true
-                            } label: {
-                                Image(systemName: "square.grid.3x3")
-                            }
-                        }
-                        
-                        Button {
-                            withAnimation(.spring(response: 0.3)) {
-                                isEditMode.toggle()
-                                if !isEditMode {
-                                    selectedIndices.removeAll()
                                 }
+                                .padding(.horizontal)
                             }
-                        } label: {
-                            Text(isEditMode ? "alert.cancel".localized : "grid.edit".localized)
-                        }
-                        
-                        Button {
-                            showingScheduleSheet = true
-                        } label: {
-                            Image(systemName: "calendar.badge.plus")
-                        }
-                        .opacity(isEditMode ? 0 : 1)
-                        .animation(.easeInOut, value: isEditMode)
-                    }
-                }
-                
-                if isEditMode {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        if selectedIndices.isEmpty {
-                            Text("grid.selectAll".localized)
-                                .foregroundColor(.secondary)
-                        } else {
-                            Text("\(selectedIndices.count) \("grid.selected".localized)")
-                                .bold()
                         }
                     }
                 }
-                
-                if !selectedIndices.isEmpty && isEditMode {
-                    ToolbarItem(placement: .bottomBar) {
-                        HStack {
-                            Button(role: .destructive) {
-                                deleteSelectedImages()
-                            } label: {
-                                Label("alert.delete".localized, systemImage: "trash")
-                                    .foregroundColor(.red)
-                            }
-                            
-                            if selectedIndices.count == 1 {
-                                Spacer()
-                                Button {
-                                    if let index = selectedIndices.first,
-                                       let image = viewModel.images[index]
-                                    {
-                                        selectedImage = SelectedImage(index: index, image: image)
-                                    }
-                                } label: {
-                                    Label("grid.edit".localized, systemImage: "slider.horizontal.3")
+                .confirmationDialog("export.grid".localized, isPresented: $showingExportOptions) {
+                    Button("export.saveToPhotos".localized) {
+                        exportGrid { image in
+                            exportService.saveToPhotos(image) { error in
+                                if let error = error {
+                                    errorMessage = error.localizedDescription
+                                    showingError = true
                                 }
                             }
                         }
-                        .padding(.horizontal)
                     }
+                    
+                    Button("export.copyToClipboard".localized) {
+                        exportGrid { image in
+                            exportService.copyToClipboard(image)
+                        }
+                    }
+                    
+                    Button("export.shareToInstagram".localized) {
+                        exportGrid { image in
+                            exportedImage = image
+                            showingShareSheet = true
+                        }
+                    }
+                    
+                    Button("alert.cancel".localized, role: .cancel) {}
                 }
-            }
-            .confirmationDialog("export.grid".localized, isPresented: $showingExportOptions) {
-                Button("export.saveToPhotos".localized) {
-                    exportGrid { image in
-                        exportService.saveToPhotos(image) { error in
-                            if let error = error {
-                                errorMessage = error.localizedDescription
-                                showingError = true
-                            }
+                .sheet(item: $selectedImage, onDismiss: {
+                    selectedImage = nil
+                    selectedIndices.removeAll()
+                    isEditMode = false
+                }) { selected in
+                    ImageEditorView(image: selected.image) { editedImage in
+                        Task {
+                            await viewModel.updateImage(editedImage, at: selected.id)
+                            selectedImage = nil
+                            selectedIndices.removeAll()
+                            isEditMode = false
                         }
                     }
                 }
-                
-                Button("export.copyToClipboard".localized) {
-                    exportGrid { image in
-                        exportService.copyToClipboard(image)
+                .sheet(isPresented: $showingGridSettings) {
+                    GridSettingsView(
+                        gridColumns: $gridColumns,
+                        gridSpacing: $gridSpacing,
+                        onApply: { options in
+                            gridOptions = options
+                        },
+                        previewImages: viewModel.images.compactMap { $0 }
+                    )
+                }
+                .sheet(isPresented: $showingShareSheet) {
+                    if let image = exportedImage {
+                        ShareSheet(items: [image])
                     }
                 }
-                
-                Button("export.shareToInstagram".localized) {
-                    exportGrid { image in
-                        exportedImage = image
-                        showingShareSheet = true
-                    }
+                .alert("export.failed".localized, isPresented: $showingError) {
+                    Button("alert.ok".localized) {}
+                } message: {
+                    Text(errorMessage)
                 }
-                
-                Button("alert.cancel".localized, role: .cancel) {}
-            }
-            .sheet(item: $selectedImage, onDismiss: {
-                selectedImage = nil
-                selectedIndices.removeAll()
-                isEditMode = false
-            }) { selected in
-                ImageEditorView(image: selected.image) { editedImage in
-                    viewModel.updateImage(editedImage, at: selected.id)
-                }
-            }
-            .sheet(isPresented: $showingScheduleSheet) {
-                SchedulingView()
-            }
-            .sheet(isPresented: $showingGridSettings) {
-                GridSettingsView(
-                    gridColumns: $gridColumns,
-                    gridSpacing: $gridSpacing,
-                    onApply: { options in
-                        gridOptions = options
-                    },
-                    previewImages: viewModel.images.compactMap { $0 }
-                )
-            }
-            .sheet(isPresented: $showingShareSheet) {
-                if let image = exportedImage {
-                    ShareSheet(items: [image])
-                }
-            }
-            .alert("export.failed".localized, isPresented: $showingError) {
-                Button("alert.ok".localized) {}
-            } message: {
-                Text(errorMessage)
-            }
-            .onChange(of: selectedItem) { newItem in
-                Task {
-                    isLoading = true
-                    do {
-                        if let data = try await newItem?.loadTransferable(type: Data.self),
-                           let image = UIImage(data: data)
-                        {
-                            await viewModel.addImage(image)
-                            errorMessage = ""
-                        } else {
+                .onChange(of: selectedItem) { newItem in
+                    Task {
+                        isLoading = true
+                        do {
+                            if let data = try await newItem?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: data) {
+                                await viewModel.addImage(image)
+                                errorMessage = ""
+                            } else {
+                                errorMessage = "export.failed".localized
+                            }
+                        } catch {
                             errorMessage = "export.failed".localized
                         }
-                    } catch {
-                        errorMessage = "export.failed".localized
+                        isLoading = false
                     }
-                    isLoading = false
                 }
             }
         }
@@ -309,6 +302,7 @@ struct GridView: View {
                 viewModel.removeImage(at: index)
             }
             selectedIndices.removeAll()
+            isEditMode = false
             isLoading = false
         }
     }
@@ -320,12 +314,46 @@ struct GridView: View {
                 columns: gridColumns,
                 options: gridOptions
             )
-            
             completion(exportedImage)
         } catch {
             errorMessage = "export.failed".localized
             showingError = true
         }
+    }
+}
+
+struct GridItemCell: View {
+    let image: UIImage
+    let isSelected: Bool
+    let isEditMode: Bool
+    let isDragged: Bool
+    let size: CGFloat
+    let onTap: () -> Void
+    
+    var body: some View {
+        Button(action: onTap) {
+            ZStack(alignment: .topTrailing) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: size, height: size)
+                    .clipped()
+                    .opacity(isDragged ? 0.5 : 1.0)
+                    .scaleEffect(isSelected ? 0.95 : 1.0)
+                    .animation(.spring(response: 0.3), value: isSelected)
+                
+                if isEditMode {
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                        .font(.title2)
+                        .foregroundColor(isSelected ? .blue : .white)
+                        .background(Circle().fill(Color.white.opacity(0.8)))
+                        .padding(4)
+                        .transition(.scale.combined(with: .opacity))
+                }
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+        .contentShape(Rectangle())
     }
 }
 

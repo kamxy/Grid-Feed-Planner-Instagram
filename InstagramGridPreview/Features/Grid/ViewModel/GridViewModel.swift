@@ -37,10 +37,10 @@ final class GridViewModel: ObservableObject {
         
         // Process and cache updated image
         Task {
-            await processAndAddImage(image)
-            imageCache.cacheImage(image, forKey: "grid_image_\(index)")
+            let processedImage = await processImage(image)
+            imageCache.cacheImage(processedImage, forKey: "grid_image_\(index)")
             await MainActor.run {
-                images[index] = image
+                images[index] = processedImage
             }
         }
     }
@@ -97,9 +97,9 @@ final class GridViewModel: ObservableObject {
         }
     }
     
-    private func processAndAddImage(_ image: UIImage) async {
+    private func processImage(_ image: UIImage) async -> UIImage {
         // Process image in background
-        let processedImage = await withCheckedContinuation { continuation in
+        return await withCheckedContinuation { continuation in
             processingQueue.async {
                 // Resize image to reasonable size if needed
                 let maxDimension: CGFloat = 1080 // Instagram's max dimension
@@ -126,6 +126,11 @@ final class GridViewModel: ObservableObject {
                 continuation.resume(returning: processedImage)
             }
         }
+    }
+    
+    private func processAndAddImage(_ image: UIImage) async {
+        // Process image in background
+        let processedImage = await processImage(image)
         
         // Cache the processed image
         let imageIndex = images.count
