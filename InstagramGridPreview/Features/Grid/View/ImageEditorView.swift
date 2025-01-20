@@ -91,7 +91,7 @@ struct ImageEditorView: View {
                                 Text("Brightness")
                                 Slider(value: $brightness, in: -1...1) { _ in
                                     addToHistory()
-                                }
+                                }.foregroundStyle(Color.appPink)
                             }
                             
                             VStack {
@@ -147,22 +147,22 @@ struct ImageEditorView: View {
                     HStack {
                         Button("Cancel") {
                             dismiss()
-                        }
+                        }.foregroundStyle(Color.appPink)
                         
                         if !history.isEmpty {
                             Button {
                                 undo()
                             } label: {
                                 Image(systemName: "arrow.uturn.backward")
-                            }
-                            .disabled(historyIndex <= 0)
+                            }.foregroundStyle(Color.appPink)
+                                .disabled(historyIndex <= 0)
                             
                             Button {
                                 redo()
                             } label: {
                                 Image(systemName: "arrow.uturn.forward")
-                            }
-                            .disabled(historyIndex >= history.count - 1)
+                            }.foregroundStyle(Color.appPink)
+                                .disabled(historyIndex >= history.count - 1)
                         }
                     }
                 }
@@ -173,14 +173,14 @@ struct ImageEditorView: View {
                             isCropping.toggle()
                         } label: {
                             Image(systemName: isCropping ? "checkmark" : "crop")
-                        }
+                        }.foregroundStyle(Color.appPink)
                         
                         Button("Save") {
                             if let editedImage = applyEdits() {
                                 onSave(editedImage)
                                 dismiss()
                             }
-                        }
+                        }.foregroundStyle(Color.appPink)
                     }
                 }
             }

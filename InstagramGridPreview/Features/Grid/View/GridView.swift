@@ -77,8 +77,8 @@ struct GridView: View {
                                             return NSItemProvider()
                                         }
                                         .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
-                                                                                                  draggedItem: $draggedItem,
-                                                                                                  viewModel: viewModel) : NoOpDropDelegate())
+                                                                                                      draggedItem: $draggedItem,
+                                                                                                      viewModel: viewModel) : NoOpDropDelegate())
                                     }
                                 }
                             }
@@ -107,7 +107,7 @@ struct GridView: View {
                                     .font(.title2.bold())
                                     .foregroundColor(.white)
                                     .frame(width: 60, height: 60)
-                                    .background(Color.pink)
+                                    .background(Color.appPink)
                                     .clipShape(Circle())
                                     .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
                                     .scaleEffect(isEditMode ? 0 : 1)
@@ -130,6 +130,7 @@ struct GridView: View {
                                     showingExportOptions = true
                                 } label: {
                                     Image(systemName: "square.and.arrow.up")
+                                        .foregroundColor(.appPink)
                                 }
                                 .disabled(viewModel.images.isEmpty)
                                 
@@ -137,6 +138,7 @@ struct GridView: View {
                                     showingGridSettings = true
                                 } label: {
                                     Image(systemName: "square.grid.3x3")
+                                        .foregroundColor(.appPink)
                                 }
                             }
                             
@@ -149,13 +151,14 @@ struct GridView: View {
                                 }
                             } label: {
                                 Text(isEditMode ? "alert.cancel".localized : "grid.edit".localized)
+                                    .foregroundColor(isEditMode ? .red : .appPink)
                             }
                         }
                     }
                     
                     if isEditMode {
                         ToolbarItem(placement: .navigationBarLeading) {
-                            Button {    
+                            Button {
                                 withAnimation(.spring(response: 0.3)) {
                                     if selectedIndices.count == viewModel.images.count {
                                         selectedIndices.removeAll()
@@ -165,7 +168,7 @@ struct GridView: View {
                                 }
                             } label: {
                                 Text(selectedIndices.isEmpty ? "grid.selectAll".localized : "grid.deselectAll".localized)
-                                    .foregroundColor(selectedIndices.isEmpty ? .blue : .red)
+                                    .foregroundColor(selectedIndices.isEmpty ? .appPink : .red)
                             }
                         }
                         
@@ -188,6 +191,7 @@ struct GridView: View {
                                             }
                                         } label: {
                                             Label("grid.edit".localized, systemImage: "slider.horizontal.3")
+                                                .foregroundColor(.appPink)
                                         }
                                     }
                                 }
@@ -319,41 +323,6 @@ struct GridView: View {
             errorMessage = "export.failed".localized
             showingError = true
         }
-    }
-}
-
-struct GridItemCell: View {
-    let image: UIImage
-    let isSelected: Bool
-    let isEditMode: Bool
-    let isDragged: Bool
-    let size: CGFloat
-    let onTap: () -> Void
-    
-    var body: some View {
-        Button(action: onTap) {
-            ZStack(alignment: .topTrailing) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: size, height: size)
-                    .clipped()
-                    .opacity(isDragged ? 0.5 : 1.0)
-                    .scaleEffect(isSelected ? 0.95 : 1.0)
-                    .animation(.spring(response: 0.3), value: isSelected)
-                
-                if isEditMode {
-                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                        .font(.title2)
-                        .foregroundColor(isSelected ? .blue : .white)
-                        .background(Circle().fill(Color.white.opacity(0.8)))
-                        .padding(4)
-                        .transition(.scale.combined(with: .opacity))
-                }
-            }
-        }
-        .buttonStyle(PlainButtonStyle())
-        .contentShape(Rectangle())
     }
 }
 
