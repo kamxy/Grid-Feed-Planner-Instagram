@@ -2,6 +2,7 @@ import SwiftUI
 
 struct OnboardingView: View {
     @ObservedObject private var onboardingService = OnboardingService.shared
+    @ObservedObject private var onboardingCoordinator = OnboardingCoordinator.shared
     @Environment(\.dismiss) private var dismiss
     
     private let pages = [
@@ -32,17 +33,17 @@ struct OnboardingView: View {
                         VStack(spacing: 20) {
                             Image(systemName: pages[index].icon)
                                 .font(.system(size: 80))
-                                .foregroundColor(.pink)
+                                .foregroundColor(.appPink)
                             
                             Text(pages[index].title)
                                 .font(.title)
                                 .bold()
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .multilineTextAlignment(.center)
                             
                             Text(pages[index].description)
                                 .font(.body)
-                                .foregroundColor(.black.opacity(0.8))
+                                .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal)
                         }
@@ -58,7 +59,7 @@ struct OnboardingView: View {
                             currentPage += 1
                         }
                     } else {
-                        onboardingService.completeOnboarding()
+                        onboardingCoordinator.onboardingCompleted()
                         dismiss()
                     }
                 }) {
@@ -67,7 +68,7 @@ struct OnboardingView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.pink)
+                        .background(Color.appPink)
                         .cornerRadius(10)
                 }
                 .padding(.horizontal, 40)

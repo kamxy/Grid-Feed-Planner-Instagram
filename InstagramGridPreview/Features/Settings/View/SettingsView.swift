@@ -5,70 +5,75 @@ struct SettingsView: View {
     @AppStorage("isDarkMode") private var isDarkMode = false
     @State private var showingLanguageSelection = false
     
+    private let appReviewService = AppReviewService.shared
+    
     var body: some View {
         NavigationStack {
             Form {
                 // Appearance Section
-                Section {
-                    Toggle(isOn: $isDarkMode) {
-                        Label {
-                            Text("settings.darkMode".localized)
-                        } icon: {
-                            Image(systemName: isDarkMode ? "moon.fill" : "moon")
-                        }
-                    }
-                } header: {
-                    Text("settings.appearance".localized)
+                Section("settings.appearance".localized) {
+                    Toggle("settings.darkMode".localized, isOn: $isDarkMode)
                 }
                 
                 // Language Section
-                Section {
+                Section("settings.language".localized) {
                     Button {
                         showingLanguageSelection = true
                     } label: {
                         HStack {
-                            Label {
-                                Text("settings.language".localized)
-                            } icon: {
-                                Image(systemName: "globe")
-                            }
-                            Spacer()
                             Text(languageManager.currentLanguage.displayName)
-                                .foregroundColor(.secondary)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
                         }
                     }
-                } header: {
-                    Text("settings.language".localized)
+                }
+                
+                // Support Section
+                Section("settings.support".localized) {
+                    Button {
+                        appReviewService.requestReview()
+                    } label: {
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.appPink)
+                            Text("settings.rateApp".localized)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    
+                    Link(destination: URL(string: "https://www.example.com/privacy")!) {
+                        HStack {
+                            Image(systemName: "lock.fill")
+                                .foregroundColor(.appPink)
+                            Text("settings.privacyPolicy".localized)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    
+                    Link(destination: URL(string: "https://www.example.com/terms")!) {
+                        HStack {
+                            Image(systemName: "doc.text.fill")
+                                .foregroundColor(.appPink)
+                            Text("settings.termsOfService".localized)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.gray)
+                        }
+                    }
                 }
                 
                 // About Section
                 Section {
-                    Link(destination: URL(string: "https://example.com/privacy")!) {
-                        Label {
-                            Text("settings.privacy".localized)
-                        } icon: {
-                            Image(systemName: "hand.raised")
-                        }
-                    }
-                    
-                    Link(destination: URL(string: "https://example.com/terms")!) {
-                        Label {
-                            Text("settings.terms".localized)
-                        } icon: {
-                            Image(systemName: "doc.text")
-                        }
-                    }
-                } header: {
-                    Text("settings.about".localized)
-                }
-                
-                // Version Section
-                Section {
                     HStack {
                         Text("settings.version".localized)
                         Spacer()
-                        Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0")
-                            .foregroundColor(.secondary)
+                        Text(Bundle.main.appVersion)
+                            .foregroundColor(.gray)
                     }
                 }
             }
@@ -77,6 +82,12 @@ struct SettingsView: View {
                 LanguageSelectionView()
             }
         }
+    }
+}
+
+private extension Bundle {
+    var appVersion: String {
+        return "\(infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")"
     }
 }
 

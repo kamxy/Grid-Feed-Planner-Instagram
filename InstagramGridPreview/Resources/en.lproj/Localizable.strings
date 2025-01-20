@@ -82,3 +82,14 @@
 // MARK: - Language
 "settings.languageChanged" = "Language Changed";
 "settings.languageChangeEffect" = "The language has been changed. The app will now restart to apply the changes."; 
+
+// Settings
+"settings.title" = "Settings";
+"settings.appearance" = "Appearance";
+"settings.darkMode" = "Dark Mode";
+"settings.language" = "Language";
+"settings.support" = "Support";
+"settings.rateApp" = "Rate Us";
+"settings.privacyPolicy" = "Privacy Policy";
+"settings.termsOfService" = "Terms of Service";
+"settings.version" = "Version"; 

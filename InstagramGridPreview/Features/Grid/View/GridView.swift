@@ -38,6 +38,7 @@ struct GridView: View {
     
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
     private let exportService = GridExportService()
+    private let appReviewService = AppReviewService.shared
     
     var body: some View {
         GeometryReader { geometry in
@@ -282,6 +283,7 @@ struct GridView: View {
                                let image = UIImage(data: data) {
                                 await viewModel.addImage(image)
                                 errorMessage = ""
+                                appReviewService.incrementSignificantActions()
                             } else {
                                 errorMessage = "export.failed".localized
                             }
@@ -344,6 +346,7 @@ struct GridView: View {
                 options: gridOptions
             )
             completion(exportedImage)
+            appReviewService.incrementSignificantActions()
         } catch {
             errorMessage = "export.failed".localized
             showingError = true

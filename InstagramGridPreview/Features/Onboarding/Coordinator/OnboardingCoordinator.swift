@@ -5,6 +5,7 @@ final class OnboardingCoordinator: ObservableObject {
     
     @ObservedObject private var onboardingService = OnboardingService.shared
     @ObservedObject private var gestureGuideService = GestureGuideService.shared
+    private let appReviewService = AppReviewService.shared
     
     private init() {}
     
@@ -33,6 +34,11 @@ final class OnboardingCoordinator: ObservableObject {
     func onboardingCompleted() {
         UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
         onboardingService.completeOnboarding()
+        
+        // Request app review after onboarding
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.appReviewService.requestReview()
+        }
         
         // Start showing feature-specific guides
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
