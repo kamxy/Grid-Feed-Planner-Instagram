@@ -3,6 +3,7 @@ import SwiftUI
 
 struct GridView: View {
     @StateObject private var viewModel = GridViewModel()
+    @StateObject private var profileService = UserProfileService.shared
     @State private var selectedItem: PhotosPickerItem?
     @State private var showingImagePicker = false
     @State private var draggedItem: Int?
@@ -22,6 +23,7 @@ struct GridView: View {
     @State private var gridColumns = 3
     @State private var showingGridSettings = false
     @State private var gridOptions = GridExportService.ExportOptions()
+    @State private var showingProfileEdit = false
     
     private var columns: [GridItem] {
         Array(repeating: GridItem(.fixed(gridItemSize), spacing: gridSpacing), count: gridColumns)
@@ -42,48 +44,59 @@ struct GridView: View {
             NavigationStack {
                 ZStack {
                     ScrollView {
-                        if viewModel.images.isEmpty && !isLoading {
-                            VStack(spacing: 20) {
-                                Image(systemName: "photo.on.rectangle.angled")
-                                    .font(.system(size: 60))
-                                    .foregroundColor(.gray)
-                                Text("grid.noPhotos.message".localized)
-                                    .font(.title2)
-                                    .foregroundColor(.gray)
-                                Text("grid.noPhotos.description".localized)
-                                    .foregroundColor(.gray)
+                        VStack(spacing: 0) {
+                            // Profile Header
+                            GridProfileHeaderView(
+                                username: profileService.profile.username,
+                                profileImage: profileService.profile.profileImage
+                            )
+                            .onTapGesture {
+                                showingProfileEdit = true
                             }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding(.vertical, 100)
-                        } else {
-                            LazyVGrid(columns: columns, spacing: gridSpacing) {
-                                ForEach(viewModel.images.indices, id: \.self) { index in
-                                    if let image = viewModel.images[index] {
-                                        GridItemCell(
-                                            image: image,
-                                            isSelected: selectedIndices.contains(index),
-                                            isEditMode: isEditMode,
-                                            isDragged: draggedItem == index,
-                                            size: gridItemSize,
-                                            onTap: {
-                                                handleImageTap(at: index, image: image)
+                            
+                            if viewModel.images.isEmpty && !isLoading {
+                                VStack(spacing: 20) {
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                        .font(.system(size: 60))
+                                        .foregroundColor(.gray)
+                                    Text("grid.noPhotos.message".localized)
+                                        .font(.title2)
+                                        .foregroundColor(.gray)
+                                    Text("grid.noPhotos.description".localized)
+                                        .foregroundColor(.gray)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding(.vertical, 100)
+                            } else {
+                                LazyVGrid(columns: columns, spacing: gridSpacing) {
+                                    ForEach(viewModel.images.indices, id: \.self) { index in
+                                        if let image = viewModel.images[index] {
+                                            GridItemCell(
+                                                image: image,
+                                                isSelected: selectedIndices.contains(index),
+                                                isEditMode: isEditMode,
+                                                isDragged: draggedItem == index,
+                                                size: gridItemSize,
+                                                onTap: {
+                                                    handleImageTap(at: index, image: image)
+                                                }
+                                            )
+                                            .onDrag {
+                                                if !isEditMode {
+                                                    draggedItem = index
+                                                    return NSItemProvider(object: "\(index)" as NSString)
+                                                }
+                                                return NSItemProvider()
                                             }
-                                        )
-                                        .onDrag {
-                                            if !isEditMode {
-                                                draggedItem = index
-                                                return NSItemProvider(object: "\(index)" as NSString)
-                                            }
-                                            return NSItemProvider()
+                                            .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
+                                                                                                          draggedItem: $draggedItem,
+                                                                                                          viewModel: viewModel) : NoOpDropDelegate())
                                         }
-                                        .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
-                                                                                                      draggedItem: $draggedItem,
-                                                                                                      viewModel: viewModel) : NoOpDropDelegate())
                                     }
                                 }
+                                .padding(gridSpacing)
+                                .animation(.default, value: viewModel.images)
                             }
-                            .padding(gridSpacing)
-                            .animation(.default, value: viewModel.images)
                         }
                     }
                     
@@ -234,7 +247,7 @@ struct GridView: View {
                 }) { selected in
                     ImageEditorView(image: selected.image) { editedImage in
                         Task {
-                            await viewModel.updateImage(editedImage, at: selected.id)
+                             viewModel.updateImage(editedImage, at: selected.id)
                             selectedImage = nil
                             selectedIndices.removeAll()
                             isEditMode = false
@@ -277,6 +290,18 @@ struct GridView: View {
                         }
                         isLoading = false
                     }
+                }
+                .sheet(isPresented: $showingProfileEdit) {
+                    ProfileEditView(
+                        username: profileService.profile.username,
+                        profileImage: profileService.profile.profileImage,
+                        onSave: { username, image in
+                            if !username.isEmpty {
+                                profileService.updateUsername(username)
+                            }
+                            profileService.updateProfileImage(image)
+                        }
+                    )
                 }
             }
         }
