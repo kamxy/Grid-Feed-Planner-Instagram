@@ -9,18 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        GridView()
-            .tabItem {
-                Label("grid.title".localized, systemImage: "square.grid.3x3")
-            }
+        TabContentView()
 
-       /* TabView {
-            
-            SettingsView()
-                .tabItem {
-                    Label("settings.title".localized, systemImage: "gear")
-                }
-        }*/
+        /* TabView {
+
+             SettingsView()
+                 .tabItem {
+                     Label("settings.title".localized, systemImage: "gear")
+                 }
+         }*/
     }
 }
 

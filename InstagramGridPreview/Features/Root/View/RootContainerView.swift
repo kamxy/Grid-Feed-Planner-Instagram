@@ -6,25 +6,30 @@ struct RootContainerView: View {
     @StateObject private var subscriptionService = SubscriptionService.shared
 
     var body: some View {
-        TabView {
-            GridView()
-                .tabItem {
-                    Image(systemName: "square.grid.3x3")
-                    Text("Grid")
-                }
-            
-            SchedulingView()
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text("Schedule")
-                }
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Settings")
-                }
+        NavigationStack {
+            TabContentView()
+                .navigationTitle("grid.title".localized)
+                .navigationBarTitleDisplayMode(.inline)
         }
+        /* TabView {
+
+             .tabItem {
+                 Image(systemName: "house.fill")
+                 Text("Home")
+             }
+
+             SchedulingView()
+                 .tabItem {
+                     Image(systemName: "calendar")
+                     Text("Schedule")
+                 }
+
+             SettingsView()
+                 .tabItem {
+                     Image(systemName: "gear")
+                     Text("Settings")
+                 }
+         }*/
         .task {
             await subscriptionService.checkPremiumStatus()
         }
