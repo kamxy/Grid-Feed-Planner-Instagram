@@ -12,8 +12,7 @@ struct GridProfileHeaderView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 80, height: 80)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.appPink, lineWidth: 2)).padding(.trailing, 10)
+                    .clipShape(Circle()).padding(.trailing, 10)
             } else {
                 Image(systemName: "person.circle.fill")
                     .resizable()

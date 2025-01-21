@@ -6,11 +6,10 @@ struct InstagramGridPreviewApp: App {
         WindowGroup {
             NavigationView {
                 RootContainerView()
+                    .task {
+                        await SubscriptionService.shared.checkPremiumStatus()
+                    }
             }
-        }
-        .task {
-            await SubscriptionService.shared.checkPremiumStatus()
         }
     }
 }
-w

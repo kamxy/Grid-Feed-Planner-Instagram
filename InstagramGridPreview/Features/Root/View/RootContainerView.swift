@@ -3,18 +3,33 @@ import SwiftUI
 struct RootContainerView: View {
     @StateObject private var onboardingCoordinator = OnboardingCoordinator.shared
     @ObservedObject private var onboardingService = OnboardingService.shared
+    @StateObject private var subscriptionService = SubscriptionService.shared
 
     var body: some View {
-        ZStack {
-            // Main App Content
-            ContentView()
-                .quickTip()
-                .gestureGuide()
-                // Onboarding Sheet
-                .sheet(isPresented: $onboardingService.showOnboarding) {
-                    OnboardingView()
-                        .interactiveDismissDisabled()
+        TabView {
+            GridView()
+                .tabItem {
+                    Image(systemName: "square.grid.3x3")
+                    Text("Grid")
                 }
+            
+            SchedulingView()
+                .tabItem {
+                    Image(systemName: "calendar")
+                    Text("Schedule")
+                }
+            
+            SettingsView()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("Settings")
+                }
+        }
+        .task {
+            await subscriptionService.checkPremiumStatus()
+        }
+        .sheet(isPresented: $subscriptionService.showingPaywall) {
+            PaywallView()
         }
         .onAppear {
             onboardingCoordinator.startFirstLaunchExperience()

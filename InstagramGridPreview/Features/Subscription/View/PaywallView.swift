@@ -37,12 +37,12 @@ struct PaywallView: View {
                 // Load offerings
                 let offerings = try await Purchases.shared.offerings()
                 self.offering = offerings.current
-                
+
                 // Load available packages
                 if let packages = offerings.current?.availablePackages {
                     await subscriptionService.loadOfferings()
                 }
-                
+
                 isLoading = false
             } catch {
                 print("Error fetching offerings: \(error)")

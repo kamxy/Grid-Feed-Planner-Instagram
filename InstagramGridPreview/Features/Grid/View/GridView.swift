@@ -42,7 +42,7 @@ struct GridView: View {
     private let appReviewService = AppReviewService.shared
     
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             NavigationStack {
                 ZStack {
                     ScrollView {
@@ -116,7 +116,7 @@ struct GridView: View {
                         HStack {
                             Spacer()
                             PhotosPicker(selection: $selectedItem,
-                                       matching: .images)
+                                         matching: .images)
                             {
                                 Image(systemName: "plus")
                                     .font(.title2.bold())
@@ -205,7 +205,8 @@ struct GridView: View {
                                         Spacer()
                                         Button {
                                             if let index = selectedIndices.first,
-                                               let image = viewModel.images[index] {
+                                               let image = viewModel.images[index]
+                                            {
                                                 selectedImage = SelectedImage(index: index, image: image)
                                             }
                                         } label: {
@@ -253,7 +254,7 @@ struct GridView: View {
                 }) { selected in
                     ImageEditorView(image: selected.image) { editedImage in
                         Task {
-                             viewModel.updateImage(editedImage, at: selected.id)
+                            viewModel.updateImage(editedImage, at: selected.id)
                             selectedImage = nil
                             selectedIndices.removeAll()
                             isEditMode = false
@@ -291,7 +292,8 @@ struct GridView: View {
                         isLoading = true
                         do {
                             if let data = try await newItem?.loadTransferable(type: Data.self),
-                               let image = UIImage(data: data) {
+                               let image = UIImage(data: data)
+                            {
                                 await viewModel.addImage(image)
                                 errorMessage = ""
                                 appReviewService.incrementSignificantActions()
