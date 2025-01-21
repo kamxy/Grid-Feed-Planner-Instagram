@@ -8,7 +8,6 @@ struct RootContainerView: View {
     var body: some View {
         NavigationStack {
             TabContentView()
-                .navigationTitle("grid.title".localized)
                 .navigationBarTitleDisplayMode(.inline)
         }
         /* TabView {

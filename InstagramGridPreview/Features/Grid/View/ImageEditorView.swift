@@ -34,7 +34,8 @@ struct ImageEditorView: View {
     @State private var history: [EditHistory] = []
     @State private var historyIndex: Int = -1
     @State private var selectedTab: Int = 0
-    
+    @StateObject private var subscriptionService = SubscriptionService.shared
+
     init(image: UIImage, onSave: @escaping (UIImage) -> Void) {
         self.image = image
         self.onSave = onSave
@@ -176,9 +177,13 @@ struct ImageEditorView: View {
                         }.foregroundStyle(Color.appPink)
                         
                         Button("Save") {
-                            if let editedImage = applyEdits() {
-                                onSave(editedImage)
-                                dismiss()
+                            if subscriptionService.isPremium {
+                                if let editedImage = applyEdits() {
+                                    onSave(editedImage)
+                                    dismiss()
+                                }
+                            } else {
+                                subscriptionService.showPaywallIfNeeded(for: .imageEditing)
                             }
                         }.foregroundStyle(Color.appPink)
                     }

@@ -6,6 +6,9 @@ enum SubscriptionFeature: String {
     case scheduling
     case gridCustomization = "grid_customization"
     case iCloudSync = "icloud_sync"
+    case unlimitedReels
+    case unlimitedStories
+    case imageEditing
     
     var title: String {
         switch self {
@@ -13,6 +16,9 @@ enum SubscriptionFeature: String {
         case .scheduling: return "Post Scheduling"
         case .gridCustomization: return "Grid Customization"
         case .iCloudSync: return "iCloud Sync"
+        case .unlimitedReels: return "Unlimited Reels"
+        case .unlimitedStories: return "Unlimited Stories"
+        case .imageEditing: return "Image Editing"
         }
     }
     
@@ -22,6 +28,9 @@ enum SubscriptionFeature: String {
         case .scheduling: return "Schedule your posts for the perfect timing"
         case .gridCustomization: return "Customize grid layout with different styles"
         case .iCloudSync: return "Sync your data across all devices"
+        case .unlimitedReels: return "Unlimited Reels"
+        case .unlimitedStories: return "Unlimited Stories"
+        case .imageEditing: return "Image Editing"
         }
     }
     
@@ -31,6 +40,9 @@ enum SubscriptionFeature: String {
         case .scheduling: return "calendar"
         case .gridCustomization: return "square.grid.3x3"
         case .iCloudSync: return "icloud"
+        case .unlimitedReels: return "Unlimited Reels"
+        case .unlimitedStories: return "Unlimited Stories"
+        case .imageEditing: return "Image Editing"
         }
     }
 }
@@ -47,7 +59,7 @@ final class SubscriptionService: NSObject, ObservableObject {
     private let defaults = UserDefaults.standard
     private let freePhotoLimit = 3
     
-    private override init() {
+    override private init() {
         super.init()
         configureRevenueCat()
         observeCustomerInfo()
@@ -141,7 +153,7 @@ final class SubscriptionService: NSObject, ObservableObject {
             if !isPremium {
                 showingPaywall = true
             }
-        case .scheduling, .gridCustomization, .iCloudSync:
+        case .scheduling, .gridCustomization, .iCloudSync, .unlimitedReels, .unlimitedStories, .imageEditing:
             if !isPremium {
                 showingPaywall = true
             }

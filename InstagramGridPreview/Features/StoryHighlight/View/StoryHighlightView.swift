@@ -3,6 +3,7 @@ import PhotosUI
 
 struct StoryHighlightView: View {
     @StateObject private var viewModel = StoryHighlightViewModel()
+    @StateObject private var subscriptionService = SubscriptionService.shared
     @State private var selectedItem: PhotosPickerItem?
     @State private var showingTitleAlert = false
     @State private var newHighlightTitle = ""
@@ -16,12 +17,18 @@ struct StoryHighlightView: View {
                 PhotosPicker(selection: $selectedItem,
                            matching: .images,
                            photoLibrary: .shared()) {
-                    StoryHighlightCell(highlight: .addNew)
+                    StoryHighlightCell(highlight: .addNew, isPremiumFeature: !subscriptionService.isPremium)
+                }
+                .disabled(!subscriptionService.isPremium)
+                .onTapGesture {
+                    if !subscriptionService.isPremium {
+                        subscriptionService.showPaywallIfNeeded(for: .unlimitedStories)
+                    }
                 }
                 
                 // Existing Highlights
                 ForEach(viewModel.highlights) { highlight in
-                    StoryHighlightCell(highlight: highlight)
+                    StoryHighlightCell(highlight: highlight, isPremiumFeature: false)
                         .onTapGesture {
                             // Handle tap on existing highlight
                         }
@@ -84,6 +91,7 @@ struct StoryHighlightView: View {
 
 struct StoryHighlightCell: View {
     let highlight: StoryHighlight
+    let isPremiumFeature: Bool
     private let size: CGFloat = 70
     
     var body: some View {
@@ -103,6 +111,18 @@ struct StoryHighlightCell: View {
                         .scaledToFill()
                         .frame(width: size - 4, height: size - 4)
                         .clipShape(Circle())
+                }
+                
+                if isPremiumFeature {
+                    Image(systemName: "crown.fill")
+                        .font(.caption)
+                        .foregroundColor(.yellow)
+                        .background(
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 20, height: 20)
+                        )
+                        .offset(x: size/3, y: -size/3)
                 }
             }
             
