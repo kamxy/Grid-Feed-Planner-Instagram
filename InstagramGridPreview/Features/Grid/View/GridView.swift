@@ -81,8 +81,8 @@ struct GridView: View {
                                             return NSItemProvider()
                                         }
                                         .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
-                                                                                                  draggedItem: $draggedItem,
-                                                                                                  viewModel: viewModel) : NoOpDropDelegate())
+                                                                                                      draggedItem: $draggedItem,
+                                                                                                      viewModel: viewModel) : NoOpDropDelegate())
                                     }
                                 }
                             }
@@ -140,6 +140,7 @@ struct GridView: View {
                             Button {
                                 if subscriptionService.canAccessGridCustomization() {
                                     showingGridSettings = true
+                                    
                                 } else {
                                     subscriptionService.showPaywallIfNeeded(for: .gridCustomization)
                                 }

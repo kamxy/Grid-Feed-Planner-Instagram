@@ -77,7 +77,14 @@ struct TabContentView: View {
                 ReelsView()
                     .tag(TabSection.reels)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .tabViewStyle(.page(indexDisplayMode: .never)).onChange(of: selectedTab) { _ in
+                if !subscriptionService.isPremium && selectedTab == .reels {
+                    withAnimation {
+                        selectedTab = .grid
+                    }
+                    subscriptionService.showPaywallIfNeeded(for: .unlimitedReels)
+                }
+            }
         }
     }
 }

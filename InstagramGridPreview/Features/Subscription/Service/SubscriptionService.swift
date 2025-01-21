@@ -149,11 +149,7 @@ final class SubscriptionService: NSObject, ObservableObject {
     
     func showPaywallIfNeeded(for feature: SubscriptionFeature) {
         switch feature {
-        case .unlimitedPhotos:
-            if !isPremium {
-                showingPaywall = true
-            }
-        case .scheduling, .gridCustomization, .iCloudSync, .unlimitedReels, .unlimitedStories, .imageEditing:
+        case .unlimitedPhotos, .scheduling, .gridCustomization, .iCloudSync, .unlimitedReels, .unlimitedStories, .imageEditing:
             if !isPremium {
                 showingPaywall = true
             }
