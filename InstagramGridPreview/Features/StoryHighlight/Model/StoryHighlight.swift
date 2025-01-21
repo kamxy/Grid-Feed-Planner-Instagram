@@ -1,11 +1,10 @@
-import Foundation
-import UIKit
+import SwiftUI
 
 struct StoryHighlight: Identifiable {
     let id: UUID
-    let title: String
-    let image: UIImage
-    let isAdd: Bool
+    var title: String
+    var image: UIImage
+    var isAdd: Bool
     
     init(id: UUID = UUID(), title: String, image: UIImage, isAdd: Bool = false) {
         self.id = id
@@ -14,5 +13,7 @@ struct StoryHighlight: Identifiable {
         self.isAdd = isAdd
     }
     
-    static let addNew = StoryHighlight(title: "New", image: UIImage(), isAdd: true)
+    static var addNew: StoryHighlight {
+        StoryHighlight(title: "New", image: UIImage(systemName: "plus.circle.fill")!, isAdd: true)
+    }
 } 
