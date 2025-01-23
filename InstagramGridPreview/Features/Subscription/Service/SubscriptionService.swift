@@ -97,6 +97,10 @@ final class SubscriptionService: NSObject, ObservableObject {
         defaults.set(currentSubscription, forKey: "currentSubscription")
     }
     
+    func updateWithMannualy() {
+        isPremium = true
+    }
+    
     func checkPremiumStatus() async {
         do {
             let customerInfo = try await Purchases.shared.customerInfo()

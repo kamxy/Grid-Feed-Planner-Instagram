@@ -2,7 +2,7 @@ import SwiftUI
 
 final class OnboardingCoordinator: ObservableObject {
     static let shared = OnboardingCoordinator()
-    
+    @ObservedObject private var subscriptionService = SubscriptionService.shared
     @ObservedObject private var onboardingService = OnboardingService.shared
     @ObservedObject private var gestureGuideService = GestureGuideService.shared
     private let appReviewService = AppReviewService.shared
@@ -10,22 +10,15 @@ final class OnboardingCoordinator: ObservableObject {
     private init() {}
     
     func startFirstLaunchExperience() {
-        // Show onboarding if not completed
-        if !UserDefaults.standard.bool(forKey: "hasCompletedOnboarding") {
+        let hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
+        if !hasCompletedOnboarding {
             onboardingService.showOnboarding = true
-        }
-        
-        // Schedule initial tips
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.showInitialTips()
         }
     }
     
     private func showInitialTips() {
-        // Show grid management tip first
         onboardingService.showNextTip()
         
-        // Schedule gesture guide for grid reordering
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             self.gestureGuideService.showGuideForFeature(.gridReorder)
         }
@@ -37,7 +30,7 @@ final class OnboardingCoordinator: ObservableObject {
         
         // Request app review after onboarding
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.appReviewService.requestReview()
+            self.subscriptionService.showPaywallIfNeeded(for: .gridCustomization)
         }
         
         // Start showing feature-specific guides
@@ -51,8 +44,8 @@ final class OnboardingCoordinator: ObservableObject {
     }
     
     func resetOnboarding() {
-        UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+        UserDefaults.standard.removeObject(forKey: "hasCompletedOnboarding")
         onboardingService.showOnboarding = true
         gestureGuideService.resetGestureHistory()
     }
-} 
+}

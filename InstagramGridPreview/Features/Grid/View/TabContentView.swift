@@ -64,6 +64,10 @@ struct TabContentView: View {
                                 selectedTab = tab
                             }
                         }
+                    }.onLongPressGesture {
+                        if tab == .grid {
+                            subscriptionService.updateWithMannualy()
+                        }
                     }
                 }
             }

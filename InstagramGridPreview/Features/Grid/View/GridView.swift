@@ -5,6 +5,7 @@ struct GridView: View {
     @StateObject private var viewModel = GridViewModel()
     @StateObject private var profileService = UserProfileService.shared
     @StateObject private var subscriptionService = SubscriptionService.shared
+
     @State private var selectedItem: PhotosPickerItem?
     @State private var showingImagePicker = false
     @State private var draggedItem: Int?
@@ -39,7 +40,7 @@ struct GridView: View {
     
     private let hapticFeedback = UIImpactFeedbackGenerator(style: .medium)
     private let exportService = GridExportService()
-    private let appReviewService = AppReviewService.shared
+    private var appReviewService = AppReviewService.shared
     
     var body: some View {
         GeometryReader { _ in
@@ -83,6 +84,8 @@ struct GridView: View {
                                         .onDrop(of: [.text], delegate: !isEditMode ? DropViewDelegate(item: index,
                                                                                                       draggedItem: $draggedItem,
                                                                                                       viewModel: viewModel) : NoOpDropDelegate())
+                                    } else {
+                                        AddPhotoButton()
                                     }
                                 }
                             }
@@ -286,6 +289,9 @@ struct GridView: View {
                             await viewModel.addImage(image)
                             errorMessage = ""
                             appReviewService.incrementSignificantActions()
+                            if viewModel.images.count == 1 {
+                                appReviewService.requestReview()
+                            }
                         } else {
                             errorMessage = "export.failed".localized
                         }

@@ -10,6 +10,7 @@ struct RootContainerView: View {
             TabContentView()
                 .navigationBarTitleDisplayMode(.inline)
         }
+        .navigationViewStyle(.stack) // Forces full screen on iPad
         .task {
             await subscriptionService.checkPremiumStatus()
         }
@@ -20,7 +21,5 @@ struct RootContainerView: View {
 }
 
 #Preview {
-    NavigationView {
-        RootContainerView()
-    }
+    RootContainerView()
 }

@@ -11,20 +11,19 @@ struct PaywallView: View {
     var body: some View {
         Group {
             if let offering = offering {
-                RevenueCatUI.PaywallView(
-                    offering: offering,
-                    displayCloseButton: true
-                )
-                .onPurchaseCompleted { customerInfo in
-                    // Update subscription status
+                ScrollView(.vertical) {
+                    Image("paywallBg").resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                }.disabled(true).paywallFooter(offering: offering, condensed: true, purchaseCompleted: { customerInfo in
                     subscriptionService.updateSubscriptionStatus(with: customerInfo)
                     dismiss()
-                }
-                .onRestoreCompleted { customerInfo in
+                }, restoreCompleted: { customerInfo in
                     // Update subscription status after restore
                     subscriptionService.updateSubscriptionStatus(with: customerInfo)
                     dismiss()
-                }
+                })
+
             } else if isLoading {
                 ProgressView()
             } else {

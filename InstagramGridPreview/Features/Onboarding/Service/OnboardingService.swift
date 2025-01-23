@@ -4,7 +4,7 @@ struct OnboardingTip: Identifiable {
     let id = UUID()
     let title: String
     let description: String
-    let icon: String // SF Symbol name
+    let icon: String
     let feature: OnboardingFeature
 }
 
